@@ -1,0 +1,27 @@
+# The public REST API gateway (paper's fastapi-gateway role) — the existing
+# Flask backend served by gunicorn. Build context must be the repository root.
+FROM python:3.11-slim
+
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PIP_NO_CACHE_DIR=1
+
+WORKDIR /app
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        libgomp1 \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY translator-backend/requirements.txt /app/requirements.txt
+RUN pip install --upgrade pip \
+    && pip install -r /app/requirements.txt
+
+COPY translator-backend/ /app/
+
+WORKDIR /app
+EXPOSE 8000
+
+# --workers 2 keeps CPU model inference serialized; --timeout generous for
+# the first (cold) request. Tune via env in docker-compose.yml if needed.
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "2", \
+     "--timeout", "300", "wsgi:app"]

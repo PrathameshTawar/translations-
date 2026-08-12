@@ -1,0 +1,33 @@
+# Shared image for the paper's model microservices: embedding-service,
+# faiss-service, reranker-service and orchestrator. All four reuse the
+# translator-backend package (app.services.*) plus their thin FastAPI apps
+# in deploy/services/. Build context must be the repository root.
+FROM python:3.11-slim
+
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PIP_NO_CACHE_DIR=1
+
+WORKDIR /app
+
+# System deps first (psycopg2-binary wheels + torch ship their own).
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        libgomp1 \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY translator-backend/requirements.txt /app/requirements.txt
+RUN pip install --upgrade pip \
+    && pip install -r /app/requirements.txt \
+    && pip install fastapi "uvicorn[standard]"
+
+COPY translator-backend/ /app/
+COPY deploy/services/ /services/
+
+# The service apps import the translator-backend package (app.services.*),
+# which lives in /app while the FastAPI apps run from /services.
+ENV PYTHONPATH=/app
+
+WORKDIR /services
+
+# Each service overrides the command in docker-compose.yml.
+CMD ["uvicorn", "embedding_service:app", "--host", "0.0.0.0", "--port", "8000"]

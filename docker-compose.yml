@@ -1,0 +1,138 @@
+# ============================================================================
+# Indic RAG Translator — 6-module deployment (paper Section IX, minimal viable)
+#
+#   embedding-service   /encode             (multilingual sentence encoder)
+#   faiss-service       /search             (per-language ANN indexes)
+#   reranker-service    /rerank             (cross-encoder rescoring)
+#   orchestrator        /ask                (detect -> encode -> search ->
+#                                            rerank -> generate -> score)
+#   api-gateway         Flask REST API      (public API: /api/v1/translate,
+#                                            /api/v1/qa, auth, history, TM)
+#   frontend            nginx               (built React SPA, proxies /api)
+#
+# Up:
+#   docker compose up --build -d
+#   open http://localhost:3000
+#
+# Notes:
+#   * GROQ_API_KEY enables the orchestrator's LLaMA-3-8B generation and the
+#     /api/v1/qa/ask endpoint. Without it the translation API still works.
+#   * The first request on api-gateway loads NLLB (cold start ~15-30s).
+#   * Image builds download torch/transformers/sentence-transformers
+#     (~3-5 GB) — expect the first build to take a while.
+# ============================================================================
+
+services:
+  embedding-service:
+    build:
+      context: .
+      dockerfile: deploy/Dockerfile.service
+    command: ["uvicorn", "embedding_service:app", "--host", "0.0.0.0", "--port", "8000"]
+    environment:
+      EMBEDDING_MODEL: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+    networks: [ragnet]
+    healthcheck:
+      test: ["CMD", "python", "-c",
+             "import urllib.request;urllib.request.urlopen('http://localhost:8000/health', timeout=5)"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 30s
+
+  faiss-service:
+    build:
+      context: .
+      dockerfile: deploy/Dockerfile.service
+    command: ["uvicorn", "faiss_service:app", "--host", "0.0.0.0", "--port", "8000"]
+    environment:
+      INDEX_DIR: /data/indexes
+      EMBEDDING_MODEL: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+    volumes:
+      - ./translator-backend:/data/indexes:ro   # {lang}_index.faiss + mappings
+    networks: [ragnet]
+    healthcheck:
+      test: ["CMD", "python", "-c",
+             "import urllib.request;urllib.request.urlopen('http://localhost:8000/health', timeout=5)"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 30s
+
+  reranker-service:
+    build:
+      context: .
+      dockerfile: deploy/Dockerfile.service
+    command: ["uvicorn", "reranker_service:app", "--host", "0.0.0.0", "--port", "8000"]
+    networks: [ragnet]
+    healthcheck:
+      test: ["CMD", "python", "-c",
+             "import urllib.request;urllib.request.urlopen('http://localhost:8000/health', timeout=5)"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 30s
+
+  orchestrator:
+    build:
+      context: .
+      dockerfile: deploy/Dockerfile.service
+    command: ["uvicorn", "orchestrator:app", "--host", "0.0.0.0", "--port", "8000"]
+    environment:
+      EMBEDDING_SERVICE_URL: http://embedding-service:8000
+      FAISS_SERVICE_URL: http://faiss-service:8000
+      RERANKER_SERVICE_URL: http://reranker-service:8000
+      GROQ_API_KEY: ${GROQ_API_KEY:-}
+      GROQ_MODEL: llama3-8b-8192
+    depends_on:
+      embedding-service:
+        condition: service_healthy
+      faiss-service:
+        condition: service_healthy
+      reranker-service:
+        condition: service_healthy
+    networks: [ragnet]
+    healthcheck:
+      test: ["CMD", "python", "-c",
+             "import urllib.request;urllib.request.urlopen('http://localhost:8000/health', timeout=5)"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 30s
+
+  api-gateway:
+    build:
+      context: .
+      dockerfile: deploy/Dockerfile.backend
+    environment:
+      APP_ENV: production
+      DATABASE_URL: sqlite:///translator.db
+      SECRET_KEY: ${SECRET_KEY:-change-me-in-production}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY:-change-me-in-production}
+      CORS_ORIGIN: http://localhost:3000,http://localhost:5173
+      NLLB_NUM_BEAMS: "2"
+    volumes:
+      - ./translator-backend/instance:/app/instance     # persist SQLite/TM data
+    ports:
+      - "8080:8000"                                     # direct API access
+    networks: [ragnet]
+    healthcheck:
+      test: ["CMD", "python", "-c",
+             "import urllib.request;urllib.request.urlopen('http://localhost:8000/api/health', timeout=5)"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 60s
+
+  frontend:
+    build:
+      context: .
+      dockerfile: deploy/Dockerfile.frontend
+    depends_on:
+      - api-gateway
+    ports:
+      - "3000:80"
+    networks: [ragnet]
+
+networks:
+  ragnet:
+    driver: bridge
