@@ -1,0 +1,92 @@
+[
+  {
+    "term": "technology",
+    "translation": "प्रौद्योगिकी",
+    "context": "Information technology",
+    "category": "technical"
+  },
+  {
+    "term": "information",
+    "translation": "सूचना",
+    "context": "General usage",
+    "category": "general"
+  },
+  {
+    "term": "computer",
+    "translation": "कंप्यूटर",
+    "context": "Computing",
+    "category": "technical"
+  },
+  {
+    "term": "internet",
+    "translation": "इंटरनेट",
+    "context": "Networking",
+    "category": "technical"
+  },
+  {
+    "term": "artificial intelligence",
+    "translation": "कृत्रिम बुद्धिमत्ता",
+    "context": "AI field",
+    "category": "technical"
+  },
+  {
+    "term": "machine learning",
+    "translation": "मशीन लर्निंग",
+    "context": "AI/ML",
+    "category": "technical"
+  },
+  {
+    "term": "government",
+    "translation": "सरकार",
+    "context": "Political",
+    "category": "general"
+  },
+  {
+    "term": "education",
+    "translation": "शिक्षा",
+    "context": "Academic",
+    "category": "general"
+  },
+  {
+    "term": "health",
+    "translation": "स्वास्थ्य",
+    "context": "Medical",
+    "category": "medical"
+  },
+  {
+    "term": "hospital",
+    "translation": "अस्पताल",
+    "context": "Healthcare",
+    "category": "medical"
+  },
+  {
+    "term": "bank",
+    "translation": "बैंक",
+    "context": "Finance",
+    "category": "financial"
+  },
+  {
+    "term": "economy",
+    "translation": "अर्थव्यवस्था",
+    "context": "Finance",
+    "category": "financial"
+  },
+  {
+    "term": "research",
+    "translation": "अनुसंधान",
+    "context": "Academic",
+    "category": "academic"
+  },
+  {
+    "term": "university",
+    "translation": "विश्वविद्यालय",
+    "context": "Education",
+    "category": "academic"
+  },
+  {
+    "term": "environment",
+    "translation": "पर्यावरण",
+    "context": "Nature",
+    "category": "general"
+  }
+]

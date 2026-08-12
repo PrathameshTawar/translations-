@@ -1,0 +1,92 @@
+[
+  {
+    "term": "technology",
+    "translation": "ટેક્નોલૉજી",
+    "context": "Information technology",
+    "category": "technical"
+  },
+  {
+    "term": "information",
+    "translation": "માહિતી",
+    "context": "General usage",
+    "category": "general"
+  },
+  {
+    "term": "computer",
+    "translation": "કમ્પ્યૂટર",
+    "context": "Computing",
+    "category": "technical"
+  },
+  {
+    "term": "internet",
+    "translation": "ઇન્ટરનેટ",
+    "context": "Networking",
+    "category": "technical"
+  },
+  {
+    "term": "government",
+    "translation": "સરકાર",
+    "context": "Political",
+    "category": "general"
+  },
+  {
+    "term": "education",
+    "translation": "શિક્ષણ",
+    "context": "Academic",
+    "category": "general"
+  },
+  {
+    "term": "health",
+    "translation": "આરોગ્ય",
+    "context": "Medical",
+    "category": "medical"
+  },
+  {
+    "term": "hospital",
+    "translation": "હૉસ્પિટલ",
+    "context": "Healthcare",
+    "category": "medical"
+  },
+  {
+    "term": "bank",
+    "translation": "બૅંક",
+    "context": "Finance",
+    "category": "financial"
+  },
+  {
+    "term": "research",
+    "translation": "સંશોધન",
+    "context": "Academic",
+    "category": "academic"
+  },
+  {
+    "term": "university",
+    "translation": "વિશ્વવિદ્યાલય",
+    "context": "Education",
+    "category": "academic"
+  },
+  {
+    "term": "artificial intelligence",
+    "translation": "કૃત્રિમ બુદ્ધિ",
+    "context": "AI field",
+    "category": "technical"
+  },
+  {
+    "term": "environment",
+    "translation": "પર્યાવરણ",
+    "context": "Nature",
+    "category": "general"
+  },
+  {
+    "term": "economy",
+    "translation": "અર્થવ્યવસ્થા",
+    "context": "Finance",
+    "category": "financial"
+  },
+  {
+    "term": "machine learning",
+    "translation": "મશીન લર્નિંગ",
+    "context": "AI/ML",
+    "category": "technical"
+  }
+]
