@@ -1,0 +1,17 @@
+[
+  {"term": "technology", "translation": "సాంకేతికత", "context": "Information technology", "category": "technical"},
+  {"term": "information", "translation": "సమాచారం", "context": "General usage", "category": "general"},
+  {"term": "computer", "translation": "కంప్యూటర్", "context": "Computing", "category": "technical"},
+  {"term": "internet", "translation": "అంతర్జాలం", "context": "Networking", "category": "technical"},
+  {"term": "government", "translation": "ప్రభుత్వం", "context": "Political", "category": "general"},
+  {"term": "education", "translation": "విద్య", "context": "Academic", "category": "general"},
+  {"term": "health", "translation": "ఆరోగ్యం", "context": "Medical", "category": "medical"},
+  {"term": "hospital", "translation": "ఆసుపత్రి", "context": "Healthcare", "category": "medical"},
+  {"term": "bank", "translation": "బ్యాంకు", "context": "Finance", "category": "financial"},
+  {"term": "research", "translation": "పరిశోధన", "context": "Academic", "category": "academic"},
+  {"term": "university", "translation": "విశ్వవిద్యాలయం", "context": "Education", "category": "academic"},
+  {"term": "artificial intelligence", "translation": "కృత్రిమ మేధస్సు", "context": "AI field", "category": "technical"},
+  {"term": "environment", "translation": "పర్యావరణం", "context": "Nature", "category": "general"},
+  {"term": "economy", "translation": "ఆర్థిక వ్యవస్థ", "context": "Finance", "category": "financial"},
+  {"term": "machine learning", "translation": "యంత్ర అభ్యాసం", "context": "AI/ML", "category": "technical"}
+]
