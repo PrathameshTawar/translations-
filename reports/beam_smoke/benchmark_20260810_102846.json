@@ -1,0 +1,178 @@
+{
+  "metadata": {
+    "mode": "live",
+    "total_time_sec": 24.07,
+    "num_beams": 2,
+    "targets": {
+      "functional_pass_rate": 99.0,
+      "security_pass_rate": 99.0,
+      "e2e_pass_rate": 100.0,
+      "unicode_pass_rate": 100.0,
+      "retrieval_recall_at_5": 90.0,
+      "tm_hit_p95_ms": 300.0,
+      "translation_p95_ms": 3000.0,
+      "quality_estimation_f1": 0.7,
+      "hallucination_rate_pct": 5.0
+    }
+  },
+  "translation": {
+    "hindi": {
+      "benchmark": {
+        "source_lang": "english",
+        "target_lang": "hindi",
+        "num_sentences": 2,
+        "num_models": 1,
+        "total_time_ms": 3160.76
+      },
+      "models": {
+        "nllb-200-distilled-600M": {
+          "model": "nllb-200-distilled-600M",
+          "lang_pair": "english->hindi",
+          "num_sentences": 2,
+          "translations": [
+            {
+              "index": 0,
+              "source": "The weather is beautiful today and I want to go for a walk in the park.",
+              "hypothesis": "आज मौसम खूबसूरत है और मैं पार्क में घूमने जाना चाहता हूं।",
+              "reference": "आज मौसम बहुत सुंदर है और मैं पार्क में टहलने जाना चाहता हूँ।",
+              "time_ms": 1717.78
+            },
+            {
+              "index": 1,
+              "source": "Please tell me where I can find the nearest hospital.",
+              "hypothesis": "कृपया मुझे बताएं कि मैं निकटतम अस्पताल कहां पा सकता हूं।",
+              "reference": "कृपया मुझे बताएं कि मैं निकटतम अस्पताल कहां पा सकता हूं।",
+              "time_ms": 1351.84
+            }
+          ],
+          "metrics": {
+            "bleu": {
+              "bleu": 67.43929538044995,
+              "bleu_1": 86.95652173913044,
+              "bleu_2": 76.19047619047619,
+              "bleu_3": 63.1578947368421,
+              "bleu_4": 58.8235294117647,
+              "precisions": [
+                86.95652173913044,
+                76.19047619047619,
+                63.1578947368421,
+                58.8235294117647
+              ],
+              "brevity_penalty": 0.9574533680683809,
+              "reference_length": 24,
+              "hypothesis_length": 0,
+              "sentence_bleu_mean": 68.69437455773355,
+              "sentence_bleu_std": 31.305625442266486,
+              "num_sentences": 2,
+              "computation_time_ms": 50.0
+            },
+            "chrf": {
+              "chrf_plus": 79.60077888101628,
+              "chrf_plus_std": 19.73405220303573,
+              "char_precision": 0.0,
+              "char_recall": 0.0,
+              "word_precision": 0.0,
+              "word_recall": 0.0,
+              "sentence_scores_mean": 80.26594779696427,
+              "sentence_scores_std": 19.73405220303573,
+              "num_sentences": 2,
+              "computation_time_ms": 2.01
+            },
+            "quality": {
+              "quality_score": 0.7523,
+              "quality_score_std": 0.14229999999999998,
+              "confidence_distribution": {
+                "high": 1,
+                "medium": 1,
+                "low": 0
+              },
+              "hallucination_rate": 0.5,
+              "num_sentences": 2,
+              "computation_time_ms": 0.0
+            }
+          },
+          "summary": {
+            "bleu": 67.44,
+            "chrf_plus": 79.6,
+            "bertscore_f1": null,
+            "comet_score": null,
+            "quality_score": 0.7523
+          },
+          "domain_analysis": {
+            "general": {
+              "num_sentences": 2,
+              "indices": [
+                0,
+                1
+              ],
+              "bleu": 67.43929538044995
+            }
+          },
+          "errors": [],
+          "latency": {
+            "mean_ms": 1534.8111391067505,
+            "total_time_ms": 3069.622278213501
+          },
+          "system_info": {
+            "platform": "Windows-11-10.0.26200-SP0",
+            "cpu_count": 12,
+            "ram_gb": 0,
+            "gpu_available": false,
+            "gpu_name": null
+          }
+        }
+      },
+      "comparison": {
+        "models": [
+          "nllb-200-distilled-600M"
+        ],
+        "metrics_comparison": {
+          "bleu": {
+            "nllb-200-distilled-600M": 67.44
+          },
+          "chrf_plus": {
+            "nllb-200-distilled-600M": 79.6
+          },
+          "comet_score": {},
+          "bertscore_f1": {},
+          "quality_score": {
+            "nllb-200-distilled-600M": 0.7523
+          }
+        },
+        "rankings": {
+          "bleu": [
+            {
+              "rank": 1,
+              "model": "nllb-200-distilled-600M",
+              "score": 67.44
+            }
+          ],
+          "chrf_plus": [
+            {
+              "rank": 1,
+              "model": "nllb-200-distilled-600M",
+              "score": 79.6
+            }
+          ],
+          "comet_score": [],
+          "bertscore_f1": [],
+          "quality_score": [
+            {
+              "rank": 1,
+              "model": "nllb-200-distilled-600M",
+              "score": 0.7523
+            }
+          ]
+        },
+        "overall_ranking": [
+          {
+            "rank": 1,
+            "model": "nllb-200-distilled-600M"
+          }
+        ],
+        "num_models": 1,
+        "num_metrics": 5
+      }
+    }
+  }
+}

@@ -1,0 +1,1122 @@
+{
+  "metadata": {
+    "mode": "live",
+    "total_time_sec": 178.49,
+    "num_beams": 1,
+    "targets": {
+      "functional_pass_rate": 99.0,
+      "security_pass_rate": 99.0,
+      "e2e_pass_rate": 100.0,
+      "unicode_pass_rate": 100.0,
+      "retrieval_recall_at_5": 90.0,
+      "tm_hit_p95_ms": 300.0,
+      "translation_p95_ms": 3000.0,
+      "quality_estimation_f1": 0.7,
+      "hallucination_rate_pct": 5.0
+    }
+  },
+  "translation": {
+    "hindi": {
+      "benchmark": {
+        "source_lang": "english",
+        "target_lang": "hindi",
+        "num_sentences": 42,
+        "num_models": 1,
+        "total_time_ms": 84184.82
+      },
+      "models": {
+        "nllb-200-distilled-600M": {
+          "model": "nllb-200-distilled-600M",
+          "lang_pair": "english->hindi",
+          "num_sentences": 42,
+          "translations": [
+            {
+              "index": 0,
+              "source": "The weather is beautiful today and I want to go for a walk in the park.",
+              "hypothesis": "आज मौसम खूबसूरत है और मैं पार्क में घूमने जाना चाहता हूं।",
+              "reference": "आज मौसम बहुत सुंदर है और मैं पार्क में टहलने जाना चाहता हूँ।",
+              "time_ms": 1754.99
+            },
+            {
+              "index": 1,
+              "source": "Please tell me where I can find the nearest hospital.",
+              "hypothesis": "कृपया मुझे बताएं कि मैं निकटतम अस्पताल कहां पा सकता हूं।",
+              "reference": "कृपया मुझे बताएं कि मैं निकटतम अस्पताल कहां पा सकता हूं।",
+              "time_ms": 1359.29
+            },
+            {
+              "index": 2,
+              "source": "I would like to order two cups of tea and some snacks.",
+              "hypothesis": "मैं दो कप चाय और कुछ स्नैक्स का आदेश देना चाहूंगा।",
+              "reference": "मैं दो कप चाय और कुछ नाश्ता ऑर्डर करना चाहूंगा।",
+              "time_ms": 1462.49
+            },
+            {
+              "index": 3,
+              "source": "Can you help me understand this document?",
+              "hypothesis": "क्या आप मुझे इस दस्तावेज को समझने में मदद कर सकते हैं?",
+              "reference": "क्या आप मुझे इस दस्तावेज़ को समझने में मदद कर सकते हैं?",
+              "time_ms": 1416.18
+            },
+            {
+              "index": 4,
+              "source": "The server processes data using a neural network architecture.",
+              "hypothesis": "सर्वर ने न्यूरल नेटवर्क आर्किटेक्चर का उपयोग करके डेटा संसाधित किया है।",
+              "reference": "सर्वर न्यूरल नेटवर्क आर्किटेक्चर का उपयोग करके डेटा प्रोसेस करता है।",
+              "time_ms": 1903.12
+            },
+            {
+              "index": 5,
+              "source": "Please install the latest software update to fix the security vulnerability.",
+              "hypothesis": "कृपया सुरक्षा भेद्यता को ठीक करने के लिए नवीनतम सॉफ्टवेयर अद्यतन स्थापित करें।",
+              "reference": "कृपया सुरक्षा कमजोरी को ठीक करने के लिए नवीनतम सॉफ्टवेयर अपडेट इंस्टॉल करें।",
+              "time_ms": 1666.13
+            },
+            {
+              "index": 6,
+              "source": "Machine learning models require large amounts of training data.",
+              "hypothesis": "मशीन लर्निंग मॉडल के लिए बड़ी मात्रा में प्रशिक्षण डेटा की आवश्यकता होती है।",
+              "reference": "मशीन लर्निंग मॉडल को बड़ी मात्रा में प्रशिक्षण डेटा की आवश्यकता होती है।",
+              "time_ms": 1568.52
+            },
+            {
+              "index": 7,
+              "source": "The database query returned results in under fifty milliseconds.",
+              "hypothesis": "डेटाबेस क्वेरी ने पचास मिलीसेकंड से कम समय में परिणाम लौटाए।",
+              "reference": "डेटाबेस क्वेरी ने पचास मिलीसेकंड से कम समय में परिणाम लौटाए।",
+              "time_ms": 2018.61
+            },
+            {
+              "index": 8,
+              "source": "The patient should take this medicine twice a day after meals.",
+              "hypothesis": "रोगी को यह दवा भोजन के बाद दिन में दो बार लेनी चाहिए।",
+              "reference": "रोगी को यह दवा भोजन के बाद दिन में दो बार लेनी चाहिए।",
+              "time_ms": 1430.87
+            },
+            {
+              "index": 9,
+              "source": "Regular exercise and a balanced diet are important for good health.",
+              "hypothesis": "नियमित व्यायाम और संतुलित आहार अच्छे स्वास्थ्य के लिए महत्वपूर्ण हैं।",
+              "reference": "अच्छे स्वास्थ्य के लिए नियमित व्यायाम और संतुलित आहार महत्वपूर्ण हैं।",
+              "time_ms": 1373.5
+            },
+            {
+              "index": 10,
+              "source": "The doctor recommended a blood test to check for vitamin deficiency.",
+              "hypothesis": "डॉक्टर ने विटामिन की कमी की जांच के लिए रक्त परीक्षण की सिफारिश की।",
+              "reference": "डॉक्टर ने विटामिन की कमी की जांच के लिए रक्त परीक्षण की सिफारिश की।",
+              "time_ms": 1604.27
+            },
+            {
+              "index": 11,
+              "source": "Please wash your hands thoroughly to prevent the spread of infection.",
+              "hypothesis": "संक्रमण के प्रसार को रोकने के लिए कृपया अपने हाथों को अच्छी तरह से धो लें।",
+              "reference": "संक्रमण के प्रसार को रोकने के लिए कृपया अपने हाथों को अच्छी तरह धोएं।",
+              "time_ms": 1703.87
+            },
+            {
+              "index": 12,
+              "source": "The bank offers a low interest rate on education loans.",
+              "hypothesis": "बैंक शिक्षा ऋण पर कम ब्याज दर प्रदान करता है।",
+              "reference": "बैंक शिक्षा ऋण पर कम ब्याज दर प्रदान करता है।",
+              "time_ms": 1107.15
+            },
+            {
+              "index": 13,
+              "source": "Please transfer five thousand rupees to my savings account.",
+              "hypothesis": "कृपया मेरे बचत खाते में पांच हजार रुपये स्थानांतरित करें।",
+              "reference": "कृपया मेरे बचत खाते में पांच हजार रुपये ट्रांसफर करें।",
+              "time_ms": 1205.53
+            },
+            {
+              "index": 14,
+              "source": "The annual budget was approved by the finance committee yesterday.",
+              "hypothesis": "वित्त समिति ने कल वार्षिक बजट को मंजूरी दी।",
+              "reference": "वार्षिक बजट को कल वित्त समिति द्वारा अनुमोदित किया गया।",
+              "time_ms": 1021.64
+            },
+            {
+              "index": 15,
+              "source": "Investors are concerned about the fluctuation in currency exchange rates.",
+              "hypothesis": "निवेशकों को मुद्रा विनिमय दरों में उतार-चढ़ाव से चिंता है।",
+              "reference": "निवेशक मुद्रा विनिमय दरों में उतार-चढ़ाव को लेकर चिंतित हैं।",
+              "time_ms": 1810.56
+            },
+            {
+              "index": 16,
+              "source": "The research paper presents a novel approach to language translation.",
+              "hypothesis": "शोध पत्र भाषा अनुवाद के लिए एक नया दृष्टिकोण प्रस्तुत करता है।",
+              "reference": "यह शोध पत्र भाषा अनुवाद के लिए एक नवीन दृष्टिकोण प्रस्तुत करता है।",
+              "time_ms": 1291.09
+            },
+            {
+              "index": 17,
+              "source": "Students must submit their assignments before the end of this week.",
+              "hypothesis": "इस सप्ताह के अंत से पहले छात्रों को अपना कार्य प्रस्तुत करना होगा।",
+              "reference": "छात्रों को इस सप्ताह के अंत से पहले अपना असाइनमेंट जमा करना होगा।",
+              "time_ms": 1370.56
+            },
+            {
+              "index": 18,
+              "source": "The university library has thousands of books on artificial intelligence.",
+              "hypothesis": "विश्वविद्यालय के पुस्तकालय में कृत्रिम बुद्धि पर हजारों किताबें हैं।",
+              "reference": "विश्वविद्यालय पुस्तकालय में कृत्रिम बुद्धिमत्ता पर हजारों पुस्तकें हैं।",
+              "time_ms": 1414.38
+            },
+            {
+              "index": 19,
+              "source": "The experiment results confirm the hypothesis proposed by the researcher.",
+              "hypothesis": "प्रयोग के परिणाम शोधकर्ता द्वारा प्रस्तावित परिकल्पना की पुष्टि करते हैं।",
+              "reference": "प्रयोग के परिणाम शोधकर्ता द्वारा प्रस्तावित परिकल्पना की पुष्टि करते हैं।",
+              "time_ms": 1635.1
+            },
+            {
+              "index": 20,
+              "source": "Students should submit their assignments before Friday.",
+              "hypothesis": "छात्रों को शुक्रवार से पहले अपना कार्य प्रस्तुत करना चाहिए।",
+              "reference": "छात्रों को अपना असाइनमेंट शुक्रवार से पहले जमा करना चाहिए।",
+              "time_ms": 1107.86
+            },
+            {
+              "index": 21,
+              "source": "The teacher explained the new lesson to the class.",
+              "hypothesis": "अध्यापक ने कक्षा को नया पाठ समझाया।",
+              "reference": "शिक्षक ने कक्षा को नया पाठ समझाया।",
+              "time_ms": 1024.82
+            },
+            {
+              "index": 22,
+              "source": "She scored the highest marks in the final examination.",
+              "hypothesis": "उन्होंने अंतिम परीक्षा में उच्चतम अंक प्राप्त किए।",
+              "reference": "उसने अंतिम परीक्षा में सर्वोच्च अंक प्राप्त किए।",
+              "time_ms": 1034.27
+            },
+            {
+              "index": 23,
+              "source": "Citizens can apply for the scheme through the official portal.",
+              "hypothesis": "नागरिक इस योजना के लिए आधिकारिक पोर्टल के माध्यम से आवेदन कर सकते हैं।",
+              "reference": "नागरिक आधिकारिक पोर्टल के माध्यम से योजना के लिए आवेदन कर सकते हैं।",
+              "time_ms": 1498.7
+            },
+            {
+              "index": 24,
+              "source": "The government announced a new policy for farmers.",
+              "hypothesis": "सरकार ने किसानों के लिए एक नई नीति की घोषणा की।",
+              "reference": "सरकार ने किसानों के लिए एक नई नीति की घोषणा की।",
+              "time_ms": 1256.94
+            },
+            {
+              "index": 25,
+              "source": "Voters must carry a valid identity card to the polling booth.",
+              "hypothesis": "मतदाताओं को मतदान केंद्र पर वैध पहचान पत्र ले जाना होगा।",
+              "reference": "मतदाताओं को मतदान केंद्र पर वैध पहचान पत्र ले जाना चाहिए।",
+              "time_ms": 1471.6
+            },
+            {
+              "index": 26,
+              "source": "The agreement will remain valid for one year.",
+              "hypothesis": "यह समझौता एक वर्ष के लिए मान्य रहेगा।",
+              "reference": "समझौता एक वर्ष तक वैध रहेगा।",
+              "time_ms": 986.4
+            },
+            {
+              "index": 27,
+              "source": "The court will hear the case next month.",
+              "hypothesis": "अदालत अगले महीने मामले की सुनवाई करेगी।",
+              "reference": "अदालत अगले महीने मामले की सुनवाई करेगी।",
+              "time_ms": 908.57
+            },
+            {
+              "index": 28,
+              "source": "Both parties must sign the contract before the deadline.",
+              "hypothesis": "दोनों पक्षों को समय सीमा से पहले अनुबंध पर हस्ताक्षर करना होगा।",
+              "reference": "दोनों पक्षों को समय सीमा से पहले अनुबंध पर हस्ताक्षर करना होगा।",
+              "time_ms": 1640.07
+            },
+            {
+              "index": 29,
+              "source": "Could you please send me the document tomorrow?",
+              "hypothesis": "क्या आप कृपया मुझे कल दस्तावेज भेज सकते हैं?",
+              "reference": "क्या आप कल मुझे दस्तावेज़ भेज सकते हैं?",
+              "time_ms": 1117.32
+            },
+            {
+              "index": 30,
+              "source": "I will call you when I reach home.",
+              "hypothesis": "मैं तुम्हें जब मैं घर पहुँचूंगा फोन करूंगा.",
+              "reference": "घर पहुँचते ही मैं आपको फोन करूँगा।",
+              "time_ms": 1019.15
+            },
+            {
+              "index": 31,
+              "source": "Thanks for your help, see you soon.",
+              "hypothesis": "आपकी मदद के लिए धन्यवाद, जल्द ही मिलते हैं।",
+              "reference": "आपकी मदद के लिए धन्यवाद, जल्द मिलते हैं।",
+              "time_ms": 1217.36
+            },
+            {
+              "index": 32,
+              "source": "I am going to college tomorrow.",
+              "hypothesis": "मैं कल कॉलेज जा रहा हूँ।",
+              "reference": "मैं कल कॉलेज जा रहा हूँ।",
+              "time_ms": 841.98
+            },
+            {
+              "index": 33,
+              "source": "The train to Mumbai leaves at six o'clock in the evening.",
+              "hypothesis": "मुंबई की ट्रेन शाम छह बजे निकलती है।",
+              "reference": "मुंबई जाने वाली ट्रेन शाम छह बजे रवाना होती है।",
+              "time_ms": 1094.55
+            },
+            {
+              "index": 34,
+              "source": "Although the weather was bad, the students decided to attend the event.",
+              "hypothesis": "हालात खराब थे, लेकिन छात्रों ने इस कार्यक्रम में भाग लेने का फैसला किया।",
+              "reference": "हालाँकि मौसम खराब था, फिर भी छात्रों ने कार्यक्रम में शामिल होने का निर्णय लिया।",
+              "time_ms": 1714.83
+            },
+            {
+              "index": 35,
+              "source": "Don't judge a book by its cover.",
+              "hypothesis": "किसी पुस्तक का मुखौटा देखकर न्याय न करें।",
+              "reference": "किताब को उसके आवरण से मत आंकिए।",
+              "time_ms": 1164.36
+            },
+            {
+              "index": 36,
+              "source": "Mr. Sharma bought a house in Pune last year.",
+              "hypothesis": "श्री शर्मा ने पिछले साल पुणे में एक घर खरीदा था।",
+              "reference": "श्री शर्मा ने पिछले साल पुणे में एक घर खरीदा।",
+              "time_ms": 1421.71
+            },
+            {
+              "index": 37,
+              "source": "The total cost is 12,450 rupees including 8% tax.",
+              "hypothesis": "कुल लागत 12,450 रुपये है जिसमें 8% कर भी शामिल है।",
+              "reference": "8% कर सहित कुल लागत 12,450 रुपये है।",
+              "time_ms": 1305.01
+            },
+            {
+              "index": 38,
+              "source": "The conference is scheduled for 15 August 2026.",
+              "hypothesis": "सम्मेलन 15 अगस्त 2026 को निर्धारित है।",
+              "reference": "सम्मेलन 15 अगस्त 2026 को आयोजित होने वाला है।",
+              "time_ms": 1021.95
+            },
+            {
+              "index": 39,
+              "source": "The neural network was trained on a parallel corpus of one million sentence pairs.",
+              "hypothesis": "न्यूरल नेटवर्क को एक मिलियन वाक्य जोड़े के समानांतर कॉर्पस पर प्रशिक्षित किया गया था।",
+              "reference": "तंत्रिका नेटवर्क को दस लाख वाक्य जोड़ों के समानांतर कोष पर प्रशिक्षित किया गया था।",
+              "time_ms": 2479.03
+            },
+            {
+              "index": 40,
+              "source": "The committee formed last year to study the impact of climate change on agriculture in the region has published its detailed report, which recommends several new measures to protect small farmers from unpredictable weather.",
+              "hypothesis": "जलवायु परिवर्तन के क्षेत्र में कृषि पर प्रभाव का अध्ययन करने के लिए पिछले साल गठित समिति ने अपनी विस्तृत रिपोर्ट प्रकाशित की है, जिसमें छोटे किसानों को अप्रत्याशित मौसम से बचाने के लिए कई नए उपायों की सिफारिश की गई है।",
+              "reference": "जलवायु परिवर्तन के क्षेत्र में कृषि पर प्रभाव का अध्ययन करने के लिए पिछले साल गठित समिति ने अपनी विस्तृत रिपोर्ट प्रकाशित की है, जिसमें छोटे किसानों को अप्रत्याशित मौसम से बचाने के लिए कई नए उपायों की सिफारिश की गई है।",
+              "time_ms": 4968.52
+            },
+            {
+              "index": 41,
+              "source": "This movie is really awesome, you must watch it tonight!",
+              "hypothesis": "यह फिल्म वास्तव में भयानक है, आप इसे आज रात देखना चाहिए!",
+              "reference": "यह फिल्म सच में कमाल की है, तुम्हें इसे आज रात ज़रूर देखना चाहिए!",
+              "time_ms": 1387.57
+            }
+          ],
+          "metrics": {
+            "bleu": {
+              "bleu": 65.92883232219327,
+              "bleu_1": 82.52032520325203,
+              "bleu_2": 69.55555555555556,
+              "bleu_3": 60.53921568627451,
+              "bleu_4": 54.37158469945355,
+              "precisions": [
+                82.52032520325203,
+                69.55555555555556,
+                60.53921568627451,
+                54.37158469945355
+              ],
+              "brevity_penalty": 1.0,
+              "reference_length": 484,
+              "hypothesis_length": 0,
+              "sentence_bleu_mean": 60.10900300334068,
+              "sentence_bleu_std": 31.726458585205755,
+              "num_sentences": 42,
+              "computation_time_ms": 81.5
+            },
+            "chrf": {
+              "chrf_plus": 78.16924378839806,
+              "chrf_plus_std": 22.39309466152648,
+              "char_precision": 0.0,
+              "char_recall": 0.0,
+              "word_precision": 0.0,
+              "word_recall": 0.0,
+              "sentence_scores_mean": 75.86131684694884,
+              "sentence_scores_std": 22.39309466152648,
+              "num_sentences": 42,
+              "computation_time_ms": 30.37
+            },
+            "bertscore": {
+              "precision": 0.9780171513557434,
+              "recall": 0.9781613945960999,
+              "f1": 0.978069007396698,
+              "precision_std": 0.020053353160619736,
+              "recall_std": 0.021734245121479034,
+              "f1_std": 0.020451337099075317,
+              "model_type": "xlm-roberta-large",
+              "num_sentences": 42,
+              "computation_time_ms": 22222.2
+            },
+            "quality": {
+              "quality_score": 0.8194595238095237,
+              "quality_score_std": 0.12547277651902142,
+              "confidence_distribution": {
+                "high": 31,
+                "medium": 11,
+                "low": 0
+              },
+              "hallucination_rate": 0.2619047619047619,
+              "num_sentences": 42,
+              "computation_time_ms": 0.0
+            }
+          },
+          "summary": {
+            "bleu": 65.93,
+            "chrf_plus": 78.17,
+            "bertscore_f1": 0.9781,
+            "comet_score": null,
+            "quality_score": 0.8195
+          },
+          "domain_analysis": {
+            "general": {
+              "num_sentences": 4,
+              "indices": [
+                0,
+                1,
+                2,
+                3
+              ],
+              "bleu": 66.861027229738
+            },
+            "technical": {
+              "num_sentences": 4,
+              "indices": [
+                4,
+                5,
+                6,
+                7
+              ],
+              "bleu": 68.81723799329572
+            },
+            "medical": {
+              "num_sentences": 4,
+              "indices": [
+                8,
+                9,
+                10,
+                11
+              ],
+              "bleu": 87.39545181758103
+            },
+            "financial": {
+              "num_sentences": 4,
+              "indices": [
+                12,
+                13,
+                14,
+                15
+              ],
+              "bleu": 61.37934284528568
+            },
+            "academic": {
+              "num_sentences": 4,
+              "indices": [
+                16,
+                17,
+                18,
+                19
+              ],
+              "bleu": 62.861090055648106
+            },
+            "education": {
+              "num_sentences": 3,
+              "indices": [
+                20,
+                21,
+                22
+              ],
+              "bleu": 42.50980300460808
+            },
+            "government": {
+              "num_sentences": 3,
+              "indices": [
+                23,
+                24,
+                25
+              ],
+              "bleu": 79.99888933339885
+            },
+            "legal": {
+              "num_sentences": 3,
+              "indices": [
+                26,
+                27,
+                28
+              ],
+              "bleu": 78.04938611831793
+            },
+            "conversational": {
+              "num_sentences": 3,
+              "indices": [
+                29,
+                30,
+                31
+              ],
+              "bleu": 38.60027394922418
+            },
+            "difficult": {
+              "num_sentences": 10,
+              "indices": [
+                32,
+                33,
+                34,
+                35,
+                36,
+                37,
+                38,
+                39,
+                40,
+                41
+              ],
+              "bleu": 59.41189415060959
+            }
+          },
+          "errors": [],
+          "latency": {
+            "mean_ms": 1471.4386122567314,
+            "total_time_ms": 61800.421714782715
+          },
+          "system_info": {
+            "platform": "Windows-11-10.0.26200-SP0",
+            "cpu_count": 12,
+            "ram_gb": 0,
+            "gpu_available": false,
+            "gpu_name": null
+          }
+        }
+      },
+      "comparison": {
+        "models": [
+          "nllb-200-distilled-600M"
+        ],
+        "metrics_comparison": {
+          "bertscore_f1": {
+            "nllb-200-distilled-600M": 0.9781
+          },
+          "bleu": {
+            "nllb-200-distilled-600M": 65.93
+          },
+          "quality_score": {
+            "nllb-200-distilled-600M": 0.8195
+          },
+          "comet_score": {},
+          "chrf_plus": {
+            "nllb-200-distilled-600M": 78.17
+          }
+        },
+        "rankings": {
+          "bertscore_f1": [
+            {
+              "rank": 1,
+              "model": "nllb-200-distilled-600M",
+              "score": 0.9781
+            }
+          ],
+          "bleu": [
+            {
+              "rank": 1,
+              "model": "nllb-200-distilled-600M",
+              "score": 65.93
+            }
+          ],
+          "quality_score": [
+            {
+              "rank": 1,
+              "model": "nllb-200-distilled-600M",
+              "score": 0.8195
+            }
+          ],
+          "comet_score": [],
+          "chrf_plus": [
+            {
+              "rank": 1,
+              "model": "nllb-200-distilled-600M",
+              "score": 78.17
+            }
+          ]
+        },
+        "overall_ranking": [
+          {
+            "rank": 1,
+            "model": "nllb-200-distilled-600M"
+          }
+        ],
+        "num_models": 1,
+        "num_metrics": 5
+      }
+    },
+    "marathi": {
+      "benchmark": {
+        "source_lang": "english",
+        "target_lang": "marathi",
+        "num_sentences": 42,
+        "num_models": 1,
+        "total_time_ms": 72606.75
+      },
+      "models": {
+        "nllb-200-distilled-600M": {
+          "model": "nllb-200-distilled-600M",
+          "lang_pair": "english->marathi",
+          "num_sentences": 42,
+          "translations": [
+            {
+              "index": 0,
+              "source": "The weather is beautiful today and I want to go for a walk in the park.",
+              "hypothesis": "आज हवामान सुंदर आहे आणि मला पार्कमध्ये फिरून जायचे आहे.",
+              "reference": "आज हवामान खूप सुंदर आहे आणि मला उद्यानात फिरायला जायचे आहे.",
+              "time_ms": 1430.56
+            },
+            {
+              "index": 1,
+              "source": "Please tell me where I can find the nearest hospital.",
+              "hypothesis": "मला सर्वात जवळचे रुग्णालय कुठे मिळेल ते सांगा.",
+              "reference": "कृपया मला सांगा की मी जवळचे रुग्णालय कुठे शोधू शकतो.",
+              "time_ms": 1199.47
+            },
+            {
+              "index": 2,
+              "source": "I would like to order two cups of tea and some snacks.",
+              "hypothesis": "मला दोन कप चहा आणि काही स्नॅक्सची मागणी करायची आहे.",
+              "reference": "मला दोन कप चहा आणि काही स्नॅक्स ऑर्डर करायचे आहेत.",
+              "time_ms": 1515.31
+            },
+            {
+              "index": 3,
+              "source": "Can you help me understand this document?",
+              "hypothesis": "तुम्ही मला हा कागदपत्र समजण्यास मदत करू शकता का?",
+              "reference": "कृपया तुम्ही मला हा दस्तऐवज समजून घेण्यास मदत करू शकता का?",
+              "time_ms": 1272.44
+            },
+            {
+              "index": 4,
+              "source": "The server processes data using a neural network architecture.",
+              "hypothesis": "न्युरल नेटवर्क आर्किटेक्चर वापरून सर्व्हर डेटा प्रोसेस करतो.",
+              "reference": "सर्व्हर न्यूरल नेटवर्क आर्किटेक्चर वापरून डेटा प्रक्रिया करतो.",
+              "time_ms": 1646.99
+            },
+            {
+              "index": 5,
+              "source": "Please install the latest software update to fix the security vulnerability.",
+              "hypothesis": "कृपया सुरक्षा कमतरता दूर करण्यासाठी नवीनतम सॉफ्टवेअर अद्यतन स्थापित करा.",
+              "reference": "सुरक्षा भेद्यता दुरुस्त करण्यासाठी कृपया नवीनतम सॉफ्टवेअर अपडेट स्थापित करा.",
+              "time_ms": 1570.83
+            },
+            {
+              "index": 6,
+              "source": "Machine learning models require large amounts of training data.",
+              "hypothesis": "मशीन लर्निंग मॉडेलमध्ये मोठ्या प्रमाणात प्रशिक्षण डेटा आवश्यक आहे.",
+              "reference": "मशीन लर्निंग मॉडेल्सना मोठ्या प्रमाणात प्रशिक्षण डेटाची आवश्यकता असते.",
+              "time_ms": 1417.28
+            },
+            {
+              "index": 7,
+              "source": "The database query returned results in under fifty milliseconds.",
+              "hypothesis": "डेटाबेस क्वेरीने ५० मिलीसेकंदात परिणाम परत केले.",
+              "reference": "डेटाबेस क्वेरीने पन्नास मिलिसेकंदांपेक्षा कमी वेळात परिणाम परत केले.",
+              "time_ms": 1535.67
+            },
+            {
+              "index": 8,
+              "source": "The patient should take this medicine twice a day after meals.",
+              "hypothesis": "रुग्णाला हे औषध जेवणानंतर दिवसातून दोनदा घ्यावे.",
+              "reference": "रुग्णाने हे औषध जेवणानंतर दिवसातून दोनदा घ्यावे.",
+              "time_ms": 1479.4
+            },
+            {
+              "index": 9,
+              "source": "Regular exercise and a balanced diet are important for good health.",
+              "hypothesis": "नियमित व्यायाम आणि संतुलित आहार हे आरोग्यासाठी महत्त्वाचे आहे.",
+              "reference": "चांगल्या आरोग्यासाठी नियमित व्यायाम आणि संतुलित आहार महत्त्वाचे आहेत.",
+              "time_ms": 1334.39
+            },
+            {
+              "index": 10,
+              "source": "The doctor recommended a blood test to check for vitamin deficiency.",
+              "hypothesis": "डॉक्टरने व्हिटॅमिनची कमतरता तपासण्यासाठी रक्त चाचणीची शिफारस केली.",
+              "reference": "डॉक्टरांनी जीवनसत्वाच्या कमतरतेची तपासणी करण्यासाठी रक्त तपासणीची शिफारस केली.",
+              "time_ms": 1967.62
+            },
+            {
+              "index": 11,
+              "source": "Please wash your hands thoroughly to prevent the spread of infection.",
+              "hypothesis": "संसर्ग होणे टाळण्यासाठी कृपया आपले हात काळजीपूर्वक धुवा.",
+              "reference": "संसर्ग पसरू नये म्हणून कृपया आपले हात चांगले धुवा.",
+              "time_ms": 1438.25
+            },
+            {
+              "index": 12,
+              "source": "The bank offers a low interest rate on education loans.",
+              "hypothesis": "बँकेने शिक्षण कर्जांवर कमी व्याजदर दिले आहे.",
+              "reference": "बँक शिक्षण कर्जावर कमी व्याजदर देते.",
+              "time_ms": 1388.97
+            },
+            {
+              "index": 13,
+              "source": "Please transfer five thousand rupees to my savings account.",
+              "hypothesis": "कृपया माझ्या बचत खात्यात पाच हजार रुपये हस्तांतरित करा.",
+              "reference": "कृपया माझ्या बचत खात्यात पाच हजार रुपये हस्तांतरित करा.",
+              "time_ms": 1156.89
+            },
+            {
+              "index": 14,
+              "source": "The annual budget was approved by the finance committee yesterday.",
+              "hypothesis": "आर्थिक समितीने काल वार्षिक अर्थसंकल्प मंजूर केला.",
+              "reference": "वार्षिक अर्थसंकल्प काल वित्त समितीने मंजूर केला.",
+              "time_ms": 1269.22
+            },
+            {
+              "index": 15,
+              "source": "Investors are concerned about the fluctuation in currency exchange rates.",
+              "hypothesis": "चलन दरातील उतार-चढावमुळे गुंतवणूकदारांना चिंता आहे.",
+              "reference": "चलन विनिमय दरातील चढउताराबद्दल गुंतवणूकदार चिंतित आहेत.",
+              "time_ms": 1619.03
+            },
+            {
+              "index": 16,
+              "source": "The research paper presents a novel approach to language translation.",
+              "hypothesis": "या संशोधन पेपरमध्ये भाषांतर करण्याच्या नवीन पद्धतीचा उल्लेख केला आहे.",
+              "reference": "संशोधन पत्र भाषा अनुवादासाठी एक नवीन दृष्टिकोन सादर करते.",
+              "time_ms": 1521.01
+            },
+            {
+              "index": 17,
+              "source": "Students must submit their assignments before the end of this week.",
+              "hypothesis": "या आठवड्याच्या अखेरीस विद्यार्थ्यांनी आपले काम दाखल करावे.",
+              "reference": "विद्यार्थ्यांनी या आठवड्याच्या अखेरीपूर्वी आपली असाइनमेंट सबमिट करणे आवश्यक आहे.",
+              "time_ms": 1510.53
+            },
+            {
+              "index": 18,
+              "source": "The university library has thousands of books on artificial intelligence.",
+              "hypothesis": "विद्यापीठाच्या ग्रंथालयात कृत्रिम बुद्धिमत्तेवर हजारो पुस्तके आहेत.",
+              "reference": "विद्यापीठाच्या ग्रंथालयात कृत्रिम बुद्धिमत्तेवर हजारो पुस्तके आहेत.",
+              "time_ms": 1970.14
+            },
+            {
+              "index": 19,
+              "source": "The experiment results confirm the hypothesis proposed by the researcher.",
+              "hypothesis": "प्रयोगाच्या परिणामांनी संशोधकाच्या प्रस्तावित गृहीतकाची पुष्टी केली.",
+              "reference": "प्रयोगाचे परिणाम संशोधकाने प्रस्तावित केलेल्या गृहीतकाची पुष्टी करतात.",
+              "time_ms": 2006.57
+            },
+            {
+              "index": 20,
+              "source": "Students should submit their assignments before Friday.",
+              "hypothesis": "विद्यार्थ्यांनी शुक्रवारी आधी आपले काम दाखल करावे.",
+              "reference": "विद्यार्थ्यांनी आपली असाइनमेंट शुक्रवारपूर्वी सबमिट करावी.",
+              "time_ms": 1188.63
+            },
+            {
+              "index": 21,
+              "source": "The teacher explained the new lesson to the class.",
+              "hypothesis": "अध्यापकाने वर्गात नवीन धडा सांगितला.",
+              "reference": "शिक्षकाने वर्गाला नवीन धडा समजावून सांगितला.",
+              "time_ms": 1104.59
+            },
+            {
+              "index": 22,
+              "source": "She scored the highest marks in the final examination.",
+              "hypothesis": "तिने अंतिम परीक्षेत सर्वाधिक गुण मिळवले.",
+              "reference": "तिने अंतिम परीक्षेत सर्वोच्च गुण मिळवले.",
+              "time_ms": 978.76
+            },
+            {
+              "index": 23,
+              "source": "Citizens can apply for the scheme through the official portal.",
+              "hypothesis": "नागरिकांना या योजनेसाठी अधिकृत पोर्टलद्वारे अर्ज करता येतात.",
+              "reference": "नागरिक अधिकृत पोर्टलद्वारे योजनेसाठी अर्ज करू शकतात.",
+              "time_ms": 1476.93
+            },
+            {
+              "index": 24,
+              "source": "The government announced a new policy for farmers.",
+              "hypothesis": "सरकारने शेतकऱ्यांसाठी नवीन धोरण जाहीर केले.",
+              "reference": "सरकारने शेतकऱ्यांसाठी नवीन धोरण जाहीर केले.",
+              "time_ms": 1058.74
+            },
+            {
+              "index": 25,
+              "source": "Voters must carry a valid identity card to the polling booth.",
+              "hypothesis": "मतदारांनी मतदान केंद्रावर वैध ओळखपत्र घेऊन जावे.",
+              "reference": "मतदारांनी मतदान केंद्रावर वैध ओळखपत्र नेले पाहिजे.",
+              "time_ms": 1383.09
+            },
+            {
+              "index": 26,
+              "source": "The agreement will remain valid for one year.",
+              "hypothesis": "करार एक वर्षासाठी वैध राहील.",
+              "reference": "करार एका वर्षासाठी वैध राहील.",
+              "time_ms": 936.0
+            },
+            {
+              "index": 27,
+              "source": "The court will hear the case next month.",
+              "hypothesis": "न्यायालय पुढील महिन्यात या प्रकरणाची सुनावणी करेल.",
+              "reference": "न्यायालय पुढील महिन्यात खटल्याची सुनावणी करेल.",
+              "time_ms": 1307.75
+            },
+            {
+              "index": 28,
+              "source": "Both parties must sign the contract before the deadline.",
+              "hypothesis": "दोन्ही पक्षांनी अंतिम मुदतीपूर्वी करारावर स्वाक्षरी करावी.",
+              "reference": "दोन्ही पक्षांनी अंतिम मुदतीपूर्वी करारावर स्वाक्षरी करणे आवश्यक आहे.",
+              "time_ms": 1458.96
+            },
+            {
+              "index": 29,
+              "source": "Could you please send me the document tomorrow?",
+              "hypothesis": "कृपया उद्या मला कागदपत्र पाठवू शकता का?",
+              "reference": "कृपया तुम्ही उद्या मला दस्तऐवज पाठवू शकता का?",
+              "time_ms": 1117.85
+            },
+            {
+              "index": 30,
+              "source": "I will call you when I reach home.",
+              "hypothesis": "मी घरी पोहोचल्यावर तुम्हाला फोन करेन.",
+              "reference": "मी घरी पोहोचताच तुम्हाला फोन करेन.",
+              "time_ms": 856.14
+            },
+            {
+              "index": 31,
+              "source": "Thanks for your help, see you soon.",
+              "hypothesis": "तुमच्या मदतीबद्दल धन्यवाद, लवकरच भेटू.",
+              "reference": "तुमच्या मदतीबद्दल धन्यवाद, लवकरच भेटू.",
+              "time_ms": 1017.12
+            },
+            {
+              "index": 32,
+              "source": "I am going to college tomorrow.",
+              "hypothesis": "मी उद्या कॉलेजला जातो.",
+              "reference": "मी उद्या कॉलेजला जात आहे.",
+              "time_ms": 694.67
+            },
+            {
+              "index": 33,
+              "source": "The train to Mumbai leaves at six o'clock in the evening.",
+              "hypothesis": "मुंबईची ट्रेन संध्याकाळी सहा वाजता निघते.",
+              "reference": "मुंबईला जाणारी रेल्वे संध्याकाळी सहा वाजता सुटते.",
+              "time_ms": 1238.16
+            },
+            {
+              "index": 34,
+              "source": "Although the weather was bad, the students decided to attend the event.",
+              "hypothesis": "या कार्यक्रमात सहभागी होण्याचा निर्णय विद्यार्थ्यांनी घेतला.",
+              "reference": "हवामान खराब असले तरी विद्यार्थ्यांनी कार्यक्रमाला उपस्थित राहण्याचा निर्णय घेतला.",
+              "time_ms": 1218.11
+            },
+            {
+              "index": 35,
+              "source": "Don't judge a book by its cover.",
+              "hypothesis": "पुस्तकाचा आवरण पाहून न्याय करू नका.",
+              "reference": "पुस्तकाचा न्याय त्याच्या मुखपृष्ठावरून करू नका.",
+              "time_ms": 939.97
+            },
+            {
+              "index": 36,
+              "source": "Mr. Sharma bought a house in Pune last year.",
+              "hypothesis": "श्री. शर्मा यांनी पुण्यात गेल्या वर्षी एक घर खरेदी केले होते.",
+              "reference": "श्री शर्मा यांनी गेल्या वर्षी पुण्यात घर विकत घेतले.",
+              "time_ms": 1420.87
+            },
+            {
+              "index": 37,
+              "source": "The total cost is 12,450 rupees including 8% tax.",
+              "hypothesis": "याकरिता एकूण खर्च १२,४५० रुपये आहे.",
+              "reference": "8% करासह एकूण किंमत 12,450 रुपये आहे.",
+              "time_ms": 1356.63
+            },
+            {
+              "index": 38,
+              "source": "The conference is scheduled for 15 August 2026.",
+              "hypothesis": "15 ऑगस्ट 2026 रोजी ही परिषद होणार आहे.",
+              "reference": "परिषद 15 ऑगस्ट 2026 रोजी होणार आहे.",
+              "time_ms": 1175.25
+            },
+            {
+              "index": 39,
+              "source": "The neural network was trained on a parallel corpus of one million sentence pairs.",
+              "hypothesis": "न्यूरल नेटवर्कला एक दशलक्ष वाक्ये जोड्यांच्या समांतर कॉर्पसवर प्रशिक्षण देण्यात आले.",
+              "reference": "न्यूरल नेटवर्कला दहा लाख वाक्य जोड्यांच्या समांतर संग्रहावर प्रशिक्षण देण्यात आले.",
+              "time_ms": 2156.8
+            },
+            {
+              "index": 40,
+              "source": "The committee formed last year to study the impact of climate change on agriculture in the region has published its detailed report, which recommends several new measures to protect small farmers from unpredictable weather.",
+              "hypothesis": "या भागातील कृषी क्षेत्रावर हवामान बदलाचा परिणाम पाहण्यासाठी गेल्या वर्षी स्थापन झालेल्या समितीने आपला तपशीलवार अहवाल प्रसिद्ध केला आहे.",
+              "reference": "प्रदेशातील शेतीवर हवामान बदलाच्या परिणामाचा अभ्यास करण्यासाठी गेल्या वर्षी स्थापन झालेल्या समितीने आपला तपशीलवार अहवाल प्रकाशित केला आहे, ज्यामध्ये लहान शेतकऱ्यांचे अनपेक्षित हवामानापासून संरक्षण करण्यासाठी अनेक नवीन उपायांची शिफारस केली आहे.",
+              "time_ms": 2881.84
+            },
+            {
+              "index": 41,
+              "source": "This movie is really awesome, you must watch it tonight!",
+              "hypothesis": "हा चित्रपट खरोखरच जबरदस्त आहे, आज रात्री तुम्ही तो बघायला हवा!",
+              "reference": "हा चित्रपट खरोखर छान आहे, तुम्ही तो आज रात्री नक्की पाहिला पाहिजे!",
+              "time_ms": 1593.24
+            }
+          ],
+          "metrics": {
+            "bleu": {
+              "bleu": 33.42280944833267,
+              "bleu_1": 68.88297872340425,
+              "bleu_2": 43.712574850299404,
+              "bleu_3": 28.767123287671232,
+              "bleu_4": 19.2,
+              "precisions": [
+                68.88297872340425,
+                43.712574850299404,
+                28.767123287671232,
+                19.2
+              ],
+              "brevity_penalty": 0.9307090996400128,
+              "reference_length": 403,
+              "hypothesis_length": 0,
+              "sentence_bleu_mean": 35.07593735804733,
+              "sentence_bleu_std": 26.71642547708846,
+              "num_sentences": 42,
+              "computation_time_ms": 10.02
+            },
+            "chrf": {
+              "chrf_plus": 59.91333033356629,
+              "chrf_plus_std": 19.37793696694649,
+              "char_precision": 0.0,
+              "char_recall": 0.0,
+              "word_precision": 0.0,
+              "word_recall": 0.0,
+              "sentence_scores_mean": 62.27432109086815,
+              "sentence_scores_std": 19.37793696694649,
+              "num_sentences": 42,
+              "computation_time_ms": 24.12
+            },
+            "bertscore": {
+              "precision": 0.9654949903488159,
+              "recall": 0.9614896178245544,
+              "f1": 0.9634352922439575,
+              "precision_std": 0.021699776872992516,
+              "recall_std": 0.0255464818328619,
+              "f1_std": 0.022641735151410103,
+              "model_type": "xlm-roberta-large",
+              "num_sentences": 42,
+              "computation_time_ms": 13759.94
+            },
+            "quality": {
+              "quality_score": 0.8618285714285715,
+              "quality_score_std": 0.08367104319528804,
+              "confidence_distribution": {
+                "high": 38,
+                "medium": 4,
+                "low": 0
+              },
+              "hallucination_rate": 0.09523809523809523,
+              "num_sentences": 42,
+              "computation_time_ms": 0.0
+            }
+          },
+          "summary": {
+            "bleu": 33.42,
+            "chrf_plus": 59.91,
+            "bertscore_f1": 0.9634,
+            "comet_score": null,
+            "quality_score": 0.8618
+          },
+          "domain_analysis": {
+            "general": {
+              "num_sentences": 4,
+              "indices": [
+                0,
+                1,
+                2,
+                3
+              ],
+              "bleu": 36.29649730851479
+            },
+            "technical": {
+              "num_sentences": 4,
+              "indices": [
+                4,
+                5,
+                6,
+                7
+              ],
+              "bleu": 19.380831100952253
+            },
+            "medical": {
+              "num_sentences": 4,
+              "indices": [
+                8,
+                9,
+                10,
+                11
+              ],
+              "bleu": 39.058244549751485
+            },
+            "financial": {
+              "num_sentences": 4,
+              "indices": [
+                12,
+                13,
+                14,
+                15
+              ],
+              "bleu": 44.473977863959725
+            },
+            "academic": {
+              "num_sentences": 4,
+              "indices": [
+                16,
+                17,
+                18,
+                19
+              ],
+              "bleu": 26.989598999029106
+            },
+            "education": {
+              "num_sentences": 3,
+              "indices": [
+                20,
+                21,
+                22
+              ],
+              "bleu": 18.036075635131326
+            },
+            "government": {
+              "num_sentences": 3,
+              "indices": [
+                23,
+                24,
+                25
+              ],
+              "bleu": 51.40768318620904
+            },
+            "legal": {
+              "num_sentences": 3,
+              "indices": [
+                26,
+                27,
+                28
+              ],
+              "bleu": 50.73998913793027
+            },
+            "conversational": {
+              "num_sentences": 3,
+              "indices": [
+                29,
+                30,
+                31
+              ],
+              "bleu": 61.70741950080864
+            },
+            "difficult": {
+              "num_sentences": 10,
+              "indices": [
+                32,
+                33,
+                34,
+                35,
+                36,
+                37,
+                38,
+                39,
+                40,
+                41
+              ],
+              "bleu": 21.821067225716476
+            }
+          },
+          "errors": [],
+          "latency": {
+            "mean_ms": 1400.2537613823301,
+            "total_time_ms": 58810.65797805786
+          },
+          "system_info": {
+            "platform": "Windows-11-10.0.26200-SP0",
+            "cpu_count": 12,
+            "ram_gb": 0,
+            "gpu_available": false,
+            "gpu_name": null
+          }
+        }
+      },
+      "comparison": {
+        "models": [
+          "nllb-200-distilled-600M"
+        ],
+        "metrics_comparison": {
+          "bertscore_f1": {
+            "nllb-200-distilled-600M": 0.9634
+          },
+          "bleu": {
+            "nllb-200-distilled-600M": 33.42
+          },
+          "quality_score": {
+            "nllb-200-distilled-600M": 0.8618
+          },
+          "comet_score": {},
+          "chrf_plus": {
+            "nllb-200-distilled-600M": 59.91
+          }
+        },
+        "rankings": {
+          "bertscore_f1": [
+            {
+              "rank": 1,
+              "model": "nllb-200-distilled-600M",
+              "score": 0.9634
+            }
+          ],
+          "bleu": [
+            {
+              "rank": 1,
+              "model": "nllb-200-distilled-600M",
+              "score": 33.42
+            }
+          ],
+          "quality_score": [
+            {
+              "rank": 1,
+              "model": "nllb-200-distilled-600M",
+              "score": 0.8618
+            }
+          ],
+          "comet_score": [],
+          "chrf_plus": [
+            {
+              "rank": 1,
+              "model": "nllb-200-distilled-600M",
+              "score": 59.91
+            }
+          ]
+        },
+        "overall_ranking": [
+          {
+            "rank": 1,
+            "model": "nllb-200-distilled-600M"
+          }
+        ],
+        "num_models": 1,
+        "num_metrics": 5
+      }
+    }
+  }
+}

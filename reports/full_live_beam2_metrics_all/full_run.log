@@ -1,0 +1,74 @@
+11:09:05 [INFO] run_benchmark: Running functional/API contract tests...
+{"asctime": "2026-08-12T11:09:10", "levelname": "INFO", "name": "app.services.model_registry", "message": "ModelRegistry initialized with 3 registered models (lazy-load)"}
+{"asctime": "2026-08-12T11:09:10", "levelname": "INFO", "name": "app.services.model_registry", "message": "Loading model: indictrans2..."}
+{"asctime": "2026-08-12T11:09:22", "levelname": "INFO", "name": "app.services.translators.indictrans2", "message": "Loading IndicTrans2 tokenizer..."}
+{"asctime": "2026-08-12T11:09:23", "levelname": "ERROR", "name": "app.services.translators.indictrans2", "message": "Failed to load IndicTrans2 models: You are trying to access a gated repo.\nMake sure to have access to it at https://huggingface.co/ai4bharat/indictrans2-en-indic-1B.\n401 Client Error. (Request ID: Root=1-6a7c070a-669cfcc97a23f5b80b8f6c8f;c3083dad-f264-48df-9109-5610885324ca)\n\nCannot access gated repo for url https://huggingface.co/ai4bharat/indictrans2-en-indic-1B/resolve/main/config.json.\nAccess to model ai4bharat/indictrans2-en-indic-1B is restricted. You must have access to it and be authenticated to access it. Please log in."}
+{"asctime": "2026-08-12T11:09:23", "levelname": "WARNING", "name": "app.services.model_registry", "message": "  [FAIL] indictrans2 loaded but reports unavailable"}
+{"asctime": "2026-08-12T11:09:23", "levelname": "INFO", "name": "app.services.model_registry", "message": "Loading model: nllb-200-distilled-600M..."}
+{"asctime": "2026-08-12T11:09:23", "levelname": "INFO", "name": "app.services.translators.nllb", "message": "Loading facebook/nllb-200-distilled-600M..."}
+{"asctime": "2026-08-12T11:09:30", "levelname": "INFO", "name": "app.services.translators.nllb", "message": "facebook/nllb-200-distilled-600M loaded (device=cpu)"}
+{"asctime": "2026-08-12T11:09:30", "levelname": "INFO", "name": "app.services.model_registry", "message": "  [OK] nllb-200-distilled-600M loaded successfully"}
+{"asctime": "2026-08-12T11:09:30", "levelname": "INFO", "name": "app.services.translation_memory", "message": "No TM data file found at C:\\Users\\HP\\Desktop\\research paper\\translator-backend\\scripts\\..\\app\\services\\..\\..\\data\\translation_memory.json, starting fresh"}
+{"asctime": "2026-08-12T11:09:55", "levelname": "INFO", "name": "app.services.language_detection", "message": "LanguageDetector Devanagari models trained for ['hindi', 'marathi'] (words + 2-5-char suffixes, char fallback)"}
+{"asctime": "2026-08-12T11:09:55", "levelname": "INFO", "name": "run_benchmark", "message": "Running security/robustness test suite..."}
+{"asctime": "2026-08-12T11:10:00", "levelname": "INFO", "name": "run_benchmark", "message": "Running end-to-end pipeline lifecycle test..."}
+{"asctime": "2026-08-12T11:10:00", "levelname": "INFO", "name": "app.services.rag_service", "message": "Loaded 15 terms for lang=bengali"}
+{"asctime": "2026-08-12T11:10:00", "levelname": "INFO", "name": "app.services.rag_service", "message": "Loaded 15 terms for lang=gujarati"}
+{"asctime": "2026-08-12T11:10:00", "levelname": "INFO", "name": "app.services.rag_service", "message": "Loaded 15 terms for lang=hindi"}
+{"asctime": "2026-08-12T11:10:00", "levelname": "INFO", "name": "app.services.rag_service", "message": "Loaded 15 terms for lang=kannada"}
+{"asctime": "2026-08-12T11:10:00", "levelname": "INFO", "name": "app.services.rag_service", "message": "Loaded 15 terms for lang=marathi"}
+{"asctime": "2026-08-12T11:10:00", "levelname": "INFO", "name": "app.services.rag_service", "message": "Loaded 15 terms for lang=tamil"}
+{"asctime": "2026-08-12T11:10:00", "levelname": "INFO", "name": "app.services.rag_service", "message": "Loaded 15 terms for lang=telugu"}
+{"asctime": "2026-08-12T11:10:08", "levelname": "INFO", "name": "app.services.rag_service", "message": "Loaded encoder: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"}
+{"asctime": "2026-08-12T11:10:09", "levelname": "INFO", "name": "faiss.loader", "message": "Loading faiss with AVX512 support."}
+{"asctime": "2026-08-12T11:10:09", "levelname": "INFO", "name": "faiss.loader", "message": "Could not load library with AVX512 support due to:\nModuleNotFoundError(\"No module named 'faiss.swigfaiss_avx512'\")"}
+{"asctime": "2026-08-12T11:10:09", "levelname": "INFO", "name": "faiss.loader", "message": "Loading faiss with AVX2 support."}
+{"asctime": "2026-08-12T11:10:09", "levelname": "INFO", "name": "faiss.loader", "message": "Could not load library with AVX2 support due to:\nModuleNotFoundError(\"No module named 'faiss.swigfaiss_avx2'\")"}
+{"asctime": "2026-08-12T11:10:09", "levelname": "INFO", "name": "faiss.loader", "message": "Loading faiss."}
+{"asctime": "2026-08-12T11:10:09", "levelname": "INFO", "name": "faiss.loader", "message": "Successfully loaded faiss."}
+{"asctime": "2026-08-12T11:10:12", "levelname": "INFO", "name": "run_benchmark", "message": "Running Unicode/script tests..."}
+{"asctime": "2026-08-12T11:10:12", "levelname": "INFO", "name": "run_benchmark", "message": "Running quality estimation validation (heuristic)..."}
+{"asctime": "2026-08-12T11:10:12", "levelname": "INFO", "name": "run_benchmark", "message": "Running language detection benchmark..."}
+{"asctime": "2026-08-12T11:10:12", "levelname": "INFO", "name": "app.services.language_detection", "message": "LanguageDetector Devanagari models trained for ['hindi', 'marathi'] (words + 2-5-char suffixes, char fallback)"}
+{"asctime": "2026-08-12T11:10:12", "levelname": "INFO", "name": "run_benchmark", "message": "Running terminology RAG retrieval benchmark..."}
+{"asctime": "2026-08-12T11:10:15", "levelname": "INFO", "name": "run_benchmark", "message": "Running translation memory benchmark..."}
+{"asctime": "2026-08-12T11:10:15", "levelname": "INFO", "name": "app.services.translation_memory", "message": "No TM data file found at C:\\Users\\HP\\AppData\\Local\\Temp\\tm_benchmark.json, starting fresh"}
+{"asctime": "2026-08-12T11:10:15", "levelname": "INFO", "name": "app.services.translation_memory", "message": "TM cleared: 0 entries removed"}
+{"asctime": "2026-08-12T11:10:48", "levelname": "INFO", "name": "run_benchmark", "message": "Running throughput & concurrency benchmark..."}
+{"asctime": "2026-08-12T11:14:40", "levelname": "ERROR", "name": "app.services.translators.nllb", "message": "NLLB translation error: Already borrowed"}
+{"asctime": "2026-08-12T11:14:40", "levelname": "ERROR", "name": "app.services.translators.nllb", "message": "NLLB translation error: Already borrowed"}
+{"asctime": "2026-08-12T11:14:40", "levelname": "ERROR", "name": "app.services.translators.nllb", "message": "NLLB translation error: Already borrowed"}
+{"asctime": "2026-08-12T11:14:40", "levelname": "ERROR", "name": "app.services.translators.nllb", "message": "NLLB translation error: Already borrowed"}
+{"asctime": "2026-08-12T11:14:40", "levelname": "ERROR", "name": "app.services.translators.nllb", "message": "NLLB translation error: Already borrowed"}
+{"asctime": "2026-08-12T11:14:40", "levelname": "ERROR", "name": "app.services.translators.nllb", "message": "NLLB translation error: Already borrowed"}
+{"asctime": "2026-08-12T11:14:40", "levelname": "ERROR", "name": "app.services.translators.nllb", "message": "NLLB translation error: Already borrowed"}
+{"asctime": "2026-08-12T11:14:40", "levelname": "ERROR", "name": "app.services.translators.nllb", "message": "NLLB translation error: Already borrowed"}
+{"asctime": "2026-08-12T11:17:36", "levelname": "INFO", "name": "app.evaluation.metrics.latency", "message": "psutil not installed. Memory benchmarking will be unavailable."}
+{"asctime": "2026-08-12T11:17:36", "levelname": "INFO", "name": "run_benchmark", "message": "Running hallucination/degenerate-output benchmark..."}
+{"asctime": "2026-08-12T11:18:23", "levelname": "INFO", "name": "app.services.model_registry", "message": "Loading model: m2m100_418M..."}
+{"asctime": "2026-08-12T11:18:23", "levelname": "INFO", "name": "app.services.translators.m2m100", "message": "Loading facebook/m2m100_418M..."}
+{"asctime": "2026-08-12T11:18:30", "levelname": "INFO", "name": "app.services.translators.m2m100", "message": "facebook/m2m100_418M loaded (device=cpu)"}
+{"asctime": "2026-08-12T11:18:30", "levelname": "INFO", "name": "app.services.model_registry", "message": "  [OK] m2m100_418M loaded successfully"}
+{"asctime": "2026-08-12T11:18:31", "levelname": "INFO", "name": "app.evaluation.evaluator", "message": "Initialized metric: bleu (available=True)"}
+{"asctime": "2026-08-12T11:18:31", "levelname": "INFO", "name": "app.evaluation.evaluator", "message": "Initialized metric: chrf (available=True)"}
+{"asctime": "2026-08-12T11:18:33", "levelname": "INFO", "name": "app.evaluation.evaluator", "message": "Initialized metric: bertscore (available=True)"}
+C:\Users\HP\Desktop\research paper\translator-backend\venv\Lib\site-packages\torchmetrics\utilities\imports.py:23: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  from pkg_resources import DistributionNotFound, get_distribution
+{"asctime": "2026-08-12T11:18:38", "levelname": "INFO", "name": "app.evaluation.evaluator", "message": "Initialized metric: comet (available=True)"}
+{"asctime": "2026-08-12T11:18:38", "levelname": "INFO", "name": "app.evaluation.evaluator", "message": "Initialized metric: quality (available=True)"}
+{"asctime": "2026-08-12T11:18:38", "levelname": "INFO", "name": "app.evaluation.metrics.latency", "message": "psutil not installed. Memory benchmarking will be unavailable."}
+{"asctime": "2026-08-12T11:18:38", "levelname": "INFO", "name": "run_benchmark", "message": "Quality matrix: en -> hindi (42 sentences, ['nllb-200-distilled-600M', 'm2m100_418M'])"}
+{"asctime": "2026-08-12T11:18:38", "levelname": "INFO", "name": "app.evaluation.benchmark", "message": "Benchmarking model: nllb-200-distilled-600M"}
+{"asctime": "2026-08-12T11:20:30", "levelname": "INFO", "name": "app.evaluation.metrics.comet", "message": "Downloading COMET model: Unbabel/wmt22-comet-da..."}
+Fetching 5 files:   0%|          | 0/5 [00:00<?, ?it/s]Fetching 5 files: 100%|██████████| 5/5 [00:00<00:00, 1673.44it/s]
+{"asctime": "2026-08-12T11:20:36", "levelname": "INFO", "name": "pytorch_lightning.utilities.migration.utils", "message": "Lightning automatically upgraded your loaded checkpoint from v1.8.3.post1 to v2.6.5. To apply the upgrade to your files permanently, run `python -m pytorch_lightning.utilities.upgrade_checkpoint C:\\Users\\HP\\.cache\\huggingface\\hub\\models--Unbabel--wmt22-comet-da\\snapshots\\2760a223ac957f30acfb18c8aa649b01cf1d75f2\\checkpoints\\model.ckpt`"}
+{"asctime": "2026-08-12T11:20:55", "levelname": "INFO", "name": "comet.models.base", "message": "Encoder model frozen."}
+C:\Users\HP\Desktop\research paper\translator-backend\venv\Lib\site-packages\pytorch_lightning\core\saving.py:197: Found keys that are not in the model state dict but in the checkpoint: ['encoder.model.embeddings.position_ids']
+{"asctime": "2026-08-12T11:20:56", "levelname": "INFO", "name": "app.evaluation.metrics.comet", "message": "COMET model loaded: Unbabel/wmt22-comet-da"}
+{"asctime": "2026-08-12T11:20:56", "levelname": "INFO", "name": "pytorch_lightning.utilities.rank_zero", "message": "GPU available: False, used: False"}
+{"asctime": "2026-08-12T11:20:56", "levelname": "INFO", "name": "pytorch_lightning.utilities.rank_zero", "message": "TPU available: False, using: 0 TPU cores"}
+{"asctime": "2026-08-12T11:20:56", "levelname": "INFO", "name": "pytorch_lightning.utilities.rank_zero", "message": "\ud83d\udca1 Tip: For seamless cloud logging and experiment tracking, try installing [litlogger](https://pypi.org/project/litlogger/) to enable LitLogger, which logs metrics and artifacts automatically to the Lightning Experiments platform."}
+{"asctime": "2026-08-12T11:20:56", "levelname": "INFO", "name": "pytorch_lightning.utilities.rank_zero", "message": "\ud83d\udca1 Tip: For seamless cloud uploads and versioning, try installing [litmodels](https://pypi.org/project/litmodels/) to enable LitModelCheckpoint, which syncs automatically with the Lightning model registry."}
+C:\Users\HP\Desktop\research paper\translator-backend\venv\Lib\site-packages\pytorch_lightning\utilities\_pytree.py:21: `isinstance(treespec, LeafSpec)` is deprecated, use `isinstance(treespec, TreeSpec) and treespec.is_leaf()` instead.
+Predicting: 0it [00:00, ?it/s]Predicting: 0it [00:00, ?it/s]Predicting DataLoader 0:   0%|          | 0/6 [00:00<?, ?it/s]Predicting DataLoader 0:  17%|█▋        | 1/6 [00:02<00:14,  2.83s/it]Predicting DataLoader 0:  33%|███▎      | 2/6 [00:05<00:10,  2.56s/it]Predicting DataLoader 0:  50%|█████     | 3/6 [00:07<00:07,  2.46s/it]Predicting DataLoader 0:  67%|██████▋   | 4/6 [00:09<00:04,  2.41s/it]Predicting DataLoader 0:  83%|████████▎ | 5/6 [00:11<00:02,  2.38s/it]Predicting DataLoader 0: 100%|██████████| 6/6 [00:13<00:00,  2.25s/it]Predicting DataLoader 0: 100%|██████████| 6/6 [00:13<00:00,  2.25s/it]
+{"asctime": "2026-08-12T11:22:25", "levelname": "INFO", "name": "app.evaluation.benchmark", "message": "Benchmarking model: m2m100_418M"}

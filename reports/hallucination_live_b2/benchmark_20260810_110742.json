@@ -1,0 +1,170 @@
+{
+  "metadata": {
+    "mode": "live",
+    "total_time_sec": 81.39,
+    "num_beams": 2,
+    "targets": {
+      "functional_pass_rate": 99.0,
+      "security_pass_rate": 99.0,
+      "e2e_pass_rate": 100.0,
+      "unicode_pass_rate": 100.0,
+      "retrieval_recall_at_5": 90.0,
+      "tm_hit_p95_ms": 300.0,
+      "translation_p95_ms": 3000.0,
+      "quality_estimation_f1": 0.7,
+      "hallucination_rate_pct": 5.0
+    }
+  },
+  "hallucination": {
+    "mode": "live",
+    "detector": "deterministic heuristics (entity/leakage/repetition)",
+    "aggregate": {
+      "num_cases": 11,
+      "entity_preservation_rate": 0.7576,
+      "mean_source_leakage_ratio": 0.1427,
+      "mean_repetition_ratio": 0.0242,
+      "degenerate_output_rate_pct": 0.0,
+      "degenerate_outputs": []
+    },
+    "cases": [
+      {
+        "degenerate": false,
+        "reason": "ok",
+        "repetition_ratio": 0.0,
+        "source_leakage_ratio": 0.1644,
+        "entity_preservation_rate": 0.75,
+        "source": "The meeting with Dr. Meera Patel is scheduled for 12/08/2026 at 10:30 AM.",
+        "hypothesis": "डॉ मीरा पटेल के साथ बैठक 12/08/2026 को सुबह 10:30 बजे निर्धारित है।"
+      },
+      {
+        "degenerate": false,
+        "reason": "ok",
+        "repetition_ratio": 0.0,
+        "source_leakage_ratio": 0.1692,
+        "entity_preservation_rate": 1.0,
+        "source": "The total invoice was $1,250.75 and payment is due by 2026-03-31.",
+        "hypothesis": "कुल चालान $1,250.75 था और 2026-03-31 तक भुगतान किया जाना है।"
+      },
+      {
+        "degenerate": false,
+        "reason": "ok",
+        "repetition_ratio": 0.0,
+        "source_leakage_ratio": 0.3684,
+        "entity_preservation_rate": 1.0,
+        "source": "Contact support@example.com or visit https://example.com/refund for details.",
+        "hypothesis": "विवरण के लिए support@example.com पर संपर्क करें या https://example.com/refund पर जाएं।"
+      },
+      {
+        "degenerate": false,
+        "reason": "ok",
+        "repetition_ratio": 0.0,
+        "source_leakage_ratio": 0.1034,
+        "entity_preservation_rate": 1.0,
+        "source": "India's GDP grew 8.4% in 2025, reaching ₹420.5 lakh crore.",
+        "hypothesis": "वर्ष 2025 में भारत की जीडीपी 8.4% बढ़कर 420.5 लाख करोड़ रुपये तक पहुंच गई।"
+      },
+      {
+        "degenerate": false,
+        "reason": "ok",
+        "repetition_ratio": 0.0,
+        "source_leakage_ratio": 0.1017,
+        "entity_preservation_rate": 0.5,
+        "source": "The package weighs 12.5 kg and must travel 240 km by train.",
+        "hypothesis": "पैकेज का वजन 12.5 किलोग्राम है और उसे 240 किमी ट्रेन से यात्रा करनी होगी।"
+      },
+      {
+        "degenerate": false,
+        "reason": "ok",
+        "repetition_ratio": 0.0,
+        "source_leakage_ratio": 0.0156,
+        "entity_preservation_rate": 0.0,
+        "source": "Rahul Gandhi spoke with Rakesh Kumar about the project timeline.",
+        "hypothesis": "राहुल गांधी ने राकेश कुमार से परियोजना की समयरेखा के बारे में बात की।"
+      },
+      {
+        "degenerate": false,
+        "reason": "ok",
+        "repetition_ratio": 0.2667,
+        "source_leakage_ratio": 0.08,
+        "entity_preservation_rate": 1.0,
+        "source": "The conference in Mumbai starts on 15 March 2026 and ends on 17 March 2026.",
+        "hypothesis": "मुंबई में सम्मेलन 15 मार्च 2026 को शुरू होगा और 17 मार्च 2026 को समाप्त होगा।"
+      },
+      {
+        "degenerate": false,
+        "reason": "ok",
+        "repetition_ratio": 0.0,
+        "source_leakage_ratio": 0.2982,
+        "entity_preservation_rate": 0.75,
+        "source": "Please call +91 98765 43210 to reach Dr. Sharma's clinic.",
+        "hypothesis": "डॉ. शर्मा के क्लिनिक से संपर्क करने के लिए कृपया +91 98765 43210 पर कॉल करें।"
+      },
+      {
+        "degenerate": false,
+        "reason": "ok",
+        "repetition_ratio": 0.0,
+        "source_leakage_ratio": 0.0926,
+        "entity_preservation_rate": 1.0,
+        "source": "The temperature reached 42°C in Delhi on 15 June 2025.",
+        "hypothesis": "15 जून 2025 को दिल्ली में तापमान 42 डिग्री सेल्सियस तक पहुंच गया।"
+      },
+      {
+        "degenerate": false,
+        "reason": "ok",
+        "repetition_ratio": 0.0,
+        "source_leakage_ratio": 0.1053,
+        "entity_preservation_rate": 1.0,
+        "source": "She booked 2 tickets for the 7:45 PM show at PVR Cinemas.",
+        "hypothesis": "उसने पीवीआर सिनेमाघरों में शाम 7:45 बजे के शो के लिए 2 टिकट बुक किए।"
+      },
+      {
+        "degenerate": false,
+        "reason": "ok",
+        "repetition_ratio": 0.0,
+        "source_leakage_ratio": 0.0714,
+        "entity_preservation_rate": 0.3333,
+        "source": "The Taj Mahal, built in 1632, is in Agra, Uttar Pradesh.",
+        "hypothesis": "1632 में निर्मित ताजमहल उत्तर प्रदेश के आगरा में है।"
+      }
+    ],
+    "calibration": {
+      "probe": "Dr. Meera Patel will charge $1,250 for the surgery on 12/08/2026.",
+      "cases": {
+        "good": {
+          "expected_degenerate": false,
+          "detected": false,
+          "correct": true,
+          "repetition_ratio": 0.0,
+          "source_leakage_ratio": 0.2462,
+          "entity_preservation_rate": 1.0
+        },
+        "stutter": {
+          "expected_degenerate": true,
+          "detected": true,
+          "correct": true,
+          "repetition_ratio": 0.963,
+          "source_leakage_ratio": 0.0154,
+          "entity_preservation_rate": 0.0
+        },
+        "echo": {
+          "expected_degenerate": true,
+          "detected": true,
+          "correct": true,
+          "repetition_ratio": 0.0,
+          "source_leakage_ratio": 1.0,
+          "entity_preservation_rate": 1.0
+        },
+        "empty": {
+          "expected_degenerate": true,
+          "detected": true,
+          "correct": true,
+          "repetition_ratio": 0.0,
+          "source_leakage_ratio": 0.0,
+          "entity_preservation_rate": 0.0
+        }
+      },
+      "calibration_pass_rate": 100.0
+    },
+    "note": "Heuristic (model-free) hallucination detection: entity preservation, source leakage, and repetition ratios. Calibration run confirms the detector separates good vs degenerate outputs. Use an LLM judge or human review for semantic hallucination."
+  }
+}
