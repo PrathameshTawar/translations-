@@ -1,0 +1,141 @@
+{
+  "generated_at": "2026-08-10T11:19:49.113129+00:00",
+  "entries": [
+    {
+      "key": "functional_pass_rate",
+      "label": "API functional tests",
+      "measured": 100.0,
+      "display": "100.0%",
+      "target": {
+        "target": 99.0,
+        "op": ">=",
+        "unit": "%",
+        "label": "API functional tests"
+      },
+      "status": "PASS"
+    },
+    {
+      "key": "unicode_pass_rate",
+      "label": "Unicode test cases",
+      "measured": 100.0,
+      "display": "100.0%",
+      "target": {
+        "target": 100.0,
+        "op": "==",
+        "unit": "%",
+        "label": "Unicode test cases"
+      },
+      "status": "PASS"
+    },
+    {
+      "key": "security_pass_rate",
+      "label": "Security/robustness tests",
+      "measured": 100.0,
+      "display": "100.0%",
+      "target": {
+        "target": 99.0,
+        "op": ">=",
+        "unit": "%",
+        "label": "Security/robustness tests"
+      },
+      "status": "PASS"
+    },
+    {
+      "key": "e2e_pass_rate",
+      "label": "End-to-end pipeline tests",
+      "measured": 100.0,
+      "display": "100.0%",
+      "target": {
+        "target": 100.0,
+        "op": ">=",
+        "unit": "%",
+        "label": "End-to-end pipeline tests"
+      },
+      "status": "PASS"
+    },
+    {
+      "key": "hallucination_rate_pct",
+      "label": "Degenerate/hallucinated outputs",
+      "measured": 0.0,
+      "display": "0.0%",
+      "target": {
+        "target": 5.0,
+        "op": "<=",
+        "unit": "%",
+        "label": "Degenerate/hallucinated outputs"
+      },
+      "status": "PASS"
+    },
+    {
+      "key": "quality_estimation_f1",
+      "label": "Quality estimation F1",
+      "measured": 0.9655,
+      "display": "0.97",
+      "target": {
+        "target": 0.95,
+        "op": ">=",
+        "unit": "",
+        "label": "Quality estimation F1"
+      },
+      "status": "PASS"
+    },
+    {
+      "key": "retrieval_recall_at_5",
+      "label": "Retrieval Recall@5 (target)",
+      "measured": null,
+      "display": "n/a",
+      "target": {
+        "target": 90.0,
+        "op": ">=",
+        "unit": "%",
+        "label": "Retrieval Recall@5 (target)"
+      },
+      "status": "NOT MEASURED"
+    },
+    {
+      "key": "tm_hit_p95_ms",
+      "label": "TM hit latency (P95)",
+      "measured": 0.0,
+      "display": "0 ms",
+      "target": {
+        "target": 300.0,
+        "op": "<=",
+        "unit": "ms",
+        "label": "TM hit latency (P95)"
+      },
+      "status": "PASS"
+    },
+    {
+      "key": "language_detection_f1",
+      "label": "Language detection F1 (macro)",
+      "measured": 0.9837,
+      "display": "0.98",
+      "target": {
+        "target": 0.95,
+        "op": ">=",
+        "unit": "",
+        "label": "Language detection F1 (macro)"
+      },
+      "status": "PASS"
+    },
+    {
+      "key": "translation_p95_ms",
+      "label": "P95 translation latency (worst pair)",
+      "measured": 5227.97,
+      "display": "5228 ms",
+      "target": {
+        "target": 3000.0,
+        "op": "<=",
+        "unit": "ms",
+        "label": "P95 translation latency"
+      },
+      "status": "FAIL"
+    }
+  ],
+  "summary": {
+    "pass": 8,
+    "fail": 1,
+    "not_measured": 1,
+    "total_targets": 10
+  }
+}

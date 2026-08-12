@@ -1,0 +1,192 @@
+{
+  "generated_at": "2026-08-10T10:01:03",
+  "mode": "live-profile",
+  "lang": "hindi",
+  "num_requests": 4,
+  "errors": 0,
+  "cold_start_model_load_ms": 64865.4,
+  "model_env": {
+    "device": "cpu",
+    "device_index": -1,
+    "dtype": "torch.float32",
+    "torch_threads": 6,
+    "num_beams": 4,
+    "max_length": 512,
+    "max_new_tokens": null,
+    "note": "num_beams=4 and max_length=512 are the NLLB wrapper defaults (translators/nllb.py); max_new_tokens is not set."
+  },
+  "tm_exact_hit_total_ms": 9.1,
+  "tm_semantic_hit_total_ms": 9.7,
+  "per_request": [
+    {
+      "idx": 0,
+      "src_len_words": 16,
+      "total_ms": 3363.1,
+      "translate_ms": 3284.17,
+      "generate_ms": 3282.16,
+      "rag_ms": 29.45,
+      "tm_store_ms": 0.0
+    },
+    {
+      "idx": 1,
+      "src_len_words": 10,
+      "total_ms": 3054.29,
+      "translate_ms": 2967.69,
+      "generate_ms": 2967.69,
+      "rag_ms": 32.11,
+      "tm_store_ms": 0.0
+    },
+    {
+      "idx": 2,
+      "src_len_words": 12,
+      "total_ms": 4220.8,
+      "translate_ms": 4123.01,
+      "generate_ms": 4090.41,
+      "rag_ms": 45.66,
+      "tm_store_ms": 32.6
+    },
+    {
+      "idx": 3,
+      "src_len_words": 7,
+      "total_ms": 3118.46,
+      "translate_ms": 3080.9,
+      "generate_ms": 3058.12,
+      "rag_ms": 24.06,
+      "tm_store_ms": 22.44
+    }
+  ],
+  "stages": {
+    "validation_ms": {
+      "n": 4,
+      "mean_ms": 0.0,
+      "p50_ms": 0.0,
+      "p90_ms": 0.0,
+      "p95_ms": 0.0,
+      "p99_ms": 0.0,
+      "max_ms": 0.0,
+      "min_ms": 0.0
+    },
+    "rag_ms": {
+      "n": 4,
+      "mean_ms": 32.8,
+      "p50_ms": 30.8,
+      "p90_ms": 41.6,
+      "p95_ms": 43.6,
+      "p99_ms": 45.3,
+      "max_ms": 45.7,
+      "min_ms": 24.1
+    },
+    "translate_ms": {
+      "n": 4,
+      "mean_ms": 3363.9,
+      "p50_ms": 3182.5,
+      "p90_ms": 3871.4,
+      "p95_ms": 3997.2,
+      "p99_ms": 4097.8,
+      "max_ms": 4123.0,
+      "min_ms": 2967.7
+    },
+    "quality_ms": {
+      "n": 4,
+      "mean_ms": 0.0,
+      "p50_ms": 0.0,
+      "p90_ms": 0.0,
+      "p95_ms": 0.0,
+      "p99_ms": 0.0,
+      "max_ms": 0.0,
+      "min_ms": 0.0
+    },
+    "persist_ms": {
+      "n": 4,
+      "mean_ms": 39.6,
+      "p50_ms": 47.6,
+      "p90_ms": 49.5,
+      "p95_ms": 49.6,
+      "p99_ms": 49.6,
+      "max_ms": 49.6,
+      "min_ms": 13.5
+    },
+    "serialize_ms": {
+      "n": 4,
+      "mean_ms": 2.8,
+      "p50_ms": 2.5,
+      "p90_ms": 5.9,
+      "p95_ms": 6.2,
+      "p99_ms": 6.3,
+      "max_ms": 6.4,
+      "min_ms": 0.0
+    },
+    "total_ms": {
+      "n": 4,
+      "mean_ms": 3439.2,
+      "p50_ms": 3240.8,
+      "p90_ms": 3963.5,
+      "p95_ms": 4092.1,
+      "p99_ms": 4195.1,
+      "max_ms": 4220.8,
+      "min_ms": 3054.3
+    }
+  },
+  "model_stages": {
+    "tm_lookup_ms": {
+      "n": 4,
+      "mean_ms": 0.0,
+      "p50_ms": 0.0,
+      "p90_ms": 0.0,
+      "p95_ms": 0.0,
+      "p99_ms": 0.0,
+      "max_ms": 0.0,
+      "min_ms": 0.0
+    },
+    "tm_store_ms": {
+      "n": 4,
+      "mean_ms": 13.8,
+      "p50_ms": 11.2,
+      "p90_ms": 29.6,
+      "p95_ms": 31.1,
+      "p99_ms": 32.3,
+      "max_ms": 32.6,
+      "min_ms": 0.0
+    },
+    "tokenize_ms": {
+      "n": 4,
+      "mean_ms": 0.5,
+      "p50_ms": 0.0,
+      "p90_ms": 1.4,
+      "p95_ms": 1.7,
+      "p99_ms": 1.9,
+      "max_ms": 2.0,
+      "min_ms": 0.0
+    },
+    "generate_ms": {
+      "n": 4,
+      "mean_ms": 3349.6,
+      "p50_ms": 3170.1,
+      "p90_ms": 3847.9,
+      "p95_ms": 3969.2,
+      "p99_ms": 4066.2,
+      "max_ms": 4090.4,
+      "min_ms": 2967.7
+    },
+    "decode_ms": {
+      "n": 4,
+      "mean_ms": 0.1,
+      "p50_ms": 0.0,
+      "p90_ms": 0.2,
+      "p95_ms": 0.3,
+      "p99_ms": 0.3,
+      "max_ms": 0.3,
+      "min_ms": 0.0
+    }
+  },
+  "language_detection_ms": {
+    "n": 4,
+    "mean_ms": 5.5,
+    "p50_ms": 3.1,
+    "p90_ms": 12.1,
+    "p95_ms": 14.0,
+    "p99_ms": 15.5,
+    "max_ms": 15.8,
+    "min_ms": 0.0
+  }
+}

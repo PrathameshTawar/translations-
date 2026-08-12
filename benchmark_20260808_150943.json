@@ -1,0 +1,1961 @@
+{
+  "metadata": {
+    "mode": "auto",
+    "total_time_sec": 6.47,
+    "targets": {
+      "functional_pass_rate": 99.0,
+      "unicode_pass_rate": 100.0,
+      "retrieval_recall_at_5": 90.0,
+      "tm_hit_p95_ms": 300.0,
+      "translation_p95_ms": 3000.0,
+      "quality_estimation_f1": 0.7
+    }
+  },
+  "functional": {
+    "total": 21,
+    "passed": 21,
+    "failed": 0,
+    "pass_rate": 100.0,
+    "mode": "mock",
+    "cases": [
+      {
+        "name": "empty input rejected",
+        "passed": true,
+        "status": 400,
+        "expected": 400,
+        "detail": null
+      },
+      {
+        "name": "whitespace-only input rejected",
+        "passed": true,
+        "status": 400,
+        "expected": 400,
+        "detail": null
+      },
+      {
+        "name": "missing text field rejected",
+        "passed": true,
+        "status": 400,
+        "expected": 400,
+        "detail": null
+      },
+      {
+        "name": "unsupported source language rejected",
+        "passed": true,
+        "status": 400,
+        "expected": 400,
+        "detail": null
+      },
+      {
+        "name": "unsupported target language rejected",
+        "passed": true,
+        "status": 400,
+        "expected": 400,
+        "detail": null
+      },
+      {
+        "name": "same source/target rejected",
+        "passed": true,
+        "status": 400,
+        "expected": 400,
+        "detail": null
+      },
+      {
+        "name": "over-long text rejected (5001 chars)",
+        "passed": true,
+        "status": 400,
+        "expected": 400,
+        "detail": null
+      },
+      {
+        "name": "no JSON body rejected",
+        "passed": true,
+        "status": 400,
+        "expected": 400,
+        "detail": null
+      },
+      {
+        "name": "malformed JSON rejected",
+        "passed": true,
+        "status": 400,
+        "expected": 400,
+        "detail": null
+      },
+      {
+        "name": "wrong method returns 405",
+        "passed": true,
+        "status": 405,
+        "expected": 405,
+        "detail": null
+      },
+      {
+        "name": "valid EN->MR returns translation",
+        "passed": true,
+        "status": 200,
+        "expected": 200,
+        "detail": null
+      },
+      {
+        "name": "valid MR->HI returns translation",
+        "passed": true,
+        "status": 200,
+        "expected": 200,
+        "detail": null
+      },
+      {
+        "name": "valid HI->BN returns translation",
+        "passed": true,
+        "status": 200,
+        "expected": 200,
+        "detail": null
+      },
+      {
+        "name": "unicode Indic text handled",
+        "passed": true,
+        "status": 200,
+        "expected": 200,
+        "detail": null
+      },
+      {
+        "name": "emoji does not crash",
+        "passed": true,
+        "status": 200,
+        "expected": 200,
+        "detail": null
+      },
+      {
+        "name": "numbers preserved",
+        "passed": true,
+        "status": 200,
+        "expected": 200,
+        "detail": null
+      },
+      {
+        "name": "URLs preserved",
+        "passed": true,
+        "status": 200,
+        "expected": 200,
+        "detail": null
+      },
+      {
+        "name": "punctuation preserved",
+        "passed": true,
+        "status": 200,
+        "expected": 200,
+        "detail": null
+      },
+      {
+        "name": "multiple sentences handled",
+        "passed": true,
+        "status": 200,
+        "expected": 200,
+        "detail": null
+      },
+      {
+        "name": "model crash returns graceful 500",
+        "passed": true,
+        "status": 500,
+        "expected": 500,
+        "detail": null
+      },
+      {
+        "name": "empty model output returns 502",
+        "passed": true,
+        "status": 502,
+        "expected": 502,
+        "detail": null
+      }
+    ]
+  },
+  "unicode": {
+    "total": 20,
+    "passed": 20,
+    "failed": 0,
+    "pass_rate": 100.0,
+    "cases": [
+      {
+        "name": "devanagari with matras",
+        "script": "Devanagari",
+        "passed": true,
+        "checks": {
+          "validator_accepts": true,
+          "nfc_idempotent": true,
+          "nfd_to_nfc_stable": true,
+          "translation_ok": true
+        },
+        "detail": null
+      },
+      {
+        "name": "devanagari conjuncts",
+        "script": "Devanagari",
+        "passed": true,
+        "checks": {
+          "validator_accepts": true,
+          "nfc_idempotent": true,
+          "nfd_to_nfc_stable": true,
+          "translation_ok": true
+        },
+        "detail": null
+      },
+      {
+        "name": "devanagari nukta",
+        "script": "Devanagari",
+        "passed": true,
+        "checks": {
+          "validator_accepts": true,
+          "nfc_idempotent": true,
+          "nfd_to_nfc_stable": true,
+          "translation_ok": true
+        },
+        "detail": null
+      },
+      {
+        "name": "bengali script",
+        "script": "Bengali",
+        "passed": true,
+        "checks": {
+          "validator_accepts": true,
+          "nfc_idempotent": true,
+          "nfd_to_nfc_stable": true,
+          "translation_ok": true
+        },
+        "detail": null
+      },
+      {
+        "name": "bengali matras",
+        "script": "Bengali",
+        "passed": true,
+        "checks": {
+          "validator_accepts": true,
+          "nfc_idempotent": true,
+          "nfd_to_nfc_stable": true,
+          "translation_ok": true
+        },
+        "detail": null
+      },
+      {
+        "name": "gujarati script",
+        "script": "Gujarati",
+        "passed": true,
+        "checks": {
+          "validator_accepts": true,
+          "nfc_idempotent": true,
+          "nfd_to_nfc_stable": true,
+          "translation_ok": true
+        },
+        "detail": null
+      },
+      {
+        "name": "tamil script",
+        "script": "Tamil",
+        "passed": true,
+        "checks": {
+          "validator_accepts": true,
+          "nfc_idempotent": true,
+          "nfd_to_nfc_stable": true,
+          "translation_ok": true
+        },
+        "detail": null
+      },
+      {
+        "name": "tamil grantha letters",
+        "script": "Tamil",
+        "passed": true,
+        "checks": {
+          "validator_accepts": true,
+          "nfc_idempotent": true,
+          "nfd_to_nfc_stable": true,
+          "translation_ok": true
+        },
+        "detail": null
+      },
+      {
+        "name": "telugu matras",
+        "script": "Telugu",
+        "passed": true,
+        "checks": {
+          "validator_accepts": true,
+          "nfc_idempotent": true,
+          "nfd_to_nfc_stable": true,
+          "translation_ok": true
+        },
+        "detail": null
+      },
+      {
+        "name": "kannada script",
+        "script": "Kannada",
+        "passed": true,
+        "checks": {
+          "validator_accepts": true,
+          "nfc_idempotent": true,
+          "nfd_to_nfc_stable": true,
+          "translation_ok": true
+        },
+        "detail": null
+      },
+      {
+        "name": "zero-width joiner (ZWJ)",
+        "script": "Devanagari",
+        "passed": true,
+        "checks": {
+          "validator_accepts": true,
+          "nfc_idempotent": true,
+          "nfd_to_nfc_stable": true,
+          "translation_ok": true
+        },
+        "detail": null
+      },
+      {
+        "name": "zero-width non-joiner (ZWNJ)",
+        "script": "Devanagari",
+        "passed": true,
+        "checks": {
+          "validator_accepts": true,
+          "nfc_idempotent": true,
+          "nfd_to_nfc_stable": true,
+          "translation_ok": true
+        },
+        "detail": null
+      },
+      {
+        "name": "emoji mixed",
+        "script": "Mixed",
+        "passed": true,
+        "checks": {
+          "validator_accepts": true,
+          "nfc_idempotent": true,
+          "nfd_to_nfc_stable": true,
+          "translation_ok": true
+        },
+        "detail": null
+      },
+      {
+        "name": "mixed scripts",
+        "script": "Mixed",
+        "passed": true,
+        "checks": {
+          "validator_accepts": true,
+          "nfc_idempotent": true,
+          "nfd_to_nfc_stable": true,
+          "translation_ok": true
+        },
+        "detail": null
+      },
+      {
+        "name": "indic numerals",
+        "script": "Devanagari",
+        "passed": true,
+        "checks": {
+          "validator_accepts": true,
+          "nfc_idempotent": true,
+          "nfd_to_nfc_stable": true,
+          "translation_ok": true
+        },
+        "detail": null
+      },
+      {
+        "name": "latin diacritics",
+        "script": "Latin",
+        "passed": true,
+        "checks": {
+          "validator_accepts": true,
+          "nfc_idempotent": true,
+          "nfd_to_nfc_stable": true,
+          "translation_ok": true
+        },
+        "detail": null
+      },
+      {
+        "name": "currency symbols",
+        "script": "Mixed",
+        "passed": true,
+        "checks": {
+          "validator_accepts": true,
+          "nfc_idempotent": true,
+          "nfd_to_nfc_stable": true,
+          "translation_ok": true
+        },
+        "detail": null
+      },
+      {
+        "name": "punctuation heavy",
+        "script": "Devanagari",
+        "passed": true,
+        "checks": {
+          "validator_accepts": true,
+          "nfc_idempotent": true,
+          "nfd_to_nfc_stable": true,
+          "translation_ok": true
+        },
+        "detail": null
+      },
+      {
+        "name": "nested quotes",
+        "script": "Mixed",
+        "passed": true,
+        "checks": {
+          "validator_accepts": true,
+          "nfc_idempotent": true,
+          "nfd_to_nfc_stable": true,
+          "translation_ok": true
+        },
+        "detail": null
+      },
+      {
+        "name": "nfd decomposition",
+        "script": "Devanagari",
+        "passed": true,
+        "checks": {
+          "validator_accepts": true,
+          "nfc_idempotent": true,
+          "nfd_to_nfc_stable": true,
+          "translation_ok": true
+        },
+        "detail": null
+      }
+    ]
+  },
+  "quality_estimation": {
+    "threshold": 0.6,
+    "num_samples": 129,
+    "label_counts": {
+      "good": 42,
+      "bad": 47,
+      "partial": 40
+    },
+    "confusion_matrix": {
+      "tp": 42,
+      "fp": 86,
+      "fn": 0,
+      "tn": 1
+    },
+    "accuracy": 0.3333,
+    "precision": 0.3281,
+    "recall": 1.0,
+    "f1": 0.4941,
+    "auroc": 0.7479,
+    "per_label": {
+      "good": {
+        "count": 42,
+        "score_sum": 36.9974,
+        "conf": {
+          "high": 42
+        },
+        "mean_score": 0.8809
+      },
+      "bad": {
+        "count": 47,
+        "score_sum": 40.9014,
+        "conf": {
+          "high": 46,
+          "medium": 1
+        },
+        "mean_score": 0.8702
+      },
+      "partial": {
+        "count": 40,
+        "score_sum": 32.20989999999999,
+        "conf": {
+          "high": 40
+        },
+        "mean_score": 0.8052
+      }
+    },
+    "samples": [
+      {
+        "source": "The weather is beautiful today and I want to go for a walk in the park.",
+        "translation": "आज मौसम बहुत सुंदर है और मैं पार्क में टहलने जाना चाहता हूँ।",
+        "label": "good",
+        "score": 0.8725,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": true
+      },
+      {
+        "source": "Please tell me where I can find the nearest hospital.",
+        "translation": "कृपया मुझे बताएं कि मैं निकटतम अस्पताल कहां पा सकता हूं।",
+        "label": "good",
+        "score": 0.8918,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": true
+      },
+      {
+        "source": "I would like to order two cups of tea and some snacks.",
+        "translation": "मैं दो कप चाय और कुछ नाश्ता ऑर्डर करना चाहूंगा।",
+        "label": "good",
+        "score": 0.8767,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": true
+      },
+      {
+        "source": "Can you help me understand this document?",
+        "translation": "क्या आप मुझे इस दस्तावेज़ को समझने में मदद कर सकते हैं?",
+        "label": "good",
+        "score": 0.8267,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": true
+      },
+      {
+        "source": "The server processes data using a neural network architecture.",
+        "translation": "सर्वर न्यूरल नेटवर्क आर्किटेक्चर का उपयोग करके डेटा प्रोसेस करता है।",
+        "label": "good",
+        "score": 0.8736,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": true
+      },
+      {
+        "source": "Please install the latest software update to fix the security vulnerability.",
+        "translation": "कृपया सुरक्षा कमजोरी को ठीक करने के लिए नवीनतम सॉफ्टवेयर अपडेट इंस्टॉल करें।",
+        "label": "good",
+        "score": 0.8792,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": true
+      },
+      {
+        "source": "Machine learning models require large amounts of training data.",
+        "translation": "मशीन लर्निंग मॉडल को बड़ी मात्रा में प्रशिक्षण डेटा की आवश्यकता होती है।",
+        "label": "good",
+        "score": 0.8485,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": true
+      },
+      {
+        "source": "The database query returned results in under fifty milliseconds.",
+        "translation": "डेटाबेस क्वेरी ने पचास मिलीसेकंड से कम समय में परिणाम लौटाए।",
+        "label": "good",
+        "score": 0.8736,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": true
+      },
+      {
+        "source": "The patient should take this medicine twice a day after meals.",
+        "translation": "रोगी को यह दवा भोजन के बाद दिन में दो बार लेनी चाहिए।",
+        "label": "good",
+        "score": 0.8792,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": true
+      },
+      {
+        "source": "Regular exercise and a balanced diet are important for good health.",
+        "translation": "अच्छे स्वास्थ्य के लिए नियमित व्यायाम और संतुलित आहार महत्वपूर्ण हैं।",
+        "label": "good",
+        "score": 0.91,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": true
+      },
+      {
+        "source": "The doctor recommended a blood test to check for vitamin deficiency.",
+        "translation": "डॉक्टर ने विटामिन की कमी की जांच के लिए रक्त परीक्षण की सिफारिश की।",
+        "label": "good",
+        "score": 0.8671,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": true
+      },
+      {
+        "source": "Please wash your hands thoroughly to prevent the spread of infection.",
+        "translation": "संक्रमण के प्रसार को रोकने के लिए कृपया अपने हाथों को अच्छी तरह धोएं।",
+        "label": "good",
+        "score": 0.8671,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": true
+      },
+      {
+        "source": "The bank offers a low interest rate on education loans.",
+        "translation": "बैंक शिक्षा ऋण पर कम ब्याज दर प्रदान करता है।",
+        "label": "good",
+        "score": 0.91,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": true
+      },
+      {
+        "source": "Please transfer five thousand rupees to my savings account.",
+        "translation": "कृपया मेरे बचत खाते में पांच हजार रुपये ट्रांसफर करें।",
+        "label": "good",
+        "score": 0.89,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": true
+      },
+      {
+        "source": "The annual budget was approved by the finance committee yesterday.",
+        "translation": "वार्षिक बजट को कल वित्त समिति द्वारा अनुमोदित किया गया।",
+        "label": "good",
+        "score": 0.91,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": true
+      },
+      {
+        "source": "Investors are concerned about the fluctuation in currency exchange rates.",
+        "translation": "निवेशक मुद्रा विनिमय दरों में उतार-चढ़ाव को लेकर चिंतित हैं।",
+        "label": "good",
+        "score": 0.91,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": true
+      },
+      {
+        "source": "The research paper presents a novel approach to language translation.",
+        "translation": "यह शोध पत्र भाषा अनुवाद के लिए एक नवीन दृष्टिकोण प्रस्तुत करता है।",
+        "label": "good",
+        "score": 0.8638,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": true
+      },
+      {
+        "source": "Students must submit their assignments before the end of this week.",
+        "translation": "छात्रों को इस सप्ताह के अंत से पहले अपना असाइनमेंट जमा करना होगा।",
+        "label": "good",
+        "score": 0.8792,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": true
+      },
+      {
+        "source": "The university library has thousands of books on artificial intelligence.",
+        "translation": "विश्वविद्यालय पुस्तकालय में कृत्रिम बुद्धिमत्ता पर हजारों पुस्तकें हैं।",
+        "label": "good",
+        "score": 0.89,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": true
+      },
+      {
+        "source": "The experiment results confirm the hypothesis proposed by the researcher.",
+        "translation": "प्रयोग के परिणाम शोधकर्ता द्वारा प्रस्तावित परिकल्पना की पुष्टि करते हैं।",
+        "label": "good",
+        "score": 0.8918,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": true
+      },
+      {
+        "source": "Students should submit their assignments before Friday.",
+        "translation": "छात्रों को अपना असाइनमेंट शुक्रवार से पहले जमा करना चाहिए।",
+        "label": "good",
+        "score": 0.85,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": true
+      },
+      {
+        "source": "The teacher explained the new lesson to the class.",
+        "translation": "शिक्षक ने कक्षा को नया पाठ समझाया।",
+        "label": "good",
+        "score": 0.8656,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": true
+      },
+      {
+        "source": "She scored the highest marks in the final examination.",
+        "translation": "उसने अंतिम परीक्षा में सर्वोच्च अंक प्राप्त किए।",
+        "label": "good",
+        "score": 0.8878,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": true
+      },
+      {
+        "source": "Citizens can apply for the scheme through the official portal.",
+        "translation": "नागरिक आधिकारिक पोर्टल के माध्यम से योजना के लिए आवेदन कर सकते हैं।",
+        "label": "good",
+        "score": 0.8638,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": true
+      },
+      {
+        "source": "The government announced a new policy for farmers.",
+        "translation": "सरकार ने किसानों के लिए एक नई नीति की घोषणा की।",
+        "label": "good",
+        "score": 0.8555,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": true
+      },
+      {
+        "source": "Voters must carry a valid identity card to the polling booth.",
+        "translation": "मतदाताओं को मतदान केंद्र पर वैध पहचान पत्र ले जाना चाहिए।",
+        "label": "good",
+        "score": 0.91,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": true
+      },
+      {
+        "source": "The agreement will remain valid for one year.",
+        "translation": "समझौता एक वर्ष तक वैध रहेगा।",
+        "label": "good",
+        "score": 0.86,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": true
+      },
+      {
+        "source": "The court will hear the case next month.",
+        "translation": "अदालत अगले महीने मामले की सुनवाई करेगी।",
+        "label": "good",
+        "score": 0.885,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": true
+      },
+      {
+        "source": "Both parties must sign the contract before the deadline.",
+        "translation": "दोनों पक्षों को समय सीमा से पहले अनुबंध पर हस्ताक्षर करना होगा।",
+        "label": "good",
+        "score": 0.86,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": true
+      },
+      {
+        "source": "Could you please send me the document tomorrow?",
+        "translation": "क्या आप कल मुझे दस्तावेज़ भेज सकते हैं?",
+        "label": "good",
+        "score": 0.91,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": true
+      },
+      {
+        "source": "I will call you when I reach home.",
+        "translation": "घर पहुँचते ही मैं आपको फोन करूँगा।",
+        "label": "good",
+        "score": 0.885,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": true
+      },
+      {
+        "source": "Thanks for your help, see you soon.",
+        "translation": "आपकी मदद के लिए धन्यवाद, जल्द मिलते हैं।",
+        "label": "good",
+        "score": 0.885,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": true
+      },
+      {
+        "source": "I am going to college tomorrow.",
+        "translation": "मैं कल कॉलेज जा रहा हूँ।",
+        "label": "good",
+        "score": 0.91,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": true
+      },
+      {
+        "source": "The train to Mumbai leaves at six o'clock in the evening.",
+        "translation": "मुंबई जाने वाली ट्रेन शाम छह बजे रवाना होती है।",
+        "label": "good",
+        "score": 0.8918,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": true
+      },
+      {
+        "source": "Although the weather was bad, the students decided to attend the event.",
+        "translation": "हालाँकि मौसम खराब था, फिर भी छात्रों ने कार्यक्रम में शामिल होने का निर्णय लिया।",
+        "label": "good",
+        "score": 0.87,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": true
+      },
+      {
+        "source": "Don't judge a book by its cover.",
+        "translation": "किताब को उसके आवरण से मत आंकिए।",
+        "label": "good",
+        "score": 0.91,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": true
+      },
+      {
+        "source": "Mr. Sharma bought a house in Pune last year.",
+        "translation": "श्री शर्मा ने पिछले साल पुणे में एक घर खरीदा।",
+        "label": "good",
+        "score": 0.89,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": true
+      },
+      {
+        "source": "The total cost is 12,450 rupees including 8% tax.",
+        "translation": "8% कर सहित कुल लागत 12,450 रुपये है।",
+        "label": "good",
+        "score": 0.8878,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": true
+      },
+      {
+        "source": "The conference is scheduled for 15 August 2026.",
+        "translation": "सम्मेलन 15 अगस्त 2026 को आयोजित होने वाला है।",
+        "label": "good",
+        "score": 0.8878,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": true
+      },
+      {
+        "source": "The neural network was trained on a parallel corpus of one million sentence pairs.",
+        "translation": "तंत्रिका नेटवर्क को दस लाख वाक्य जोड़ों के समानांतर कोष पर प्रशिक्षित किया गया था।",
+        "label": "good",
+        "score": 0.8967,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": true
+      },
+      {
+        "source": "The committee formed last year to study the impact of climate change on agriculture in the region has published its detailed report, which recommends several new measures to protect small farmers from unpredictable weather.",
+        "translation": "जलवायु परिवर्तन के क्षेत्र में कृषि पर प्रभाव का अध्ययन करने के लिए पिछले साल गठित समिति ने अपनी विस्तृत रिपोर्ट प्रकाशित की है, जिसमें छोटे किसानों को अप्रत्याशित मौसम से बचाने के लिए कई नए उपायों की सिफारिश की गई है।",
+        "label": "good",
+        "score": 0.8719,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": true
+      },
+      {
+        "source": "This movie is really awesome, you must watch it tonight!",
+        "translation": "यह फिल्म सच में कमाल की है, तुम्हें इसे आज रात ज़रूर देखना चाहिए!",
+        "label": "good",
+        "score": 0.8529,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": true
+      },
+      {
+        "source": "The weather is beautiful today and I want to go for a walk in the park.",
+        "translation": "जाना सुंदर मैं है मौसम और पार्क आज हूँ। में बहुत चाहता टहलने",
+        "label": "bad",
+        "score": 0.8725,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "Please tell me where I can find the nearest hospital.",
+        "translation": "कृपया कि बताएं निकटतम अस्पताल मैं हूं। पा कहां मुझे सकता",
+        "label": "bad",
+        "score": 0.8918,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "I would like to order two cups of tea and some snacks.",
+        "translation": "दो चाहूंगा। और करना मैं नाश्ता कुछ कप चाय ऑर्डर",
+        "label": "bad",
+        "score": 0.8767,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "Can you help me understand this document?",
+        "translation": "क्या सकते को में मदद मुझे इस आप दस्तावेज़ कर समझने हैं?",
+        "label": "bad",
+        "score": 0.8267,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "The server processes data using a neural network architecture.",
+        "translation": "आर्किटेक्चर उपयोग करके प्रोसेस नेटवर्क डेटा सर्वर करता है। का न्यूरल",
+        "label": "bad",
+        "score": 0.8736,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "Please install the latest software update to fix the security vulnerability.",
+        "translation": "कमजोरी के सॉफ्टवेयर करें। सुरक्षा इंस्टॉल लिए को करने नवीनतम कृपया अपडेट ठीक",
+        "label": "bad",
+        "score": 0.8792,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "Machine learning models require large amounts of training data.",
+        "translation": "में बड़ी मशीन प्रशिक्षण को आवश्यकता होती मॉडल लर्निंग की है। डेटा मात्रा",
+        "label": "bad",
+        "score": 0.8485,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "The database query returned results in under fifty milliseconds.",
+        "translation": "समय पचास परिणाम क्वेरी लौटाए। कम से डेटाबेस ने में मिलीसेकंड",
+        "label": "bad",
+        "score": 0.8736,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "The patient should take this medicine twice a day after meals.",
+        "translation": "दवा रोगी में बार बाद लेनी दो भोजन के यह चाहिए। को दिन",
+        "label": "bad",
+        "score": 0.8792,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "Regular exercise and a balanced diet are important for good health.",
+        "translation": "नियमित व्यायाम और स्वास्थ्य लिए संतुलित महत्वपूर्ण के हैं। आहार अच्छे",
+        "label": "bad",
+        "score": 0.91,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "The doctor recommended a blood test to check for vitamin deficiency.",
+        "translation": "की की डॉक्टर कमी लिए सिफारिश परीक्षण रक्त की विटामिन ने की। जांच के",
+        "label": "bad",
+        "score": 0.8671,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "Please wash your hands thoroughly to prevent the spread of infection.",
+        "translation": "अच्छी रोकने हाथों के तरह संक्रमण को धोएं। प्रसार को लिए के कृपया अपने",
+        "label": "bad",
+        "score": 0.8671,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "The bank offers a low interest rate on education loans.",
+        "translation": "बैंक प्रदान करता है। कम शिक्षा ऋण ब्याज पर दर",
+        "label": "bad",
+        "score": 0.91,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "Please transfer five thousand rupees to my savings account.",
+        "translation": "खाते रुपये ट्रांसफर हजार मेरे पांच बचत में कृपया करें।",
+        "label": "bad",
+        "score": 0.89,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "The annual budget was approved by the finance committee yesterday.",
+        "translation": "वित्त समिति बजट वार्षिक अनुमोदित द्वारा किया को कल गया।",
+        "label": "bad",
+        "score": 0.91,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "Investors are concerned about the fluctuation in currency exchange rates.",
+        "translation": "दरों को हैं। चिंतित उतार-चढ़ाव निवेशक विनिमय में मुद्रा लेकर",
+        "label": "bad",
+        "score": 0.91,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "The research paper presents a novel approach to language translation.",
+        "translation": "दृष्टिकोण भाषा पत्र प्रस्तुत यह नवीन है। एक लिए के अनुवाद करता शोध",
+        "label": "bad",
+        "score": 0.8638,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "Students must submit their assignments before the end of this week.",
+        "translation": "से इस सप्ताह करना पहले छात्रों अपना के को जमा असाइनमेंट होगा। अंत",
+        "label": "bad",
+        "score": 0.8792,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "The university library has thousands of books on artificial intelligence.",
+        "translation": "पुस्तकें में बुद्धिमत्ता हजारों विश्वविद्यालय पुस्तकालय पर हैं। कृत्रिम",
+        "label": "bad",
+        "score": 0.89,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "The experiment results confirm the hypothesis proposed by the researcher.",
+        "translation": "प्रस्तावित परिणाम पुष्टि परिकल्पना के की द्वारा प्रयोग शोधकर्ता हैं। करते",
+        "label": "bad",
+        "score": 0.8918,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "Students should submit their assignments before Friday.",
+        "translation": "जमा पहले से छात्रों करना शुक्रवार अपना असाइनमेंट चाहिए। को",
+        "label": "bad",
+        "score": 0.85,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "The teacher explained the new lesson to the class.",
+        "translation": "नया कक्षा समझाया। पाठ शिक्षक को ने",
+        "label": "bad",
+        "score": 0.8656,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "She scored the highest marks in the final examination.",
+        "translation": "परीक्षा में अंतिम सर्वोच्च अंक प्राप्त उसने किए।",
+        "label": "bad",
+        "score": 0.8878,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "Citizens can apply for the scheme through the official portal.",
+        "translation": "के हैं। लिए कर आधिकारिक योजना पोर्टल नागरिक के माध्यम आवेदन से सकते",
+        "label": "bad",
+        "score": 0.8638,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "The government announced a new policy for farmers.",
+        "translation": "घोषणा ने की। नीति किसानों के की लिए नई एक सरकार",
+        "label": "bad",
+        "score": 0.8555,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "Voters must carry a valid identity card to the polling booth.",
+        "translation": "ले पत्र पर मतदान जाना केंद्र को पहचान वैध चाहिए। मतदाताओं",
+        "label": "bad",
+        "score": 0.91,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "The agreement will remain valid for one year.",
+        "translation": "वर्ष रहेगा। समझौता तक एक वैध",
+        "label": "bad",
+        "score": 0.86,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "The court will hear the case next month.",
+        "translation": "महीने अदालत की करेगी। मामले अगले सुनवाई",
+        "label": "bad",
+        "score": 0.885,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "Both parties must sign the contract before the deadline.",
+        "translation": "सीमा समय होगा। करना अनुबंध पर हस्ताक्षर पहले पक्षों दोनों को से",
+        "label": "bad",
+        "score": 0.86,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "Could you please send me the document tomorrow?",
+        "translation": "सकते दस्तावेज़ हैं? क्या मुझे आप भेज कल",
+        "label": "bad",
+        "score": 0.91,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "I will call you when I reach home.",
+        "translation": "पहुँचते घर फोन करूँगा। मैं आपको ही",
+        "label": "bad",
+        "score": 0.885,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "Thanks for your help, see you soon.",
+        "translation": "लिए हैं। मिलते के मदद जल्द आपकी धन्यवाद,",
+        "label": "bad",
+        "score": 0.885,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "I am going to college tomorrow.",
+        "translation": "मैं कॉलेज कल रहा हूँ। जा",
+        "label": "bad",
+        "score": 0.91,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "The train to Mumbai leaves at six o'clock in the evening.",
+        "translation": "वाली ट्रेन छह है। जाने बजे शाम मुंबई रवाना होती",
+        "label": "bad",
+        "score": 0.8918,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "Although the weather was bad, the students decided to attend the event.",
+        "translation": "निर्णय हालाँकि में लिया। का कार्यक्रम खराब छात्रों ने मौसम होने शामिल था, भी फिर",
+        "label": "bad",
+        "score": 0.87,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "Don't judge a book by its cover.",
+        "translation": "उसके को किताब आवरण आंकिए। मत से",
+        "label": "bad",
+        "score": 0.91,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "Mr. Sharma bought a house in Pune last year.",
+        "translation": "एक साल में ने शर्मा पिछले खरीदा। घर पुणे श्री",
+        "label": "bad",
+        "score": 0.89,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "The total cost is 12,450 rupees including 8% tax.",
+        "translation": "8% सहित कुल है। रुपये कर लागत 12,450",
+        "label": "bad",
+        "score": 0.8878,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "The conference is scheduled for 15 August 2026.",
+        "translation": "आयोजित अगस्त होने 2026 वाला सम्मेलन को 15 है।",
+        "label": "bad",
+        "score": 0.8878,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "The neural network was trained on a parallel corpus of one million sentence pairs.",
+        "translation": "लाख समानांतर गया कोष जोड़ों पर दस के नेटवर्क प्रशिक्षित को वाक्य तंत्रिका था। किया",
+        "label": "bad",
+        "score": 0.8967,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "The committee formed last year to study the impact of climate change on agriculture in the region has published its detailed report, which recommends several new measures to protect small farmers from unpredictable weather.",
+        "translation": "छोटे समिति उपायों पिछले जलवायु प्रभाव विस्तृत क्षेत्र जिसमें नए गई करने अध्ययन के है। परिवर्तन कृषि का रिपोर्ट की की लिए मौसम को है, में साल अप्रत्याशित की बचाने अपनी किसानों पर के के ने सिफारिश लिए कई प्रकाशित से गठित",
+        "label": "bad",
+        "score": 0.8719,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "This movie is really awesome, you must watch it tonight!",
+        "translation": "में की यह है, रात आज देखना ज़रूर फिल्म सच तुम्हें इसे कमाल चाहिए!",
+        "label": "bad",
+        "score": 0.8529,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "The weather is beautiful today and I want to go for a walk in the park.",
+        "translation": "Deutschland ist ein vielfältiges Land in Europa.",
+        "label": "bad",
+        "score": 0.7975,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "Please tell me where I can find the nearest hospital.",
+        "translation": "天气今天很好，我想去公园散步。",
+        "label": "bad",
+        "score": 0.59,
+        "confidence": "medium",
+        "hallucination": false,
+        "pred_good": false,
+        "true_good": false
+      },
+      {
+        "source": "I would like to order two cups of tea and some snacks.",
+        "translation": "El tiempo es agradable hoy y quiero pasear por el parque.",
+        "label": "bad",
+        "score": 0.8933,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "Can you help me understand this document?",
+        "translation": "আজ আবহাওয়া খুব সুন্দর।",
+        "label": "bad",
+        "score": 0.8243,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "The server processes data using a neural network architecture.",
+        "translation": "ನಾನು ನಾಳೆ ಕಾಲೇಜಿಗೆ ಹೋಗುತ್ತಿದ್ದೇನೆ.",
+        "label": "bad",
+        "score": 0.7989,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "The weather is beautiful today and I want to go for a walk in the park.",
+        "translation": "आज मौसम बहुत सुंदर है और…",
+        "label": "partial",
+        "score": 0.785,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "Please tell me where I can find the nearest hospital.",
+        "translation": "कृपया मुझे बताएं कि मै…",
+        "label": "partial",
+        "score": 0.81,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "I would like to order two cups of tea and some snacks.",
+        "translation": "मैं दो कप चाय और क…",
+        "label": "partial",
+        "score": 0.81,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "Can you help me understand this document?",
+        "translation": "क्या आप मुझे इस दस्ताव…",
+        "label": "partial",
+        "score": 0.8529,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "The server processes data using a neural network architecture.",
+        "translation": "सर्वर न्यूरल नेटवर्क आर्किट…",
+        "label": "partial",
+        "score": 0.7989,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "Please install the latest software update to fix the security vulnerability.",
+        "translation": "कृपया सुरक्षा कमजोरी को ठीक कर…",
+        "label": "partial",
+        "score": 0.8191,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "Machine learning models require large amounts of training data.",
+        "translation": "मशीन लर्निंग मॉडल को बड़ी मा…",
+        "label": "partial",
+        "score": 0.8433,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "The database query returned results in under fifty milliseconds.",
+        "translation": "डेटाबेस क्वेरी ने पचास म…",
+        "label": "partial",
+        "score": 0.8211,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "The patient should take this medicine twice a day after meals.",
+        "translation": "रोगी को यह दवा भोजन क…",
+        "label": "partial",
+        "score": 0.8191,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "Regular exercise and a balanced diet are important for good health.",
+        "translation": "अच्छे स्वास्थ्य के लिए नियम…",
+        "label": "partial",
+        "score": 0.8009,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "The doctor recommended a blood test to check for vitamin deficiency.",
+        "translation": "डॉक्टर ने विटामिन की कमी क…",
+        "label": "partial",
+        "score": 0.8191,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "Please wash your hands thoroughly to prevent the spread of infection.",
+        "translation": "संक्रमण के प्रसार को रोकने…",
+        "label": "partial",
+        "score": 0.8009,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "The bank offers a low interest rate on education loans.",
+        "translation": "बैंक शिक्षा ऋण पर…",
+        "label": "partial",
+        "score": 0.79,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "Please transfer five thousand rupees to my savings account.",
+        "translation": "कृपया मेरे बचत खाते म…",
+        "label": "partial",
+        "score": 0.8211,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "The annual budget was approved by the finance committee yesterday.",
+        "translation": "वार्षिक बजट को कल वित्…",
+        "label": "partial",
+        "score": 0.81,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "Investors are concerned about the fluctuation in currency exchange rates.",
+        "translation": "निवेशक मुद्रा विनिमय दरो…",
+        "label": "partial",
+        "score": 0.79,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "The research paper presents a novel approach to language translation.",
+        "translation": "यह शोध पत्र भाषा अनुवाद के…",
+        "label": "partial",
+        "score": 0.83,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "Students must submit their assignments before the end of this week.",
+        "translation": "छात्रों को इस सप्ताह के अं…",
+        "label": "partial",
+        "score": 0.8191,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "The university library has thousands of books on artificial intelligence.",
+        "translation": "विश्वविद्यालय पुस्तकालय में…",
+        "label": "partial",
+        "score": 0.77,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "The experiment results confirm the hypothesis proposed by the researcher.",
+        "translation": "प्रयोग के परिणाम शोधकर्ता द्व…",
+        "label": "partial",
+        "score": 0.81,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "Students should submit their assignments before Friday.",
+        "translation": "छात्रों को अपना असाइनमे…",
+        "label": "partial",
+        "score": 0.8243,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "The teacher explained the new lesson to the class.",
+        "translation": "शिक्षक ने कक्…",
+        "label": "partial",
+        "score": 0.7767,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "She scored the highest marks in the final examination.",
+        "translation": "उसने अंतिम परीक्षा…",
+        "label": "partial",
+        "score": 0.7767,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "Citizens can apply for the scheme through the official portal.",
+        "translation": "नागरिक आधिकारिक पोर्टल के…",
+        "label": "partial",
+        "score": 0.79,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "The government announced a new policy for farmers.",
+        "translation": "सरकार ने किसानों क…",
+        "label": "partial",
+        "score": 0.81,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "Voters must carry a valid identity card to the polling booth.",
+        "translation": "मतदाताओं को मतदान केंद…",
+        "label": "partial",
+        "score": 0.7827,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "The agreement will remain valid for one year.",
+        "translation": "समझौता एक व…",
+        "label": "partial",
+        "score": 0.785,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "The court will hear the case next month.",
+        "translation": "अदालत अगले महीन…",
+        "label": "partial",
+        "score": 0.785,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "Both parties must sign the contract before the deadline.",
+        "translation": "दोनों पक्षों को समय सीमा…",
+        "label": "partial",
+        "score": 0.8211,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "Could you please send me the document tomorrow?",
+        "translation": "क्या आप कल मुझे…",
+        "label": "partial",
+        "score": 0.81,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "I will call you when I reach home.",
+        "translation": "घर पहुँचते ही…",
+        "label": "partial",
+        "score": 0.785,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "Thanks for your help, see you soon.",
+        "translation": "आपकी मदद के लिए…",
+        "label": "partial",
+        "score": 0.8243,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "I am going to college tomorrow.",
+        "translation": "मैं कल कॉ…",
+        "label": "partial",
+        "score": 0.81,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "The train to Mumbai leaves at six o'clock in the evening.",
+        "translation": "मुंबई जाने वाली ट्…",
+        "label": "partial",
+        "score": 0.7827,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "Although the weather was bad, the students decided to attend the event.",
+        "translation": "हालाँकि मौसम खराब था, फिर भी छात…",
+        "label": "partial",
+        "score": 0.8267,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "Don't judge a book by its cover.",
+        "translation": "किताब को उसक…",
+        "label": "partial",
+        "score": 0.7957,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "Mr. Sharma bought a house in Pune last year.",
+        "translation": "श्री शर्मा ने पिछल…",
+        "label": "partial",
+        "score": 0.7989,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "The total cost is 12,450 rupees including 8% tax.",
+        "translation": "8% कर सहित कुल…",
+        "label": "partial",
+        "score": 0.7989,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "The conference is scheduled for 15 August 2026.",
+        "translation": "सम्मेलन 15 अगस्त 2…",
+        "label": "partial",
+        "score": 0.81,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      },
+      {
+        "source": "The neural network was trained on a parallel corpus of one million sentence pairs.",
+        "translation": "तंत्रिका नेटवर्क को दस लाख वाक्य…",
+        "label": "partial",
+        "score": 0.7957,
+        "confidence": "high",
+        "hallucination": false,
+        "pred_good": true,
+        "true_good": false
+      }
+    ]
+  },
+  "retrieval": {
+    "backend": "keyword-fallback",
+    "top_ks": [
+      1,
+      3,
+      5,
+      10
+    ],
+    "languages": {
+      "bengali": {
+        "num_queries": 15,
+        "recall_at_k": {
+          "1": 0.8667,
+          "3": 0.9333,
+          "5": 0.9333,
+          "10": 0.9333
+        },
+        "precision_at_k": {
+          "1": 0.8667,
+          "3": 0.9,
+          "5": 0.9,
+          "10": 0.9
+        },
+        "ndcg_at_k": {
+          "1": 0.8667,
+          "3": 0.9087,
+          "5": 0.9087,
+          "10": 0.9087
+        },
+        "mrr": 0.9
+      },
+      "gujarati": {
+        "num_queries": 15,
+        "recall_at_k": {
+          "1": 0.8667,
+          "3": 0.9333,
+          "5": 0.9333,
+          "10": 0.9333
+        },
+        "precision_at_k": {
+          "1": 0.8667,
+          "3": 0.9,
+          "5": 0.9,
+          "10": 0.9
+        },
+        "ndcg_at_k": {
+          "1": 0.8667,
+          "3": 0.9087,
+          "5": 0.9087,
+          "10": 0.9087
+        },
+        "mrr": 0.9
+      },
+      "hindi": {
+        "num_queries": 15,
+        "recall_at_k": {
+          "1": 0.8667,
+          "3": 0.9333,
+          "5": 0.9333,
+          "10": 0.9333
+        },
+        "precision_at_k": {
+          "1": 0.8667,
+          "3": 0.9,
+          "5": 0.9,
+          "10": 0.9
+        },
+        "ndcg_at_k": {
+          "1": 0.8667,
+          "3": 0.9087,
+          "5": 0.9087,
+          "10": 0.9087
+        },
+        "mrr": 0.9
+      },
+      "kannada": {
+        "num_queries": 15,
+        "recall_at_k": {
+          "1": 0.8667,
+          "3": 0.9333,
+          "5": 0.9333,
+          "10": 0.9333
+        },
+        "precision_at_k": {
+          "1": 0.8667,
+          "3": 0.9,
+          "5": 0.9,
+          "10": 0.9
+        },
+        "ndcg_at_k": {
+          "1": 0.8667,
+          "3": 0.9087,
+          "5": 0.9087,
+          "10": 0.9087
+        },
+        "mrr": 0.9
+      },
+      "marathi": {
+        "num_queries": 15,
+        "recall_at_k": {
+          "1": 0.8667,
+          "3": 0.9333,
+          "5": 0.9333,
+          "10": 0.9333
+        },
+        "precision_at_k": {
+          "1": 0.8667,
+          "3": 0.9,
+          "5": 0.9,
+          "10": 0.9
+        },
+        "ndcg_at_k": {
+          "1": 0.8667,
+          "3": 0.9087,
+          "5": 0.9087,
+          "10": 0.9087
+        },
+        "mrr": 0.9
+      },
+      "tamil": {
+        "num_queries": 15,
+        "recall_at_k": {
+          "1": 0.8667,
+          "3": 0.9333,
+          "5": 0.9333,
+          "10": 0.9333
+        },
+        "precision_at_k": {
+          "1": 0.8667,
+          "3": 0.9,
+          "5": 0.9,
+          "10": 0.9
+        },
+        "ndcg_at_k": {
+          "1": 0.8667,
+          "3": 0.9087,
+          "5": 0.9087,
+          "10": 0.9087
+        },
+        "mrr": 0.9
+      },
+      "telugu": {
+        "num_queries": 15,
+        "recall_at_k": {
+          "1": 0.8667,
+          "3": 0.9333,
+          "5": 0.9333,
+          "10": 0.9333
+        },
+        "precision_at_k": {
+          "1": 0.8667,
+          "3": 0.9,
+          "5": 0.9,
+          "10": 0.9
+        },
+        "ndcg_at_k": {
+          "1": 0.8667,
+          "3": 0.9087,
+          "5": 0.9087,
+          "10": 0.9087
+        },
+        "mrr": 0.9
+      }
+    },
+    "num_queries_total": 105,
+    "note": "Reranker comparison is not available: the current codebase has no cross-encoder reranker. This benchmark measures the existing pipeline (dense-only baseline)."
+  },
+  "translation_memory": {
+    "lang_pair": "english->hindi",
+    "num_sentences": 8,
+    "model": {
+      "mean_ms": 5.62,
+      "percentiles": {
+        "p50_ms": 5.52,
+        "p95_ms": 6.02
+      }
+    },
+    "tm_hit": {
+      "mean_ms": 0.0,
+      "percentiles": {
+        "p50_ms": 0.0,
+        "p95_ms": 0.0
+      }
+    },
+    "exact_hit_rate": 1.0,
+    "semantic_hit_rate": 0.0,
+    "latency_reduction_pct": 100.0,
+    "encoder_available": false,
+    "tm_stats": {
+      "hits": 8,
+      "misses": 15,
+      "total_entries": 8,
+      "similarity_threshold": 0.92
+    },
+    "note": "Semantic hits require the sentence-transformer encoder (downloads on first use). Without it, only exact matches are served from the TM."
+  },
+  "translation": {
+    "status": "skipped",
+    "reason": "Run with --live (real models) or --mock (stub pipeline test) to execute the quality matrix."
+  },
+  "backtranslation": {
+    "status": "skipped",
+    "reason": "Run with --live (real models) or --mock (stub) to execute the back-translation diagnostic."
+  }
+}

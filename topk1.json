@@ -1,0 +1,126 @@
+{
+  "top_k": 1,
+  "lang": "hindi",
+  "num_sentences": 42,
+  "errors": 0,
+  "retrieval": {
+    "backend": "faiss-semantic",
+    "top_ks": [
+      1,
+      2,
+      3,
+      5
+    ],
+    "languages": {
+      "hindi": {
+        "num_queries": 15,
+        "num_terms": 15,
+        "recall_at_k": {
+          "1": 1.0,
+          "2": 1.0,
+          "3": 1.0,
+          "5": 1.0
+        },
+        "precision_at_k": {
+          "1": 1.0,
+          "2": 0.5,
+          "3": 0.3333,
+          "5": 0.2
+        },
+        "ndcg_at_k": {
+          "1": 1.0,
+          "2": 1.0,
+          "3": 1.0,
+          "5": 1.0
+        },
+        "mrr": 1.0
+      }
+    },
+    "num_queries_total": 15,
+    "glossary_sizes": {
+      "hindi": 15
+    },
+    "note": "Reranker comparison is not available: the current codebase has no cross-encoder reranker. This benchmark measures the existing pipeline (dense-only baseline). Glossary sizes (terms per language): {'hindi': 15}. Because each glossary is small, perfect Recall@1/MRR is trivially reachable; treat these as sanity numbers, not evidence of strong retrieval on open vocabulary."
+  },
+  "quality_summary": {
+    "bleu": 62.1,
+    "chrf_plus": 77.08,
+    "bertscore_f1": 0.9753,
+    "comet_score": null,
+    "quality_score": null
+  },
+  "metrics": {
+    "bleu": {
+      "bleu": 62.09606039282787,
+      "bleu_1": 80.99009900990099,
+      "bleu_2": 67.170626349892,
+      "bleu_3": 56.294536817102134,
+      "bleu_4": 48.54881266490765,
+      "precisions": [
+        80.99009900990099,
+        67.170626349892,
+        56.294536817102134,
+        48.54881266490765
+      ],
+      "brevity_penalty": 1.0,
+      "reference_length": 484,
+      "hypothesis_length": 0,
+      "sentence_bleu_mean": 58.74874133927541,
+      "sentence_bleu_std": 28.746084697693128,
+      "num_sentences": 42,
+      "computation_time_ms": 10.56
+    },
+    "chrf": {
+      "chrf_plus": 77.07882185940925,
+      "chrf_plus_std": 20.076419250901232,
+      "char_precision": 0.0,
+      "char_recall": 0.0,
+      "word_precision": 0.0,
+      "word_recall": 0.0,
+      "sentence_scores_mean": 76.17075683089872,
+      "sentence_scores_std": 20.076419250901232,
+      "num_sentences": 42,
+      "computation_time_ms": 37.73
+    },
+    "bertscore": {
+      "precision": 0.9738479852676392,
+      "recall": 0.9768811464309692,
+      "f1": 0.9752958416938782,
+      "precision_std": 0.026110004633665085,
+      "recall_std": 0.021771177649497986,
+      "f1_std": 0.022803429514169693,
+      "model_type": "xlm-roberta-large",
+      "num_sentences": 42,
+      "computation_time_ms": 14474.11
+    }
+  },
+  "latency": {
+    "total_ms": {
+      "n": 42,
+      "mean_ms": 3431.9,
+      "p50_ms": 2898.6,
+      "p95_ms": 5464.9,
+      "p99_ms": 13554.5,
+      "max_ms": 17278.1,
+      "min_ms": 1710.4
+    },
+    "translate_ms": {
+      "n": 42,
+      "mean_ms": 3243.5,
+      "p50_ms": 2826.3,
+      "p95_ms": 5403.1,
+      "p99_ms": 10315.4,
+      "max_ms": 11829.4,
+      "min_ms": 1620.6
+    },
+    "rag_ms": {
+      "n": 42,
+      "mean_ms": 21.8,
+      "p50_ms": 21.4,
+      "p95_ms": 35.0,
+      "p99_ms": 43.4,
+      "max_ms": 46.3,
+      "min_ms": 3.9
+    }
+  }
+}
