@@ -28,6 +28,7 @@ config "flores200") from HuggingFace — the research-grade parallel corpus
 used by the WMT/FLORES benchmarks. Requires: pip install datasets
 """
 
+import os
 from typing import List, Dict, Optional
 
 ###############################################################################
@@ -646,9 +647,14 @@ def load_flores_dataset(
     split: str = 'devtest',
     max_sentences: Optional[int] = None,
     source_lang: str = 'english',
+    local_dir: Optional[str] = None,
 ):
     """
     Load FLORES-200 parallel sentences (research-grade references).
+
+    LOCAL FILES: pass ``local_dir`` (or set FLORES_DIR) to read the plain-text
+    release instead of the Hub (layout of flores200_dataset.tar.gz:
+    ``{local_dir}/{split}/{code}.{split}``, one sentence per line).
 
     FLORES-200 (facebook/flores) contains 1012 devtest sentences per
     language in 200 languages. This loader downloads the per-language
@@ -686,6 +692,11 @@ def load_flores_dataset(
 
     if not target_codes:
         return {'error': f'No supported target languages in: {target_langs}'}
+
+    local_dir = local_dir or os.getenv('FLORES_DIR')
+    if local_dir:
+        return _load_flores_local(local_dir, split, src_code, source_lang,
+                                  target_codes, max_sentences)
 
     def _fetch(code):
         """Download one per-language devtest parquet via the Hub API."""
@@ -736,6 +747,47 @@ def load_flores_dataset(
         'metadata': {
             'source_lang': source_lang,
             'source': f'FLORES-200 ({FLORES_REPO}, split={split})',
+            'split': split,
+            'num_sentences': len(sources),
+            'target_langs': list(references.keys()),
+            'languages': {lang: LANGUAGE_META.get(lang, {}) for lang in references},
+            'failed_languages': failed,
+            'reference_note': 'FLORES-200 is the standard research-grade parallel corpus (NLLB/FLORES benchmark).',
+        },
+    }
+
+
+def _load_flores_local(local_dir, split, src_code, source_lang, target_codes,
+                       max_sentences):
+    """Read FLORES-200 plain-text files ({dir}/{split}/{code}.{split})."""
+    def _read(code):
+        path = os.path.join(local_dir, split, f'{code}.{split}')
+        with open(path, 'r', encoding='utf-8') as f:
+            return [line.rstrip('\n') for line in f]
+
+    try:
+        sources = _read(src_code)
+    except OSError as e:
+        return {'error': f'Could not read FLORES source file: {e}'}
+    references, failed = {}, []
+    for lang, code in target_codes.items():
+        try:
+            references[lang] = _read(code)
+        except OSError:
+            failed.append(lang)
+            references[lang] = []
+        if references[lang] and len(references[lang]) != len(sources):
+            return {'error': f'FLORES {lang} has {len(references[lang])} lines, '
+                             f'source has {len(sources)}'}
+    if max_sentences:
+        sources = sources[:max_sentences]
+        references = {k: v[:max_sentences] for k, v in references.items()}
+    return {
+        'sources': sources,
+        'references': references,
+        'metadata': {
+            'source_lang': source_lang,
+            'source': f'FLORES-200 (local: {local_dir}, split={split})',
             'split': split,
             'num_sentences': len(sources),
             'target_langs': list(references.keys()),

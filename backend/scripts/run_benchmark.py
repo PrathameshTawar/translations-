@@ -5,9 +5,10 @@ Master benchmark runner — the single command that produces the scorecard.
     python scripts/run_benchmark.py --mock          # everything with stubs
     python scripts/run_benchmark.py --live          # everything with real models (slow)
     python scripts/run_benchmark.py --live --langs hindi,marathi --metrics bleu,chrf
-    python scripts/run_benchmark.py --live --flores 100     # quality matrix on FLORES-200
+    python scripts/run_benchmark.py --live --flores 1012 --flores-dir PATH  # main table
+    python scripts/run_benchmark.py --ablation-results ../reports/ablation/x.json
     python scripts/run_benchmark.py --metrics all   # add bertscore/comet (~1-2GB downloads)
-    python scripts/run_benchmark.py --skip-retrieval --output-dir evaluation/reports
+    python scripts/run_benchmark.py --skip-retrieval --output-dir /tmp/reports
     python scripts/run_benchmark.py --resume        # continue from the periodic checkpoint
 
 Checkpointing
@@ -31,10 +32,12 @@ Sections
   translation          per-language quality matrix (needs --live or --mock)
   code_mixed           code-mixed Indic->English quality matrix (--live/--mock)
   backtranslation      round-trip diagnostic (needs --live or --mock)
-  flores               optional FLORES-200 quality matrix (--live --flores N)
+  flores               FLORES-200 quality matrix: the main quality table
+                       (--live --flores N; 1012 = full devtest)
+  terminology_ablation merged from scripts/run_ablation.py output
+                       (--ablation-results); feeds the terminology targets
 
-NOTE: the FAISS index files ({lang}_index.faiss) are resolved relative to
-the CWD, so run this from the backend/ directory.
+Run from backend/. FAISS indexes are built on demand in data/indexes/.
 """
 
 import argparse
@@ -88,8 +91,17 @@ def parse_args():
     p.add_argument('--flores', type=int, default=None, metavar='N',
                    help='Also run the translation quality matrix on N FLORES-200 '
                         'sentences per language (requires --live and internet)')
-    p.add_argument('--output-dir', default='evaluation/reports',
-                   help='Directory for report files (default: evaluation/reports)')
+    p.add_argument('--flores-dir', default=None, metavar='DIR',
+                   help='Read FLORES-200 from local plain-text files '
+                        '({DIR}/devtest/{code}.devtest) instead of the HF Hub')
+    p.add_argument('--ablation-results', default=None, metavar='JSON',
+                   help='Merge a scripts/run_ablation.py result file into the '
+                        'report (terminology targets on the scorecard)')
+    p.add_argument('--pad-index', default=None, metavar='FILE',
+                   help='Pad the retrieval index with these entries (JSON '
+                        'glossary or term-per-line) for a realistic index size')
+    p.add_argument('--output-dir', default='reports',
+                   help='Directory for report files (default: reports/, gitignored)')
     p.add_argument('--max-sentences', type=int, default=None, metavar='N',
                    help='Cap the quality matrix at N sentences per language '
                         '(handy for quick runs and ablations)')
@@ -544,7 +556,7 @@ def main():
         # cross-encoder model on first use.
         results['retrieval'] = run_retrieval_benchmark(
             langs=parse_langs(args), use_encoder=not use_mock,
-            use_reranker=args.reranker,
+            use_reranker=args.reranker, pad_index=args.pad_index,
         )
         completed.add('retrieval')
         save_checkpoint(results, completed, args, 'retrieval')
@@ -794,6 +806,7 @@ def main():
         target_langs = parse_langs(args)
         flores = load_flores_dataset(
             target_langs=target_langs, split='devtest', max_sentences=args.flores,
+            local_dir=args.flores_dir,
         )
         if 'error' in flores:
             # A load failure is NOT "completed" — a resume retries it (the
@@ -851,17 +864,16 @@ def main():
     results['metadata']['total_time_sec'] = round(
         (results['metadata'].get('total_time_sec') or 0) + (time.time() - start), 2)
     results['metadata']['num_beams'] = args.num_beams
+    from app.evaluation.report import DEFAULT_TARGETS
+    from app.services.terminology import default_strategy
+    results['metadata']['terminology_strategy'] = default_strategy()
     results['metadata']['targets'] = {
-        'functional_pass_rate': 99.0,
-        'security_pass_rate': 99.0,
-        'e2e_pass_rate': 100.0,
-        'unicode_pass_rate': 100.0,
-        'retrieval_recall_at_5': 90.0,
-        'tm_hit_p95_ms': 300.0,
-        'translation_p95_ms': 3000.0,
-        'quality_estimation_f1': 0.95,
-        'hallucination_rate_pct': 5.0,
-    }
+        k: {'target': v['target'], 'op': v['op']} for k, v in DEFAULT_TARGETS.items()}
+
+    if args.ablation_results:
+        with open(args.ablation_results, 'r', encoding='utf-8') as f:
+            ablation = json.load(f)
+        results['terminology_ablation'] = ablation.get('results', ablation)
 
     from app.evaluation.report import build_scorecard, render_markdown, save_reports
     scorecard = build_scorecard(results)

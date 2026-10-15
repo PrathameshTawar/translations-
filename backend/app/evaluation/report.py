@@ -1,19 +1,24 @@
 """
-Benchmark report builder — scorecard + JSON/Markdown rendering.
+Benchmark report builder: scorecard + JSON/Markdown rendering.
 
-Produces the "master scorecard" from the plan:
+Scorecard rules (rewritten after review; the earlier card was 10/10 PASS
+because several targets were set after the results):
 
-    | Category                  | Target          | Measured | Status |
-    |---------------------------|-----------------|----------|--------|
-    | API functional tests      | >= 99% pass     | ...      | PASS   |
-    | Unicode test cases        | 100% pass       | ...      | PASS   |
-    | Retrieval Recall@5        | >= 90% target   | ...      | ...    |
-    | Translation-memory hit    | < 300 ms        | ...      | ...    |
-    | P95 translation latency   | < 2-3 s         | ...      | ...    |
-
-Translation quality metrics (BLEU / chrF++ / BERTScore / COMET) are
-benchmark-dependent — reported as-is, never asserted against invented
-targets. The paper should report the actual measured values.
+  * Every target and its rationale is fixed here, in code, before a run.
+    Changing a target is a reviewed code change, not a report edit.
+  * Only measurements with an external meaning are scored: terminology
+    accuracy and its quality cost on FLORES-200, retrieval on paraphrase and
+    distractor queries at a realistic index size, latency, degenerate
+    outputs, language identification.
+  * Test-suite pass rates (functional / unicode / security / e2e) are CI
+    checks, not achievements: they are reported as counts, never scored.
+  * Translation-memory lookup latency and the synthetic quality-estimation
+    F1 are reported in their own sections, unscored: a dictionary lookup
+    being fast and a heuristic separating hand-made degenerate outputs are
+    not evidence about translation quality.
+  * Translation quality (BLEU / chrF++ / COMET) is reported against
+    FLORES-200 and never asserted against a target.
+  * A target that is not measured is NOT MEASURED, never PASS.
 """
 
 import json
@@ -25,26 +30,48 @@ logger = logging.getLogger(__name__)
 
 
 DEFAULT_TARGETS = {
-    'functional_pass_rate': {'target': 99.0, 'op': '>=', 'unit': '%',
-                             'label': 'API functional tests'},
-    'security_pass_rate': {'target': 99.0, 'op': '>=', 'unit': '%',
-                           'label': 'Security/robustness tests'},
-    'e2e_pass_rate': {'target': 100.0, 'op': '>=', 'unit': '%',
-                      'label': 'End-to-end pipeline tests'},
-    'unicode_pass_rate': {'target': 100.0, 'op': '==', 'unit': '%',
-                          'label': 'Unicode test cases'},
-    'retrieval_recall_at_5': {'target': 90.0, 'op': '>=', 'unit': '%',
-                              'label': 'Retrieval Recall@5 (target)'},
-    'tm_hit_p95_ms': {'target': 300.0, 'op': '<=', 'unit': 'ms',
-                      'label': 'TM hit latency (P95)'},
-    'translation_p95_ms': {'target': 3000.0, 'op': '<=', 'unit': 'ms',
-                           'label': 'P95 translation latency'},
-    'language_detection_f1': {'target': 0.95, 'op': '>=', 'unit': '',
-                              'label': 'Language detection F1 (macro)'},
-    'quality_estimation_f1': {'target': 0.95, 'op': '>=', 'unit': '',
-                              'label': 'Quality estimation F1'},  # COMETkiwi reference-free target
-    'hallucination_rate_pct': {'target': 5.0, 'op': '<=', 'unit': '%',
-                               'label': 'Degenerate/hallucinated outputs'},
+    'terminology_accuracy': {
+        'target': 90.0, 'op': '>=', 'unit': '%',
+        'label': 'Term accuracy with enforcement (term-bearing FLORES subset)',
+        'rationale': 'A glossary the system was told to use should appear in '
+                     'at least 9 of 10 outputs (exact-match usage rate, Dinu et al. 2019).'},
+    'terminology_chrf_delta': {
+        'target': -0.5, 'op': '>=', 'unit': ' chrF++',
+        'label': 'chrF++ change from enforcement vs no enforcement',
+        'rationale': 'Enforcing terms must not cost more than 0.5 chrF++ '
+                     'on the same sentences.'},
+    'terminology_sample_size': {
+        'target': 200, 'op': '>=', 'unit': ' sents',
+        'label': 'Term-bearing test sentences (smallest language)',
+        'rationale': 'Below ~200 sentences the chrF++ CI is too wide to '
+                     'support a claim.'},
+    'retrieval_paraphrase_recall_at_5': {
+        'target': 80.0, 'op': '>=', 'unit': '%',
+        'label': 'Retrieval Recall@5, paraphrase queries',
+        'rationale': 'Exact matches are handled lexically; retrieval earns '
+                     'its place only on mentions that do not repeat the term.'},
+    'retrieval_distractor_fp_rate': {
+        'target': 5.0, 'op': '<=', 'unit': '%',
+        'label': 'Distractor sentences with a term enforced',
+        'rationale': 'Injecting a term into a sentence that does not need it '
+                     'corrupts the translation.'},
+    'retrieval_index_size': {
+        'target': 1000, 'op': '>=', 'unit': ' entries',
+        'label': 'Retrieval index size',
+        'rationale': 'Recall on a tiny index is not evidence; the shipped '
+                     'glossaries have 15 entries.'},
+    'translation_p95_ms': {
+        'target': 3000.0, 'op': '<=', 'unit': 'ms',
+        'label': 'P95 translation latency, CPU (worst pair)',
+        'rationale': 'Interactive use on a CPU-only host.'},
+    'hallucination_rate_pct': {
+        'target': 5.0, 'op': '<=', 'unit': '%',
+        'label': 'Degenerate/hallucinated outputs',
+        'rationale': 'Repetition loops, empty or wrong-script outputs.'},
+    'language_detection_f1': {
+        'target': 0.95, 'op': '>=', 'unit': '',
+        'label': 'Language detection macro-F1 (in-repo test split)',
+        'rationale': 'Wrong source-language detection breaks every later step.'},
 }
 
 
@@ -76,20 +103,34 @@ def _check(value, op, target):
     return None
 
 
+def _ablation_strategy_rows(ablation: dict, strategy: str):
+    """Per-language result rows for one strategy of a terminology ablation."""
+    rows = []
+    for lang, res in (ablation or {}).items():
+        if not isinstance(res, dict):
+            continue
+        row = (res.get('strategies') or {}).get(strategy)
+        rows.append((lang, res, row))
+    return rows
+
+
 def build_scorecard(results: dict, targets: dict = None) -> dict:
     """
-    Build the master scorecard from benchmark results.
+    Build the scorecard from benchmark results.
 
     Args:
-        results: dict produced by the master benchmark runner with keys like
-                 'functional', 'unicode', 'quality_estimation', 'retrieval',
-                 'translation_memory', 'translation' (per-language), etc.
+        results: dict produced by scripts/run_benchmark.py. Uses
+                 'terminology_ablation' (scripts/run_ablation.py output,
+                 merged with --ablation-results), 'retrieval', 'translation'
+                 / 'flores_translation', 'hallucination',
+                 'language_detection'.
         targets: Target table (defaults to DEFAULT_TARGETS).
 
     Returns:
-        dict: {entries: [...], passes, failures, total_targets}
+        dict: {entries: [...], summary: {...}, test_suites: {...}}
     """
     targets = targets or DEFAULT_TARGETS
+    results = results or {}
 
     def _get(path, default=None):
         node = results
@@ -99,166 +140,108 @@ def build_scorecard(results: dict, targets: dict = None) -> dict:
             node = node[key]
         return node
 
-    functional = _get(['functional'])
-    unicode_res = _get(['unicode'])
-    qe = _get(['quality_estimation'])
-    retrieval = _get(['retrieval'])
-    tm = _get(['translation_memory'])
-    translation = _get(['translation']) or {}
-
     entries = []
+    run_is_mock = _get(['metadata', 'mode']) == 'mock'
 
-    # -- functional ---------------------------------------------------------
-    func_rate = functional.get('pass_rate') if isinstance(functional, dict) else None
-    entries.append({
-        'key': 'functional_pass_rate',
-        'label': 'API functional tests',
-        'measured': func_rate,
-        'display': f'{func_rate:.1f}%' if func_rate is not None else 'n/a',
-        'target': targets['functional_pass_rate'],
-    })
+    def is_mock(section):
+        """Stub-backed numbers are harness checks, never measurements."""
+        return run_is_mock or (isinstance(section, dict) and section.get('mode') == 'mock')
 
-    # -- unicode ------------------------------------------------------------
-    uni_rate = unicode_res.get('pass_rate') if isinstance(unicode_res, dict) else None
-    entries.append({
-        'key': 'unicode_pass_rate',
-        'label': 'Unicode test cases',
-        'measured': uni_rate,
-        'display': f'{uni_rate:.1f}%' if uni_rate is not None else 'n/a',
-        'target': targets['unicode_pass_rate'],
-    })
+    def add(key, measured, display=None):
+        entries.append({
+            'key': key,
+            'label': targets[key]['label'],
+            'measured': measured,
+            'display': display if measured is not None else 'n/a',
+            'target': targets[key],
+        })
 
-    # -- security / robustness ----------------------------------------------
-    security = _get(['security'])
-    sec_rate = security.get('pass_rate') if isinstance(security, dict) else None
-    entries.append({
-        'key': 'security_pass_rate',
-        'label': 'Security/robustness tests',
-        'measured': sec_rate,
-        'display': f'{sec_rate:.1f}%' if sec_rate is not None else 'n/a',
-        'target': targets['security_pass_rate'],
-    })
+    # -- terminology (ablation on the term-bearing FLORES subset) -----------
+    ablation = _get(['terminology_ablation']) or {}
+    strategy = (_get(['metadata', 'terminology_strategy'])
+                or os.getenv('TERMINOLOGY_STRATEGY') or 'inline')
+    rows = [r for r in _ablation_strategy_rows(ablation, strategy) if r[2]]
+    accs = [r[2]['term_accuracy'] for r in rows if r[2].get('term_accuracy') is not None]
+    acc = min(accs) * 100 if accs else None
+    add('terminology_accuracy', acc,
+        f'{acc:.1f}% ({strategy}, worst language)' if acc is not None else None)
+    deltas = [r[2]['delta_chrf'] for r in rows if r[2].get('delta_chrf') is not None]
+    delta = min(deltas) if deltas else None
+    add('terminology_chrf_delta', delta,
+        f'{delta:+.2f} ({strategy}, worst language)' if delta is not None else None)
+    sizes = [res.get('num_sentences') for _, res, _ in
+             _ablation_strategy_rows(ablation, strategy)
+             if res.get('num_sentences') is not None]
+    size = min(sizes) if sizes else None
+    add('terminology_sample_size', size, f'{size}' if size is not None else None)
 
-    # -- end-to-end pipeline ------------------------------------------------
-    e2e = _get(['e2e'])
-    e2e_rate = e2e.get('pass_rate') if isinstance(e2e, dict) else None
-    entries.append({
-        'key': 'e2e_pass_rate',
-        'label': 'End-to-end pipeline tests',
-        'measured': e2e_rate,
-        'display': f'{e2e_rate:.1f}%' if e2e_rate is not None else 'n/a',
-        'target': targets['e2e_pass_rate'],
-    })
+    # -- retrieval -----------------------------------------------------------
+    retrieval = _get(['retrieval']) or {}
+    agg = retrieval.get('aggregate') or {}
+    para = (agg.get('paraphrase') or {}).get('recall_at_5')
+    add('retrieval_paraphrase_recall_at_5', para * 100 if para is not None else None,
+        f"{para * 100:.1f}% ({retrieval.get('backend')})" if para is not None else None)
+    fp = agg.get('distractor_false_positive_rate')
+    add('retrieval_distractor_fp_rate', fp * 100 if fp is not None else None,
+        f'{fp * 100:.1f}%' if fp is not None else None)
+    idx = retrieval.get('index_size')
+    add('retrieval_index_size', idx, f'{idx}' if idx is not None else None)
 
-    # -- hallucination / degenerate outputs ---------------------------------
+    # -- translation latency (worst P95 across pairs, any dataset) ----------
+    trans_p95 = None
+    for section in (() if run_is_mock else ('flores_translation', 'translation')):
+        for lang_res in (_get([section]) or {}).values():
+            if not isinstance(lang_res, dict):
+                continue
+            for model_res in (lang_res.get('models') or {}).values():
+                p95 = (model_res.get('latency') or {}).get('p95_ms')
+                if p95 is not None:
+                    trans_p95 = max(trans_p95 or 0.0, p95)
+    add('translation_p95_ms', trans_p95,
+        f'{trans_p95:.0f} ms' if trans_p95 is not None else None)
+
+    # -- degenerate outputs --------------------------------------------------
     hal = _get(['hallucination'])
-    hal_rate = None
-    if isinstance(hal, dict):
-        hal_rate = hal.get('aggregate', {}).get('degenerate_output_rate_pct')
-    entries.append({
-        'key': 'hallucination_rate_pct',
-        'label': 'Degenerate/hallucinated outputs',
-        'measured': hal_rate,
-        'display': f'{hal_rate:.1f}%' if hal_rate is not None else 'n/a',
-        'target': targets['hallucination_rate_pct'],
-    })
+    hal_rate = (hal.get('aggregate') or {}).get('degenerate_output_rate_pct') \
+        if isinstance(hal, dict) and not is_mock(hal) else None
+    add('hallucination_rate_pct', hal_rate,
+        f'{hal_rate:.1f}%' if hal_rate is not None else None)
 
-    # -- quality estimation -------------------------------------------------
-    qe_f1 = qe.get('f1') if isinstance(qe, dict) else None
-    entries.append({
-        'key': 'quality_estimation_f1',
-        'label': 'Quality estimation F1',
-        'measured': qe_f1,
-        'display': f'{qe_f1:.2f}' if qe_f1 is not None else 'n/a',
-        'target': targets['quality_estimation_f1'],
-    })
-
-    # -- retrieval ----------------------------------------------------------
-    ret_recall5 = None
-    if isinstance(retrieval, dict):
-        for lang, m in retrieval.get('languages', {}).items():
-            if isinstance(m, dict) and 'recall_at_k' in m:
-                # Keys may be int (in-memory) or str (after a JSON round-trip
-                # in staged/continued runs) — resolve both.
-                ret_recall5 = _get_ratio_value(m['recall_at_k'], 5)
-                break
-    # recall is stored as a 0-1 ratio; targets are in percent
-    ret_recall5_pct = ret_recall5 * 100 if ret_recall5 is not None else None
-    entries.append({
-        'key': 'retrieval_recall_at_5',
-        'label': 'Retrieval Recall@5 (target)',
-        'measured': ret_recall5_pct,
-        'display': f'{ret_recall5_pct:.1f}%' if ret_recall5_pct is not None else 'n/a',
-        'target': targets['retrieval_recall_at_5'],
-    })
-
-    # -- translation memory -------------------------------------------------
-    tm_p95 = None
-    if isinstance(tm, dict):
-        tm_p95 = tm.get('tm_hit', {}).get('percentiles', {}).get('p95_ms')
-    entries.append({
-        'key': 'tm_hit_p95_ms',
-        'label': 'TM hit latency (P95)',
-        'measured': tm_p95,
-        'display': f'{tm_p95:.0f} ms' if tm_p95 is not None else 'n/a',
-        'target': targets['tm_hit_p95_ms'],
-    })
-
-    # -- language detection ------------------------------------------------
+    # -- language detection --------------------------------------------------
     langdet = _get(['language_detection'])
     lang_f1 = langdet.get('macro_f1') if isinstance(langdet, dict) else None
-    entries.append({
-        'key': 'language_detection_f1',
-        'label': 'Language detection F1 (macro)',
-        'measured': lang_f1,
-        'display': f'{lang_f1:.2f}' if lang_f1 is not None else 'n/a',
-        'target': targets['language_detection_f1'],
-    })
+    add('language_detection_f1', lang_f1,
+        f'{lang_f1:.2f}' if lang_f1 is not None else None)
 
-    # -- translation latency (max P95 across languages) ---------------------
-    trans_p95 = None
-    for lang, lang_res in translation.items():
-        if not isinstance(lang_res, dict):
-            continue
-        for model_name, model_res in (lang_res.get('models') or {}).items():
-            lat = model_res.get('latency') or {}
-            p95 = lat.get('p95_ms')
-            if p95 is not None:
-                trans_p95 = max(trans_p95 or 0.0, p95)
-    entries.append({
-        'key': 'translation_p95_ms',
-        'label': 'P95 translation latency (worst pair)',
-        'measured': trans_p95,
-        'display': f'{trans_p95:.0f} ms' if trans_p95 is not None else 'n/a',
-        'target': targets['translation_p95_ms'],
-    })
-
-    # -- status -------------------------------------------------------------
-    passes = 0
-    failures = 0
-    not_measured = 0
+    # -- status --------------------------------------------------------------
+    counts = {'pass': 0, 'fail': 0, 'not_measured': 0}
     for e in entries:
         t = e['target']
         if e['measured'] is None:
             e['status'] = 'NOT MEASURED'
-            not_measured += 1
+            counts['not_measured'] += 1
             continue
         ok = _check(e['measured'], t['op'], t['target'])
         e['status'] = 'PASS' if ok else 'FAIL'
-        if ok:
-            passes += 1
-        else:
-            failures += 1
+        counts['pass' if ok else 'fail'] += 1
+
+    # -- CI-style suites: reported, never scored -----------------------------
+    test_suites = {}
+    for name in ('functional', 'unicode', 'security', 'e2e'):
+        suite = _get([name])
+        if isinstance(suite, dict) and suite.get('pass_rate') is not None:
+            test_suites[name] = {
+                'passed': suite.get('passed'),
+                'total': suite.get('total'),
+                'pass_rate': suite.get('pass_rate'),
+            }
 
     return {
         'generated_at': datetime.now(timezone.utc).isoformat(),
+        'terminology_strategy': strategy,
         'entries': entries,
-        'summary': {
-            'pass': passes,
-            'fail': failures,
-            'not_measured': not_measured,
-            'total_targets': len(entries),
-        },
+        'test_suites': test_suites,
+        'summary': {**counts, 'total_targets': len(entries)},
     }
 
 
@@ -284,6 +267,52 @@ def render_markdown(scorecard: dict, results: dict = None) -> str:
     lines.append(f"Summary: {s['pass']} PASS / {s['fail']} FAIL / "
                  f"{s['not_measured']} not measured")
     lines.append('')
+    lines.append('Targets are fixed in `app/evaluation/report.py` (DEFAULT_TARGETS) '
+                 'before any run:')
+    lines.append('')
+    for e in scorecard['entries']:
+        if e['target'].get('rationale'):
+            lines.append(f"- **{e['label']}**: {e['target']['rationale']}")
+    lines.append('')
+    suites = scorecard.get('test_suites') or {}
+    if suites:
+        parts = [f"{name} {v.get('passed', '?')}/{v.get('total', '?')}"
+                 for name, v in suites.items()]
+        lines.append('Test suites (CI checks, not scored): ' + ', '.join(parts))
+        lines.append('')
+
+    # Terminology ablation (the headline experiment)
+    ablation = (results or {}).get('terminology_ablation')
+    if isinstance(ablation, dict) and ablation:
+        from app.evaluation.terminology_ablation import render_markdown as _abl_md
+        lines.append(_abl_md(ablation))
+        lines.append('')
+
+    # FLORES-200 quality table: the main translation-quality result
+    flores_translation = (results or {}).get('flores_translation') or {}
+    flores_entries = {
+        lang: r for lang, r in flores_translation.items()
+        if isinstance(r, dict) and isinstance(r.get('models'), dict)
+    }
+    flores_meta = (results or {}).get('flores') or {}
+    if flores_entries:
+        n = flores_meta.get('num_sentences')
+        lines.append('## Translation quality: FLORES-200 devtest (main results)'
+                     + (f' — {n} sentences' if n else ''))
+        lines.append('')
+        lines.append('| Lang pair | Model | BLEU | chrF++ | BERTScore-F1 | COMET | P95 (ms) |')
+        lines.append('| --- | --- | ---: | ---: | ---: | ---: | ---: |')
+        for lang, lang_res in flores_entries.items():
+            for model_name, m in (lang_res.get('models') or {}).items():
+                summ = m.get('summary') or {}
+                lat = m.get('latency') or {}
+                lines.append(
+                    f"| en→{lang} | {model_name} | "
+                    f"{_fmt(summ.get('bleu'))} | {_fmt(summ.get('chrf_plus'))} | "
+                    f"{_fmt(summ.get('bertscore_f1'))} | {_fmt(summ.get('comet_score'))} | "
+                    f"{_fmt(lat.get('p95_ms'), 'ms')} |"
+                )
+        lines.append('')
 
     # Translation quality table (benchmark-dependent, reported as measured)
     translation = (results or {}).get('translation') or {}
@@ -294,7 +323,12 @@ def render_markdown(scorecard: dict, results: dict = None) -> str:
         if isinstance(r, dict) and isinstance(r.get('models'), dict)
     }
     if model_entries:
-        lines.append('## Translation quality (per language pair)')
+        lines.append('## Curated set (supplementary, not comparable to published scores)')
+        lines.append('')
+        lines.append('*42 hand-picked sentences per language whose references were '
+                     'machine-generated and lightly edited, so scores are inflated '
+                     'for models whose output resembles those references. Use the '
+                     'FLORES-200 table for claims.*')
         lines.append('')
         lines.append('| Lang pair | Model | BLEU | chrF++ | BERTScore-F1 | COMET | P95 (ms) |')
         lines.append('| --- | --- | ---: | ---: | ---: | ---: | ---: |')
@@ -333,49 +367,37 @@ def render_markdown(scorecard: dict, results: dict = None) -> str:
                 )
         lines.append('')
 
-    # FLORES-200 quality table (research-grade references)
-    flores_translation = (results or {}).get('flores_translation') or {}
-    flores_entries = {
-        lang: r for lang, r in flores_translation.items()
-        if isinstance(r, dict) and isinstance(r.get('models'), dict)
-    }
-    if flores_entries:
-        lines.append('## Translation quality — FLORES-200 devtest (research-grade refs)')
-        lines.append('')
-        lines.append('| Lang pair | Model | BLEU | chrF++ | P95 (ms) |')
-        lines.append('| --- | --- | ---: | ---: | ---: |')
-        for lang, lang_res in flores_entries.items():
-            for model_name, m in (lang_res.get('models') or {}).items():
-                summ = m.get('summary') or {}
-                lat = m.get('latency') or {}
-                lines.append(
-                    f"| en→{lang} | {model_name} | "
-                    f"{_fmt(summ.get('bleu'))} | {_fmt(summ.get('chrf_plus'))} | "
-                    f"{_fmt(lat.get('p95_ms'), 'ms')} |"
-                )
-        lines.append('')
-
     # Retrieval table
     retrieval = (results or {}).get('retrieval')
     if isinstance(retrieval, dict) and retrieval.get('languages'):
+        agg = retrieval.get('aggregate') or {}
         lines.append('## Retrieval (terminology RAG)')
         lines.append('')
-        lines.append(f"Backend: **{retrieval.get('backend', 'unknown')}** — "
-                     f"{retrieval.get('num_queries_total', 0)} queries")
+        lines.append(f"Backend: **{retrieval.get('backend', 'unknown')}** · "
+                     f"{retrieval.get('num_queries_total', 0)} queries · index size "
+                     f"**{retrieval.get('index_size')}** entries"
+                     + ('' if retrieval.get('valid') else
+                        ' (too small to be evidence)'))
         lines.append('')
-        lines.append('| Lang | Recall@1 | Recall@3 | Recall@5 | MRR | nDCG@5 |')
-        lines.append('| --- | ---: | ---: | ---: | ---: | ---: |')
-        for lang, m in retrieval['languages'].items():
-            if 'error' in m:
-                lines.append(f"| {lang} | {m['error']} | | | | |")
-                continue
-            lines.append(
-                f"| {lang} | {_ratio_pct(m.get('recall_at_k'), 1)} | "
-                f"{_ratio_pct(m.get('recall_at_k'), 3)} | "
-                f"{_ratio_pct(m.get('recall_at_k'), 5)} | "
-                f"{_fmt(m.get('mrr'))} | {_ratio_pct(m.get('ndcg_at_k'), 5)} |"
-            )
+        lines.append('| Query type | Recall@1 | Recall@5 | MRR |')
+        lines.append('| --- | ---: | ---: | ---: |')
+        for qtype in ('sentence', 'paraphrase'):
+            m = agg.get(qtype) or {}
+            lines.append(f"| {qtype} | {_pct(m.get('recall_at_1'))} | "
+                         f"{_pct(m.get('recall_at_5'))} | {_fmt(m.get('mrr'))} |")
         lines.append('')
+        lines.append('| Enforcement (what the translate route would inject) | Value |')
+        lines.append('| --- | ---: |')
+        lines.append(f"| Sentence queries: correct term enforced | "
+                     f"{_pct(agg.get('sentence_term_recall'))} |")
+        lines.append(f"| Distractor queries: any term enforced (false positive) | "
+                     f"{_pct(agg.get('distractor_false_positive_rate'))} |")
+        lines.append(f"| Precision of enforced terms | "
+                     f"{_pct(agg.get('enforced_precision'))} |")
+        lines.append('')
+        if retrieval.get('note'):
+            lines.append(f"*{retrieval['note']}*")
+            lines.append('')
 
     # Reranker ablation (cross-encoder on/off)
     reranker = (retrieval or {}).get('reranker') or {}
@@ -390,8 +412,8 @@ def render_markdown(scorecard: dict, results: dict = None) -> str:
         metric_order = ('recall_at_1', 'recall_at_3', 'recall_at_5',
                         'recall_at_10', 'mrr', 'ndcg_at_5')
         for variant, label in (
-                ('term_queries', 'Term + context queries'),
-                ('context_queries', 'Context-only queries (harder)'),
+                ('sentence_queries', 'Sentences containing the term'),
+                ('paraphrase_queries', 'Paraphrases (term absent)'),
         ):
             block = reranker.get(variant) or {}
             dense = block.get('dense') or {}
@@ -415,12 +437,7 @@ def render_markdown(scorecard: dict, results: dict = None) -> str:
             f"+{_fmt(reranker.get('rerank_overhead_ms'))} |"
         )
         lines.append('')
-        lines.append('*Deltas are macro-averaged over languages. On these small '
-                     'glossaries the dense bi-encoder baseline is often at '
-                     'ceiling, so the reranker mostly adds latency — its '
-                     'Recall@5 gain in the paper (+3.9 pts) is specific to '
-                     'the open-vocabulary passage-retrieval task, not to '
-                     'ceiling-level glossary lookup.*')
+        lines.append('*Deltas are macro-averaged over languages.*')
         lines.append('')
 
     # Open-vocabulary passage retrieval (reranker where it should help)
@@ -471,6 +488,9 @@ def render_markdown(scorecard: dict, results: dict = None) -> str:
     if isinstance(tm, dict) and tm.get('lang_pair'):
         lines.append('## Translation memory (with vs without)')
         lines.append('')
+        lines.append('*A cache hit skips the model, so the latency reduction is '
+                     'by construction; the useful numbers are the hit rates.*')
+        lines.append('')
         lines.append(f"Pair: **{tm['lang_pair']}** · sentences: {tm['num_sentences']} "
                      f"· encoder: {tm['encoder_available']}")
         lines.append('')
@@ -487,6 +507,11 @@ def render_markdown(scorecard: dict, results: dict = None) -> str:
     qe = (results or {}).get('quality_estimation')
     if isinstance(qe, dict) and qe.get('num_samples'):
         lines.append('## Quality estimation (good vs bad detection)')
+        lines.append('')
+        lines.append('*Synthetic set: known-good outputs vs hand-made degenerate '
+                     'ones. Separating these is a sanity check for the heuristic, '
+                     'not a quality-estimation benchmark (that needs human DA '
+                     'scores, e.g. WMT QE data).*')
         lines.append('')
         lines.append(f"| Metric | Value |")
         lines.append(f"| --- | ---: |")
@@ -701,12 +726,15 @@ def render_markdown(scorecard: dict, results: dict = None) -> str:
     # Notes
     lines.append('## Notes')
     lines.append('')
-    lines.append('- Translation quality targets are benchmark-dependent; '
-                 'report actual measured values against baselines.')
+    lines.append('- Translation quality is reported, not targeted; compare '
+                 'FLORES-200 numbers with published baselines for the same model.')
     lines.append('- Curated references are machine-generated and lightly '
-                 'edited — verify with native speakers or use FLORES-200 '
-                 'before publication.')
+                 'edited; they are supplementary only.')
     return '\n'.join(lines)
+
+
+def _pct(ratio):
+    return f'{ratio * 100:.1f}%' if isinstance(ratio, (int, float)) else 'n/a'
 
 
 def _fmt(value, suffix=''):
