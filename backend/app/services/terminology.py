@@ -36,6 +36,7 @@ import logging
 import os
 import re
 from dataclasses import dataclass, field
+from functools import lru_cache
 from typing import Callable, Dict, List, Optional, Tuple
 
 logger = logging.getLogger(__name__)
@@ -65,6 +66,7 @@ class TermMatch:
     surface: str        # text as it appears in the source
 
 
+@lru_cache(maxsize=8192)
 def _term_pattern(term: str) -> re.Pattern:
     words = [re.escape(w) for w in term.split()]
     # Whole-word, case-insensitive, flexible whitespace, optional English

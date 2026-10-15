@@ -105,17 +105,17 @@ class TestRetrievalRerankerAblation:
         rer = result['reranker']
         assert rer['available'] is True
         assert rer['model'] == 'fake-cross-encoder'
-        assert set(rer) >= {'term_queries', 'context_queries',
+        assert set(rer) >= {'sentence_queries', 'paraphrase_queries',
                             'dense_query_latency_ms',
                             'reranked_query_latency_ms', 'rerank_overhead_ms'}
         # Delta math: every reported delta equals reranked minus dense.
-        for variant in ('term_queries', 'context_queries'):
+        for variant in ('sentence_queries', 'paraphrase_queries'):
             block = rer[variant]
             for k in block['dense']:
                 expected = round(block['reranked'][k] - block['dense'][k], 4)
                 assert block['delta'][k] == expected, (variant, k)
         # The fake reranked mode drops 'bank' -> MRR must get worse.
-        assert rer['term_queries']['delta']['mrr'] < 0
+        assert rer['sentence_queries']['delta']['mrr'] < 0
         assert rer['rerank_overhead_ms'] is not None
         # Scorecard-facing dense section is untouched by the ablation.
         off = TerminologyRetrievalBenchmark(
@@ -148,6 +148,60 @@ class TestRetrievalRerankerAblation:
                            use_reranker=True)
         assert result['reranker']['available'] is False
         assert 'error' in result['reranker']
+
+
+class TestRetrievalProtocol:
+    """The benchmark must not be able to report a trivial 100% again."""
+
+    def test_query_set_composition(self):
+        from collections import Counter
+        from app.evaluation.retrieval import load_queries
+        counts = Counter(q['type'] for q in load_queries())
+        assert counts == {'sentence': 45, 'paraphrase': 30, 'distractor': 30}
+
+    def test_paraphrases_never_contain_their_term(self):
+        from app.evaluation.retrieval import load_queries
+        from app.services.terminology import match_terms
+        for q in load_queries():
+            if q['type'] == 'paraphrase':
+                terms = [{'term': t, 'translation': 'x'} for t in q['relevant']]
+                assert not match_terms(q['text'], terms), q['id']
+
+    def test_distractors_contain_no_glossary_term(self):
+        from app.evaluation.retrieval import load_queries
+        from app.services.term_index import load_terms
+        from app.services.terminology import match_terms
+        glossary = load_terms('hindi')
+        for q in load_queries():
+            if q['type'] == 'distractor':
+                assert not match_terms(q['text'], glossary), q['id']
+
+    def test_keyword_backend_small_index_is_flagged_invalid(self):
+        from app.evaluation.retrieval import TerminologyRetrievalBenchmark
+        result = TerminologyRetrievalBenchmark(use_encoder=False).run(
+            langs=['hindi'], top_ks=(1, 5))
+        assert result['backend'] == 'keyword-fallback'
+        assert result['index_size'] == 15 and result['valid'] is False
+        agg = result['aggregate']
+        assert agg['paraphrase']['recall_at_5'] == 0.0  # lexical can't paraphrase
+        assert agg['distractor_false_positive_rate'] == 0.0
+        assert agg['sentence_term_recall'] == 1.0
+
+    def test_padding_grows_index_without_touching_glossary(self):
+        from app.evaluation.retrieval import TerminologyRetrievalBenchmark
+        pad = [{'term': f'padterm{i}', 'translation': 'x', 'category': 'padding'}
+               for i in range(1200)]
+        bench = TerminologyRetrievalBenchmark(use_encoder=False, pad_terms=pad)
+        result = bench.run(langs=['hindi'], top_ks=(1, 5))
+        assert result['index_size'] == 1215 and result['valid'] is True
+        from app.services.term_index import load_terms
+        assert len(load_terms('hindi')) == 15  # nothing persisted
+
+    def test_load_pad_terms_text_file(self, tmp_path):
+        from app.evaluation.retrieval import load_pad_terms
+        f = tmp_path / 'terms.txt'
+        f.write_text('alpha\n\nbeta gamma\n', encoding='utf-8')
+        assert [t['term'] for t in load_pad_terms(str(f))] == ['alpha', 'beta gamma']
 
 
 # ---------------------------------------------------------------------------
@@ -519,8 +573,8 @@ class TestLanguageDetectionBenchmark:
 
     def test_benchmark_meets_scorecard_targets(self):
         # Regression floor: the learned hi/mr word/suffix model plus the
-        # deterministic script classes must clear the scorecard acceptance
-        # targets (deterministic split, so these are stable).
+        # deterministic script classes must clear the scorecard's language-ID
+        # target (deterministic split, so these are stable).
         from app.evaluation.language_detection import LanguageDetectionBenchmark
         result = LanguageDetectionBenchmark().run()
         assert result['macro_f1'] >= 0.95
@@ -630,8 +684,9 @@ class TestQualityEstimation:
         assert {'good', 'bad', 'partial'} <= labels
 
     def test_heuristic_f1_meets_scorecard_target(self):
-        # The heuristic scorer (incl. the Devanagari word-order sanity rule)
-        # must clear the scorecard's F1 >= 0.95 acceptance target.
+        # Regression floor for the heuristic scorer on the synthetic set (not
+        # a scorecard target: separating hand-made degenerate outputs is a
+        # sanity check, not quality estimation).
         from app.evaluation.quality_estimation import QualityEstimationBenchmark
         result = QualityEstimationBenchmark().run()
         assert result['f1'] >= 0.95
@@ -900,14 +955,34 @@ class TestBenchmarkCLIHelpers:
 class TestReport:
     def _fake_results(self):
         return {
-            'functional': {'pass_rate': 100.0},
-            'unicode': {'pass_rate': 100.0},
-            'quality_estimation': {'f1': 0.97},  # COMETkiwi-level target (>= 0.95)
+            'functional': {'pass_rate': 100.0, 'passed': 40, 'total': 40},
+            'unicode': {'pass_rate': 100.0, 'passed': 12, 'total': 12},
+            'quality_estimation': {'f1': 0.97},
+            'terminology_ablation': {
+                'hindi': {
+                    'num_sentences': 240, 'num_required_terms': 260,
+                    'glossary_size': 900, 'underpowered': False,
+                    'strategies': {
+                        'none': {'term_accuracy': 0.62, 'chrf_plus': 55.0, 'bleu': 30.0,
+                                 'applied_rate': 0.0, 'fallback_rate': 0.0, 'p95_ms': 900},
+                        'inline': {'term_accuracy': 0.93, 'chrf_plus': 55.4, 'bleu': 30.5,
+                                   'delta_chrf': 0.4, 'ci95_halfwidth': 0.3,
+                                   'p_value': 0.01, 'applied_rate': 1.0,
+                                   'fallback_rate': 0.0, 'p95_ms': 950},
+                    },
+                },
+            },
             'retrieval': {
-                'backend': 'keyword-fallback',
-                'num_queries_total': 15,
-                'languages': {'hindi': {'recall_at_k': {5: 0.9, 1: 0.5},
-                                        'mrr': 0.7, 'ndcg_at_k': {5: 0.8}}},
+                'backend': 'keyword-fallback', 'index_size': 15, 'valid': False,
+                'num_queries_total': 105,
+                'languages': {'hindi': {'recall_at_k': {5: 0.9}, 'mrr': 0.7}},
+                'aggregate': {
+                    'sentence': {'recall_at_1': 0.95, 'recall_at_5': 0.98, 'mrr': 0.96},
+                    'paraphrase': {'recall_at_1': 0.0, 'recall_at_5': 0.0, 'mrr': 0.0},
+                    'sentence_term_recall': 1.0,
+                    'distractor_false_positive_rate': 0.0,
+                    'enforced_precision': 0.92,
+                },
             },
             'translation_memory': {
                 'lang_pair': 'english->hindi', 'num_sentences': 8,
@@ -916,56 +991,82 @@ class TestReport:
                 'exact_hit_rate': 1.0, 'semantic_hit_rate': 0.0,
                 'encoder_available': False, 'latency_reduction_pct': 99.8,
             },
-            'translation': {
-                'hindi': {
-                    'models': {
-                        'nllb': {
-                            'summary': {'bleu': 40.0, 'chrf_plus': 60.0},
-                            'latency': {'p95_ms': 1200.0},
-                        }
-                    }
-                }
+            'flores': {'num_sentences': 1012},
+            'flores_translation': {
+                'hindi': {'models': {'nllb': {'summary': {'bleu': 30.0, 'chrf_plus': 55.0},
+                                              'latency': {'p95_ms': 1500.0}}}},
             },
-            'security': {'pass_rate': 100.0},
-            'e2e': {'pass_rate': 100.0},
+            'translation': {
+                'hindi': {'models': {'nllb': {'summary': {'bleu': 67.0, 'chrf_plus': 79.0},
+                                              'latency': {'p95_ms': 1200.0}}}},
+            },
             'hallucination': {'aggregate': {'degenerate_output_rate_pct': 0.0}},
         }
 
-    def test_scorecard_statuses(self):
+    def _statuses(self, results):
         from app.evaluation.report import build_scorecard
-        sc = build_scorecard(self._fake_results())
-        statuses = {e['key']: e['status'] for e in sc['entries']}
-        assert statuses['functional_pass_rate'] == 'PASS'
-        assert statuses['unicode_pass_rate'] == 'PASS'
-        assert statuses['quality_estimation_f1'] == 'PASS'
-        assert statuses['retrieval_recall_at_5'] == 'PASS'
-        assert statuses['tm_hit_p95_ms'] == 'PASS'
-        assert statuses['translation_p95_ms'] == 'PASS'
-        assert statuses['security_pass_rate'] == 'PASS'
-        assert statuses['e2e_pass_rate'] == 'PASS'
-        assert statuses['hallucination_rate_pct'] == 'PASS'
-        assert sc['summary']['pass'] >= 8
+        sc = build_scorecard(results)
+        return sc, {e['key']: e['status'] for e in sc['entries']}
 
-    def test_markdown_contains_tables(self):
+    def test_scorecard_statuses(self, monkeypatch):
+        monkeypatch.delenv('TERMINOLOGY_STRATEGY', raising=False)
+        sc, st = self._statuses(self._fake_results())
+        assert st['terminology_accuracy'] == 'PASS'
+        assert st['terminology_chrf_delta'] == 'PASS'
+        assert st['terminology_sample_size'] == 'PASS'
+        assert st['translation_p95_ms'] == 'PASS'      # worst of FLORES + curated
+        assert st['hallucination_rate_pct'] == 'PASS'
+        # A 15-entry index and zero paraphrase recall must fail, not pass.
+        assert st['retrieval_index_size'] == 'FAIL'
+        assert st['retrieval_paraphrase_recall_at_5'] == 'FAIL'
+        assert st['retrieval_distractor_fp_rate'] == 'PASS'
+        assert st['language_detection_f1'] == 'NOT MEASURED'
+        assert sc['summary'] == {'pass': 6, 'fail': 2, 'not_measured': 1,
+                                 'total_targets': 9}
+
+    def test_ci_suites_and_cache_latency_are_not_scored(self):
+        sc, st = self._statuses(self._fake_results())
+        for removed in ('functional_pass_rate', 'unicode_pass_rate', 'e2e_pass_rate',
+                        'security_pass_rate', 'tm_hit_p95_ms', 'quality_estimation_f1'):
+            assert removed not in st
+        assert sc['test_suites']['functional'] == {'passed': 40, 'total': 40,
+                                                   'pass_rate': 100.0}
+
+    def test_mock_sections_are_not_measured(self):
+        results = self._fake_results()
+        results['hallucination']['mode'] = 'mock'
+        _, st = self._statuses(results)
+        assert st['hallucination_rate_pct'] == 'NOT MEASURED'
+        results['metadata'] = {'mode': 'mock'}
+        _, st = self._statuses(results)
+        assert st['translation_p95_ms'] == 'NOT MEASURED'
+
+    def test_empty_results_are_not_measured(self):
+        sc, st = self._statuses({})
+        assert set(st.values()) == {'NOT MEASURED'}
+        assert sc['summary']['pass'] == 0
+
+    def test_uses_configured_strategy(self, monkeypatch):
+        monkeypatch.setenv('TERMINOLOGY_STRATEGY', 'placeholder')
+        _, st = self._statuses(self._fake_results())
+        assert st['terminology_accuracy'] == 'NOT MEASURED'  # no placeholder run
+
+    def test_markdown_puts_flores_first_and_labels_curated(self):
         from app.evaluation.report import build_scorecard, render_markdown
-        sc = build_scorecard(self._fake_results())
-        md = render_markdown(sc, self._fake_results())
-        assert 'SCORECARD' in md.upper()
-        assert '| en→hindi |' in md
-        assert 'Translation quality' in md
+        results = self._fake_results()
+        md = render_markdown(build_scorecard(results), results)
+        assert md.index('FLORES-200 devtest (main results)') < md.index('Curated set')
+        assert 'machine-generated' in md
+        assert 'Terminology ablation' in md and '| inline | 93.0% |' in md
+        assert 'too small to be evidence' in md
+        assert 'Test suites (CI checks, not scored): functional 40/40' in md
 
     def test_scorecard_robust_to_json_round_trip(self):
-        # Staged runs load previous results from JSON, which stores dict keys
-        # as strings (recall_at_k {'5': 1.0}). The scorecard must still
-        # resolve the retrieval Recall@5 target after the round trip.
         import json
         from app.evaluation.report import build_scorecard
         data = json.loads(json.dumps(self._fake_results()))
         sc = build_scorecard(data)
-        statuses = {e['key']: e['status'] for e in sc['entries']}
-        assert statuses['retrieval_recall_at_5'] == 'PASS'
-        assert statuses['translation_p95_ms'] == 'PASS'
-        assert sc['summary']['pass'] >= 8
+        assert sc['summary']['pass'] + sc['summary']['fail'] == 8
 
 
 # ---------------------------------------------------------------------------

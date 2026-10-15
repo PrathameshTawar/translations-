@@ -7,6 +7,7 @@ RAG service with graceful fallbacks.
 - Singleton pattern to avoid reloading models on every request
 """
 import os
+import re
 import json
 import logging
 
@@ -15,6 +16,7 @@ from app.services.reranker import CrossEncoderReranker
 logger = logging.getLogger(__name__)
 
 _instance = None
+_WORD_RE = re.compile(r'\w+')
 
 
 class IndicRAGPipeline:
@@ -222,11 +224,12 @@ class IndicRAGPipeline:
             # Try 'english' as fallback
             terms = self.terminology_db.get('english', [])
 
-        query_words = set(query.lower().split())
+        # Word tokens, not whitespace split: "computer." must match "computer".
+        query_words = set(_WORD_RE.findall(query.lower()))
         scored = []
         for term in terms:
             term_text = (term.get('term') or '').lower()
-            term_words = set(term_text.split())
+            term_words = set(_WORD_RE.findall(term_text))
             overlap = len(query_words & term_words)
             if overlap > 0:
                 scored.append((overlap, term))
