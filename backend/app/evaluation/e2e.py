@@ -51,7 +51,9 @@ class EndToEndTest:
         from app import create_app
         from app.extensions import db
 
-        self.app = create_app(self.config_name)
+        # Rate limiting has its own tests; these suites check behaviour.
+        self.app = create_app(self.config_name,
+                              overrides={'RATELIMIT_ENABLED': False})
         fd, self._db_path = tempfile.mkstemp(suffix='.db')
         _os.close(fd)
         uri = 'sqlite:///' + self._db_path.replace('\\', '/')

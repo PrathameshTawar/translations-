@@ -1,7 +1,9 @@
 import { useState, useCallback } from 'react';
 import axios from 'axios';
 
-const API_BASE_URL = 'http://127.0.0.1:8000/api/v1';
+// Relative by default: the Vite dev server and nginx both proxy /api to the
+// backend. Override with VITE_API_BASE_URL for other setups.
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api/v1';
 
 export function useTranslation() {
   const [translationResult, setTranslationResult] = useState(null);

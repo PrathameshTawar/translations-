@@ -13,6 +13,9 @@ from app.services.generative_qa import GenerativeQA, MAX_QUESTION_CHARS, is_avai
 
 logger = logging.getLogger(__name__)
 
+from app.extensions import limiter
+from app.utils.auth import config_limit
+
 qa_bp = Blueprint('qa', __name__)
 
 _qa_service = None
@@ -31,6 +34,7 @@ def get_qa_service():
 
 
 @qa_bp.route('/ask', methods=['POST'])
+@limiter.limit(config_limit('RATELIMIT_QA'))
 def ask():
     """Grounded QA over the terminology RAG context.
 

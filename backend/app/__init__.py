@@ -2,20 +2,35 @@ import logging
 from flask import Flask, jsonify
 from flask_cors import CORS
 from app.config import get_config
-from app.extensions import db, cache, jwt
+from app.extensions import db, cache, jwt, limiter
 from app.utils.logger import setup_logging
 
 
-def create_app(config_name='development'):
+def create_app(config_name='development', overrides=None):
+    """
+    Build the Flask app.
+
+    Args:
+        config_name: 'development' or 'production'.
+        overrides: config values applied before extensions initialise
+                   (tests use it to e.g. disable rate limiting).
+    """
     setup_logging()
 
     app = Flask(__name__)
     app.config.from_object(get_config(config_name))
+    if overrides:
+        app.config.update(overrides)
+
+    if app.config.get('BEHIND_PROXY'):
+        from werkzeug.middleware.proxy_fix import ProxyFix
+        app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1)
 
     # Initialize extensions
     db.init_app(app)
     cache.init_app(app)
     jwt.init_app(app)
+    limiter.init_app(app)
 
     # CORS — from config (defaults to local dev origins)
     CORS(app, resources={

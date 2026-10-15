@@ -1,7 +1,8 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 from sqlalchemy.exc import IntegrityError
-from app.extensions import db
+from app.extensions import db, limiter
+from app.utils.auth import config_limit
 from app.models import User
 from app.utils.validators import validate_register_request, validate_login_request
 
@@ -9,6 +10,7 @@ auth_bp = Blueprint('auth', __name__)
 
 
 @auth_bp.route('/register', methods=['POST'])
+@limiter.limit(config_limit('RATELIMIT_AUTH'))
 def register():
     """Register a new user."""
     data = request.get_json() or {}
@@ -44,6 +46,7 @@ def register():
 
 
 @auth_bp.route('/login', methods=['POST'])
+@limiter.limit(config_limit('RATELIMIT_AUTH'))
 def login():
     """Login with email + password, returns JWT."""
     data = request.get_json() or {}

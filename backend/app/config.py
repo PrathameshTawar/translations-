@@ -28,6 +28,23 @@ class Config:
         if o.strip()
     ]
 
+    # Operator-only endpoints (/evaluate/run, TM admin). Disabled when unset.
+    ADMIN_TOKEN = os.getenv('ADMIN_TOKEN', '')
+
+    # Rate limits (Flask-Limiter syntax). Memory storage is per worker; use
+    # redis://... to share counters across gunicorn workers.
+    RATELIMIT_ENABLED = os.getenv('RATELIMIT_ENABLED', 'true').lower() != 'false'
+    RATELIMIT_STORAGE_URI = os.getenv('RATELIMIT_STORAGE_URI', 'memory://')
+    RATELIMIT_HEADERS_ENABLED = True
+    RATELIMIT_TRANSLATE = os.getenv('RATELIMIT_TRANSLATE', '30 per minute')
+    RATELIMIT_QA = os.getenv('RATELIMIT_QA', '20 per minute')
+    RATELIMIT_AUTH = os.getenv('RATELIMIT_AUTH', '10 per minute')
+    RATELIMIT_EVALUATE = os.getenv('RATELIMIT_EVALUATE', '2 per hour')
+
+    # Set when running behind a reverse proxy (nginx) so rate limits key on
+    # the client IP from X-Forwarded-For instead of the proxy's address.
+    BEHIND_PROXY = os.getenv('BEHIND_PROXY', 'false').lower() == 'true'
+
     # Translator model
     NLLB_MODEL = os.getenv('NLLB_MODEL', 'facebook/nllb-200-distilled-600M')
 
@@ -74,6 +91,10 @@ def validate_production_env(env=None):
             problems.append(f'{name} must be set to a real secret')
         elif len(value) < _MIN_SECRET_LENGTH:
             problems.append(f'{name} must be at least {_MIN_SECRET_LENGTH} characters')
+    admin = env.get('ADMIN_TOKEN', '')
+    if admin and len(admin) < _MIN_SECRET_LENGTH:
+        problems.append(f'ADMIN_TOKEN must be empty (disabled) or at least '
+                        f'{_MIN_SECRET_LENGTH} characters')
     if problems:
         raise RuntimeError('Invalid production configuration: ' + '; '.join(problems)
                            + ". Generate secrets with: python -c \"import secrets; "

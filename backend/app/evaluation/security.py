@@ -77,9 +77,6 @@ SECURITY_CASES = [
     dict(name='array body rejected on /login', category='input_validation',
          method='POST', path='/api/v1/auth/login', body=['a', 'b'],
          expect=400, modes=['mock', 'live'], check=_has_error),
-    dict(name='array body rejected on /evaluate/run', category='input_validation',
-         method='POST', path='/api/v1/evaluate/run', body=['a', 'b'],
-         expect=400, modes=['mock', 'live'], check=_has_error),
     dict(name='nested array text field rejected', category='input_validation',
          method='POST', path=PATH,
          body={'text': ['Hello', 'world'], 'source_lang': 'english',
@@ -182,6 +179,15 @@ SECURITY_CASES = [
          expect=400, modes=['mock', 'live'], check=_has_error),
 
     # ---------------- auth -------------------------------------------------
+    dict(name='evaluate/run rejected without admin token', category='auth',
+         method='POST', path='/api/v1/evaluate/run', body={},
+         expect=403, modes=['mock', 'live'], check=_has_error),
+    dict(name='TM entries rejected without admin token', category='auth',
+         method='GET', path='/api/v1/tm/entries', body=None,
+         expect=403, modes=['mock', 'live'], check=_has_error),
+    dict(name='TM clear rejected without admin token', category='auth',
+         method='POST', path='/api/v1/tm/clear', body=None,
+         expect=403, modes=['mock', 'live'], check=_has_error),
     dict(name='protected /me without token rejected', category='auth',
          method='GET', path='/api/v1/auth/me',
          expect=401, modes=['mock', 'live'],
@@ -245,7 +251,9 @@ class SecurityTestSuite:
         from app import create_app
         from app.extensions import db
 
-        self.app = create_app(self.config_name)
+        # Rate limiting has its own tests; these suites check behaviour.
+        self.app = create_app(self.config_name,
+                              overrides={'RATELIMIT_ENABLED': False})
 
         # Isolate DB writes into a throwaway sqlite file
         fd, self._db_path = tempfile.mkstemp(suffix='.db')

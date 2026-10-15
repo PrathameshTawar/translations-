@@ -9,6 +9,9 @@ from app.services.quality import QualityScorer
 
 logger = logging.getLogger(__name__)
 
+from app.extensions import limiter
+from app.utils.auth import config_limit
+
 translate_bp = Blueprint('translate', __name__)
 
 _translator_engine = None
@@ -71,6 +74,7 @@ def get_languages():
 
 
 @translate_bp.route('/detect', methods=['POST'])
+@limiter.limit(config_limit('RATELIMIT_TRANSLATE'))
 def detect_language():
     """
     Detect the language of a text using Unicode script analysis.
@@ -104,6 +108,7 @@ def get_models():
 
 
 @translate_bp.route('/text', methods=['POST'])
+@limiter.limit(config_limit('RATELIMIT_TRANSLATE'))
 def translate_text():
     """
     Main translation endpoint.
@@ -118,6 +123,7 @@ def translate_text():
 
 
 @translate_bp.route('/ask', methods=['POST'])
+@limiter.limit(config_limit('RATELIMIT_TRANSLATE'))
 def ask():
     """Legacy endpoint — delegates to /text for backward compatibility."""
     data = request.get_json() or {}

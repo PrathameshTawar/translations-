@@ -238,7 +238,9 @@ class FunctionalTestSuite:
         from app import create_app
         from app.extensions import db
 
-        self.app = create_app(self.config_name)
+        # Rate limiting has its own tests; these suites check behaviour.
+        self.app = create_app(self.config_name,
+                              overrides={'RATELIMIT_ENABLED': False})
 
         # Isolate DB writes into a throwaway sqlite file so the functional
         # matrix never pollutes the development database (history UI, etc.)

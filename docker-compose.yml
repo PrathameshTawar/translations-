@@ -111,7 +111,8 @@ services:
       # and the app rejects placeholder or short values (app/config.py).
       SECRET_KEY: ${SECRET_KEY:?set SECRET_KEY in .env (see .env.example)}
       JWT_SECRET_KEY: ${JWT_SECRET_KEY:?set JWT_SECRET_KEY in .env (see .env.example)}
-      EVAL_ADMIN_TOKEN: ${EVAL_ADMIN_TOKEN:-}
+      ADMIN_TOKEN: ${ADMIN_TOKEN:-}        # empty = admin endpoints disabled
+      BEHIND_PROXY: "true"                # rate limits key on the real client IP
       GROQ_API_KEY: ${GROQ_API_KEY:-}
       GROQ_MODEL: ${GROQ_MODEL:-llama-3.1-8b-instant}
       CORS_ORIGIN: http://localhost:3000,http://localhost:5173

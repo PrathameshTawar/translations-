@@ -10,7 +10,8 @@ import logging
 import threading
 from datetime import datetime, timezone
 from flask import Blueprint, request, jsonify
-from app.extensions import db
+from app.extensions import db, limiter
+from app.utils.auth import admin_required, config_limit
 
 logger = logging.getLogger(__name__)
 
@@ -21,6 +22,9 @@ evaluate_bp = Blueprint('evaluate', __name__)
 _evaluation_cache = {}
 _evaluation_cache_lock = threading.Lock()
 _EVALUATION_CACHE_MAX = 50
+
+# A full run loads several models and can take minutes; never run two at once.
+_run_lock = threading.Lock()
 
 
 @evaluate_bp.route('/languages', methods=['GET'])
@@ -68,9 +72,12 @@ def get_available_metrics():
 
 
 @evaluate_bp.route('/run', methods=['POST'])
+@limiter.limit(config_limit('RATELIMIT_EVALUATE'))
+@admin_required
 def run_evaluation():
     """
-    Run evaluation across all available models.
+    Run evaluation across all available models (admin only, rate limited,
+    one run at a time).
 
     Body (optional):
     {
@@ -80,7 +87,18 @@ def run_evaluation():
         "run_latency": false  // default: false
     }
     """
-    data = request.get_json() or {}
+    if not _run_lock.acquire(blocking=False):
+        return jsonify({'error': 'An evaluation run is already in progress'}), 409
+    try:
+        return _run_evaluation()
+    finally:
+        _run_lock.release()
+
+
+def _run_evaluation():
+    data = request.get_json(silent=True)
+    if data is None:
+        data = {}
     if not isinstance(data, dict):
         return jsonify({'error': 'Request body must be a JSON object'}), 400
     target_langs = data.get('target_langs', ['hindi'])
