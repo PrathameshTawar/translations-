@@ -176,6 +176,13 @@ def _handle_translation(data):
     use_reranker = data.get('use_reranker', False)
     if not isinstance(use_reranker, bool):
         return jsonify({'error': 'use_reranker must be a boolean'}), 400
+    # How retrieved glossary terms are enforced (see services/terminology.py).
+    from app.services.terminology import STRATEGIES, default_strategy
+    strategy = data.get('terminology_strategy') or default_strategy()
+    if not isinstance(strategy, str) or strategy.lower() not in STRATEGIES:
+        return jsonify({'error': 'terminology_strategy must be one of: '
+                                 + ', '.join(STRATEGIES)}), 400
+    strategy = strategy.lower()
 
     # Non-string payloads (numbers, lists, dicts) must 400, not 500.
     if not isinstance(text, str) or not text.strip():
@@ -193,8 +200,8 @@ def _handle_translation(data):
     parse_ms = (time.time() - t_parse) * 1000
 
     # Lazy-load RAG pipeline (optional)
-    context_text = None
     retrieved_terms = []
+    candidate_terms = []
     reranked = False
     reranker_available = False
     t_rag = time.time()
@@ -209,8 +216,12 @@ def _handle_translation(data):
                 top_k=top_k if top_k is not None else 2,
                 use_reranker=use_reranker,
             )
-            context_text = rag_result.get('context')
             retrieved_terms = rag_result.get('terms', [])
+            # Retrieval proposes candidates; exact glossary hits are always
+            # added so a term present in the source is never missed.
+            lexical = getattr(rag, 'glossary_matches', None)
+            candidate_terms = retrieved_terms + (
+                lexical(text, target_lang) if lexical else [])
             reranked = bool(rag_result.get('reranked'))
             reranker_available = bool(rag_result.get('reranker_available'))
         except Exception as rag_err:
@@ -227,8 +238,9 @@ def _handle_translation(data):
             text=text,
             source_lang=source_lang,
             target_lang=target_lang,
-            context=context_text,
             model_name=model_name,
+            terms=candidate_terms if include_context else None,
+            terminology_strategy=strategy,
             **gen_kwargs,
         )
     except Exception as e:
@@ -237,6 +249,8 @@ def _handle_translation(data):
     translate_ms = (time.time() - t_translate) * 1000
 
     translated_text = result.get('translated', '')
+    terminology = result.get('terminology')
+    terms_applied = bool(terminology and terminology.get('applied'))
     model_used = result.get('metadata', {}).get('model', 'unknown')
 
     # A wrapper returns an error result (model not loaded / inference failure)
@@ -275,7 +289,7 @@ def _handle_translation(data):
         character_count=len(text),
         processing_time_ms=processing_time,
         retrieved_terms_count=len(retrieved_terms),
-        context_used=bool(context_text),
+        context_used=terms_applied,
     )
     db.session.add(t_record)
     db.session.commit()
@@ -294,7 +308,8 @@ def _handle_translation(data):
         'target_lang': target_lang,
         'quality_metrics': quality,
         'retrieved_terms': retrieved_terms,
-        'context_used': bool(context_text),
+        'context_used': terms_applied,
+        'terminology': terminology,
         'reranked': reranked,
         'reranker_available': reranker_available,
         'model_used': model_used,

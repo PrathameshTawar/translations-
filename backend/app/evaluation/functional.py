@@ -33,13 +33,13 @@ logger = logging.getLogger(__name__)
 class EchoTranslator:
     """Returns the input unchanged so preservation checks are meaningful."""
 
-    def translate(self, text, source_lang, target_lang, context=None, model_name=None):
+    def translate(self, text, source_lang, target_lang, model_name=None, **kwargs):
         return {
             'original': text,
             'translated': text,
             'source_lang': source_lang,
             'target_lang': target_lang,
-            'context_used': context,
+            'context_used': bool(kwargs.get('terms')),
             'metadata': {
                 'model': 'mock-echo',
                 'src_code': None,
@@ -56,14 +56,14 @@ class EchoTranslator:
 class FailTranslator:
     """Raises — the route must turn this into a graceful 500."""
 
-    def translate(self, text, source_lang, target_lang, context=None, model_name=None):
+    def translate(self, text, source_lang, target_lang, model_name=None, **kwargs):
         raise RuntimeError('mock model failure')
 
 
 class EmptyTranslator:
     """Returns an empty translation with error metadata — route must 502."""
 
-    def translate(self, text, source_lang, target_lang, context=None, model_name=None):
+    def translate(self, text, source_lang, target_lang, model_name=None, **kwargs):
         return {
             'original': text,
             'translated': '',

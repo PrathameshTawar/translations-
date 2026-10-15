@@ -139,6 +139,20 @@ class IndicRAGPipeline:
                 'reranker_available': reranker.available
                 if reranker is not None else False}
 
+    def glossary_matches(self, text: str, target_lang: str) -> list:
+        """
+        Glossary entries whose English term occurs verbatim in ``text``.
+
+        Exact lexical matching over the whole glossary: dense retrieval can
+        miss an exact term or rank it below top-k, but a term that is present
+        in the source must always be enforced.
+        """
+        from app.services.terminology import match_terms
+        terms = self.terminology_db.get((target_lang or '').lower(), [])
+        by_term = {(t.get('term') or '').lower(): t for t in terms}
+        return [by_term[m.term.lower()] for m in match_terms(text, terms)
+                if m.term.lower() in by_term]
+
     # ------------------------------------------------------------------
     # Reranking (optional cross-encoder second stage)
     # ------------------------------------------------------------------

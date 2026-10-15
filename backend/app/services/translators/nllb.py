@@ -241,16 +241,39 @@ class NLLBTranslator(BaseTranslator):
             # translations are unaffected while pathological runs are bounded.
             input_len = inputs['input_ids'].shape[1]
             max_new = resolve_max_new_tokens(input_len, 'NLLB')
+            # Optional lexical constraints (terminology 'constrained'
+            # strategy): every glossary translation must appear in the output.
+            constraint_kwargs = {}
+            force_words = [w for w in (kwargs.get('force_words') or []) if w]
+            if force_words:
+                ids = [self._tokenizer(w, add_special_tokens=False).input_ids
+                       for w in force_words]
+                constraint_kwargs['force_words_ids'] = [i for i in ids if i]
+                num_beams = max(num_beams, 2)  # constrained search needs beams
+            constraints_error = None
+
             t_gen = time.time()
             import torch  # lazy: the package stays importable without torch
+            gen_args = dict(
+                forced_bos_token_id=forced_bos_token_id,
+                max_new_tokens=max_new,
+                num_beams=num_beams,
+                early_stopping=True,
+            )
             with torch.inference_mode():
-                generated = self._model.generate(
-                    **inputs,
-                    forced_bos_token_id=forced_bos_token_id,
-                    max_new_tokens=max_new,
-                    num_beams=num_beams,
-                    early_stopping=True,
-                )
+                try:
+                    generated = self._model.generate(**inputs, **gen_args,
+                                                     **constraint_kwargs)
+                except (TypeError, ValueError, NotImplementedError) as e:
+                    if not constraint_kwargs:
+                        raise
+                    # Recent transformers releases moved constrained beam
+                    # search out of the core library; translate without it
+                    # and report why.
+                    constraints_error = f'constrained decoding unavailable: {e}'
+                    logger.warning(constraints_error)
+                    constraint_kwargs = {}
+                    generated = self._model.generate(**inputs, **gen_args)
             generate_ms = (time.time() - t_gen) * 1000
 
             # --- Stage: decoding ---------------------------------------
@@ -283,6 +306,8 @@ class NLLBTranslator(BaseTranslator):
                     'decode_ms': round(decode_ms, 2),
                     'input_tokens': input_len,
                     'max_new_tokens': max_new,
+                    'constraints_applied': bool(constraint_kwargs),
+                    'constraints_error': constraints_error,
                 },
             )
         except Exception as e:

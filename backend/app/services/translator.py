@@ -7,9 +7,10 @@ with existing code that imports TranslationEngine.
 """
 
 import logging
-from typing import Dict, Optional
+from typing import Dict, List, Optional
 
 from .model_registry import ModelRegistry
+from .terminology import translate_with_terms
 from .translators import BaseTranslator, TranslationResult
 
 logger = logging.getLogger(__name__)
@@ -64,6 +65,8 @@ class TranslationEngine:
         target_lang: str = "hindi",
         context: str = None,
         model_name: Optional[str] = None,
+        terms: Optional[List[Dict]] = None,
+        terminology_strategy: Optional[str] = None,
         **kwargs,
     ) -> Dict:
         """
@@ -74,8 +77,13 @@ class TranslationEngine:
             text: Text to translate.
             source_lang: Source language.
             target_lang: Target language.
-            context: Optional RAG context.
+            context: Optional raw context prefix (legacy; prefer ``terms``).
             model_name: Specific model to use. If None, auto-selects best.
+            terms: Candidate glossary entries. Those that occur in ``text``
+                   are enforced with ``terminology_strategy`` (see
+                   app/services/terminology.py).
+            terminology_strategy: none | prompt | inline | placeholder |
+                   constrained (default: TERMINOLOGY_STRATEGY env).
             **kwargs: Extra generation knobs forwarded to the model wrapper
                       (e.g. num_beams).
 
@@ -84,14 +92,24 @@ class TranslationEngine:
                            context_used, metadata, tm_hit, tm_similarity
         """
         try:
-            result = self._registry.translate(
-                text=text,
-                source_lang=source_lang,
-                target_lang=target_lang,
-                model=model_name,
-                context=context,
-                **kwargs,
-            )
+            terminology = None
+            if terms is not None:
+                def translate_fn(src, **kw):
+                    return self._registry.translate(
+                        text=src, source_lang=source_lang, target_lang=target_lang,
+                        model=model_name, **kw)
+                result, info = translate_with_terms(
+                    translate_fn, text, terms, terminology_strategy, **kwargs)
+                terminology = info.to_dict()
+            else:
+                result = self._registry.translate(
+                    text=text,
+                    source_lang=source_lang,
+                    target_lang=target_lang,
+                    model=model_name,
+                    context=context,
+                    **kwargs,
+                )
 
             # Convert to legacy dict format for backward compatibility
             return {
@@ -99,7 +117,9 @@ class TranslationEngine:
                 'translated': result.translated,
                 'source_lang': result.source_lang,
                 'target_lang': result.target_lang,
-                'context_used': result.context_used,
+                'context_used': result.context_used or bool(
+                    terminology and terminology['applied']),
+                'terminology': terminology,
                 'metadata': {
                     'model': result.model,
                     'src_code': result.src_code,
