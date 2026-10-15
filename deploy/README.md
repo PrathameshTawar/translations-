@@ -16,11 +16,13 @@ docker-compose.yml
 ## Quick start
 
 ```bash
-# optional: enable generative QA
-export GROQ_API_KEY=your-key-here
-
+cp .env.example .env   # set SECRET_KEY and JWT_SECRET_KEY (>= 32 chars);
+                       # optional: GROQ_API_KEY, ADMIN_TOKEN
 docker compose up --build -d
 ```
+
+Compose refuses to start without `SECRET_KEY`/`JWT_SECRET_KEY`, and the
+backend rejects placeholder or short values in production.
 
 - UI:      http://localhost:3000
 - API:     http://localhost:8080/api/health
@@ -63,8 +65,9 @@ three model services report healthy.
 | --------------------- | ----------------------------------------- | ------------------ |
 | `GROQ_API_KEY`        | Enables generative QA (orchestrator)      | —                  |
 | `GROQ_MODEL`          | LLM for answering                         | llama-3.1-8b-instant |
-| `SECRET_KEY`          | Flask secret (production)                 | change-me…         |
-| `JWT_SECRET_KEY`      | JWT signing secret                        | change-me…         |
+| `SECRET_KEY`          | Flask secret (production)                 | required           |
+| `JWT_SECRET_KEY`      | JWT signing secret                        | required           |
+| `ADMIN_TOKEN`         | `X-Admin-Token` for /evaluate/run, /tm/*  | empty = disabled   |
 | `NLLB_NUM_BEAMS`      | Beam size for the translator              | 2                  |
 
 ## Local (non-Docker) equivalents
@@ -75,7 +78,8 @@ three model services report healthy.
 
 ## Extending
 
-- Swap `EMBEDDING_MODEL` for the fine-tuned IndicBERT
-  (`indicbert-finetuned-hindi`, see `scripts/finetune_embedder.py`) and
-  rebuild the FAISS indexes with `scripts/build_faiss_index.py`.
+- Swap `EMBEDDING_MODEL` for a fine-tuned encoder (see
+  `backend/scripts/finetune_embedder.py`) and rebuild the FAISS indexes with
+  `backend/scripts/build_faiss_index.py --encoder ...`. Indexes are
+  otherwise built on first use into the `rag-indexes` volume.
 - Tune beam size per service via `NLLB_NUM_BEAMS` (latency vs quality).

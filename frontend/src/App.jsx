@@ -16,7 +16,7 @@ function App() {
       <TranslatorCard />
       
       <footer className="mt-auto py-8 text-center text-sm text-gray-500">
-        &copy; 2026 Indic RAG Research. Powered by NLLB-200 and fine-tuned embeddings.
+        &copy; 2026 Indic RAG Research. Powered by NLLB-200 with glossary-enforced terminology.
       </footer>
     </div>
   );
