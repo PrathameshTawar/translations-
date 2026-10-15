@@ -1,6 +1,6 @@
 # Shared image for the paper's model microservices: embedding-service,
 # faiss-service, reranker-service and orchestrator. All four reuse the
-# translator-backend package (app.services.*) plus their thin FastAPI apps
+# backend package (app.services.*) plus their thin FastAPI apps
 # in deploy/services/. Build context must be the repository root.
 FROM python:3.11-slim
 
@@ -15,15 +15,15 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         libgomp1 \
     && rm -rf /var/lib/apt/lists/*
 
-COPY translator-backend/requirements.txt /app/requirements.txt
+COPY backend/requirements.txt /app/requirements.txt
 RUN pip install --upgrade pip \
     && pip install -r /app/requirements.txt \
     && pip install fastapi "uvicorn[standard]"
 
-COPY translator-backend/ /app/
+COPY backend/ /app/
 COPY deploy/services/ /services/
 
-# The service apps import the translator-backend package (app.services.*),
+# The service apps import the backend package (app.services.*),
 # which lives in /app while the FastAPI apps run from /services.
 ENV PYTHONPATH=/app
 

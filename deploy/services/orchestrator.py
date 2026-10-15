@@ -4,7 +4,7 @@ orchestrator — the paper's langchain-orchestrator module.
 Implements the /ask flow by wiring the three model microservices over HTTP:
 
     detect language  ->  embedding-service /encode  ->  faiss-service /search
-    ->  reranker-service /rerank (optional)  ->  generate (Groq LLaMA-3-8B)
+    ->  reranker-service /rerank (optional)  ->  generate (Groq Llama-3.1-8B)
     ->  consistency score (model-free heuristic)
 
 Service URLs come from EMBEDDING_SERVICE_URL / FAISS_SERVICE_URL /
@@ -33,7 +33,7 @@ app = FastAPI(title='orchestrator', version='1.0.0')
 EMBEDDING_URL = os.getenv('EMBEDDING_SERVICE_URL', 'http://embedding-service:8000')
 FAISS_URL = os.getenv('FAISS_SERVICE_URL', 'http://faiss-service:8000')
 RERANKER_URL = os.getenv('RERANKER_SERVICE_URL', 'http://reranker-service:8000')
-GROQ_MODEL = os.getenv('GROQ_MODEL', 'llama3-8b-8192')
+GROQ_MODEL = os.getenv('GROQ_MODEL') or 'llama-3.1-8b-instant'
 HTTP_TIMEOUT = 30
 
 _LANG_CODES = {
@@ -93,14 +93,14 @@ def _detect_lang(question):
 
 
 def _generate(question, context_text, lang):
-    """Generate a grounded answer with Groq LLaMA-3-8B."""
+    """Generate a grounded answer with Groq Llama-3.1-8B."""
     from app.services.generative_qa import _call_groq, _lang_native_name
     api_key = os.getenv('GROQ_API_KEY')
     if not api_key:
         raise HTTPException(
             status_code=503,
             detail='Generation is not configured: set GROQ_API_KEY to enable '
-                   'LLaMA-3-8B answering.',
+                   'Llama-3.1-8B answering.',
         )
     prompt = (
         f'Context:\n{context_text}\n\n'

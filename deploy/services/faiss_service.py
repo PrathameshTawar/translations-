@@ -6,8 +6,9 @@ The orchestrator encodes the query with embedding-service, then POSTs the
 vector here for ANN search; /search-text is a convenience that encodes
 in-process when the embedding service is unreachable.
 
-Index files resolve relative to INDEX_DIR (default: /data/indexes, a
-read-only mount of the backend directory in docker-compose).
+Index files resolve relative to INDEX_DIR (default: /data/indexes, a named
+volume in docker-compose). Missing indexes are built on first use from the
+glossaries baked into the image (backend/data/terminology).
 
     POST /search       {"lang": "hindi", "vector": [...], "top_k": 5}
                        -> {"terms": [{term, translation, context, ...}], "backend": "faiss"}
@@ -41,21 +42,18 @@ class SearchRequest(BaseModel):
 
 
 def _load(lang: str):
-    """Lazily load the per-language index + mapping into memory."""
+    """Lazily load the per-language index + mapping (built on demand)."""
     if lang in _indices:
         return True
-    import faiss
-    index_path = os.path.join(INDEX_DIR, f'{lang}_index.faiss')
-    mapping_path = os.path.join(INDEX_DIR, f'{lang}_mapping.json')
-    if not (os.path.exists(index_path) and os.path.exists(mapping_path)):
-        logger.warning(f'No index for lang={lang} in {INDEX_DIR}')
+    from app.services.term_index import load_or_build
+    index, mapping = load_or_build(lang, _local_encoder(), index_dir=INDEX_DIR)
+    if index is None:
+        logger.warning(f'No glossary/index for lang={lang} in {INDEX_DIR}')
         return False
-    _indices[lang] = faiss.read_index(index_path)
-    with open(mapping_path, 'r', encoding='utf-8') as f:
-        _mappings[lang] = json.load(f)
+    _indices[lang] = index
+    _mappings[lang] = mapping
     logger.info(f'Loaded index for lang={lang} '
-                f'({_indices[lang].ntotal} vectors, dim '
-                f'{_indices[lang].d})')
+                f'({index.ntotal} vectors, dim {index.d})')
     return True
 
 

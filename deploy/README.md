@@ -41,7 +41,7 @@ POST http://localhost:3000/api/v1/qa/ask
 2. /encode              — embedding-service
 3. /search              — faiss-service (per-language index, top-K)
 4. /rerank              — reranker-service (optional, cross-encoder)
-5. Generate             — LLaMA-3-8B via Groq, grounded prompt
+5. Generate             — Llama-3.1-8B via Groq, grounded prompt
 6. Confidence           — model-free consistency heuristic + degenerate-output
                           flags; low confidence is surfaced, never blocks
 
@@ -62,14 +62,14 @@ three model services report healthy.
 | Env var (host .env)   | Purpose                                   | Default            |
 | --------------------- | ----------------------------------------- | ------------------ |
 | `GROQ_API_KEY`        | Enables generative QA (orchestrator)      | —                  |
-| `GROQ_MODEL`          | LLM for answering                         | llama3-8b-8192     |
+| `GROQ_MODEL`          | LLM for answering                         | llama-3.1-8b-instant |
 | `SECRET_KEY`          | Flask secret (production)                 | change-me…         |
 | `JWT_SECRET_KEY`      | JWT signing secret                        | change-me…         |
 | `NLLB_NUM_BEAMS`      | Beam size for the translator              | 2                  |
 
 ## Local (non-Docker) equivalents
 
-- The Flask backend alone: `cd translator-backend && python wsgi.py`
+- The Flask backend alone: `cd backend && python wsgi.py`
 - The orchestrator's three microservices run in-process inside the backend
   (RAG pipeline), so the standalone API is a drop-in replacement.
 
