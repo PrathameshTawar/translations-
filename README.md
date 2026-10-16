@@ -40,7 +40,7 @@ once the ablation below is run on FLORES-200.
 | --- | --- |
 | [`reports/2026-10-15_offline`](reports/2026-10-15_offline/benchmark.md): test suites, retrieval, language ID (no models needed) | **2 PASS / 2 FAIL / 5 not measured** |
 | FLORES-200 devtest quality table and terminology ablation | **Not run yet**: they need the models and the gated FLORES-200 data ([how to run](reports/README.md#not-yet-run)) |
-| [`reports/2026-08-12_curated_set`](reports/2026-08-12_curated_set/benchmark.md) | Superseded: 42 curated sentences with machine-generated references ([why not to quote it](reports/README.md#why-the-2026-08-12-numbers-should-not-be-quoted)) |
+| 2026-08-12 curated-set run (removed; in git history) | Superseded: 42 curated sentences with machine-generated references ([why not to quote it](reports/README.md#why-the-2026-08-12-numbers-should-not-be-quoted)) |
 
 The current scorecard's two FAILs are expected. The shipped glossaries have
 **15 terms** per language, far below the 1,000-entry index size the
@@ -196,7 +196,7 @@ backend/
 frontend/         React + Vite + Tailwind
 deploy/           Dockerfiles, nginx, FastAPI microservices for the QA pipeline
 reports/          committed benchmark runs (see reports/README.md)
-docs/             design notes
+docs/             screenshots
 ```
 
 ## Known limitations

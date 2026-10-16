@@ -6,7 +6,7 @@ Only curated runs are committed here; new runs write to `backend/reports/`
 | Run | What it is | Status |
 | --- | --- | --- |
 | [`2026-10-15_offline/`](2026-10-15_offline/benchmark.md) | `python scripts/run_benchmark.py` (no models): test suites, retrieval on the new query set, language ID. Reproducible on any machine and in CI. | **Current.** 2 PASS / 2 FAIL / 5 not measured |
-| [`2026-08-12_curated_set/`](2026-08-12_curated_set/benchmark.md) | First full live run (NLLB-600M and M2M100-418M, beam 2) on the 42-sentence curated set. | **Superseded.** Kept for history; see the caveats below |
+| `2026-08-12_curated_set/` | First full live run (NLLB-600M and M2M100-418M, beam 2) on the 42-sentence curated set. | **Superseded and removed**; it is in git history before this cleanup. See the caveats below |
 
 ## Not yet run
 

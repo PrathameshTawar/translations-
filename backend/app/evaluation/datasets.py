@@ -499,7 +499,7 @@ CODE_MIXED_ITEMS = [
 
 
 ###############################################################################
-# Backward-compatible aggregate views (used by routes + run_evaluation.py)
+# Backward-compatible aggregate views (used by the evaluate routes)
 ###############################################################################
 
 ENGLISH_SENTENCES: List[str] = [item[2] for item in CURATED_ITEMS]
