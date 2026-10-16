@@ -1,0 +1,45 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Secrets / local config
+.env
+.env.*
+!.env.example
+
+# Runtime data (never commit user data or derived artifacts)
+backend/instance/
+*.db
+*.sqlite*
+backend/data/indexes/
+backend/data/translation_memory.json
+*.faiss
+backend/indic-bert-finetuned*/
+backend/indicbert-finetuned*/
+
+# Evaluation output: only curated reports under reports/ are committed
+backend/benchmark_*.json
+backend/benchmark_*.md
+backend/profile_*.json
+backend/reports/
+*.log
+scripts/_tmp_*.py
+backend/scripts/_tmp_*.py
+
+# Frontend
+node_modules/
+frontend/dist/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Drafts
+*.docx

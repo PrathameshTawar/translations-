@@ -11,6 +11,7 @@
 #   frontend            nginx               (built React SPA, proxies /api)
 #
 # Up:
+#   cp .env.example .env      # then set SECRET_KEY / JWT_SECRET_KEY
 #   docker compose up --build -d
 #   open http://localhost:3000
 #
@@ -48,7 +49,7 @@ services:
       INDEX_DIR: /data/indexes
       EMBEDDING_MODEL: sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
     volumes:
-      - ./translator-backend:/data/indexes:ro   # {lang}_index.faiss + mappings
+      - rag-indexes:/data/indexes    # built on first use from backend/data/terminology
     networks: [ragnet]
     healthcheck:
       test: ["CMD", "python", "-c",
@@ -82,7 +83,7 @@ services:
       FAISS_SERVICE_URL: http://faiss-service:8000
       RERANKER_SERVICE_URL: http://reranker-service:8000
       GROQ_API_KEY: ${GROQ_API_KEY:-}
-      GROQ_MODEL: llama3-8b-8192
+      GROQ_MODEL: ${GROQ_MODEL:-llama-3.1-8b-instant}
     depends_on:
       embedding-service:
         condition: service_healthy
@@ -106,12 +107,18 @@ services:
     environment:
       APP_ENV: production
       DATABASE_URL: sqlite:///translator.db
-      SECRET_KEY: ${SECRET_KEY:-change-me-in-production}
-      JWT_SECRET_KEY: ${JWT_SECRET_KEY:-change-me-in-production}
+      # No defaults on purpose: compose refuses to start without real secrets,
+      # and the app rejects placeholder or short values (app/config.py).
+      SECRET_KEY: ${SECRET_KEY:?set SECRET_KEY in .env (see .env.example)}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY:?set JWT_SECRET_KEY in .env (see .env.example)}
+      ADMIN_TOKEN: ${ADMIN_TOKEN:-}        # empty = admin endpoints disabled
+      BEHIND_PROXY: "true"                # rate limits key on the real client IP
+      GROQ_API_KEY: ${GROQ_API_KEY:-}
+      GROQ_MODEL: ${GROQ_MODEL:-llama-3.1-8b-instant}
       CORS_ORIGIN: http://localhost:3000,http://localhost:5173
       NLLB_NUM_BEAMS: "2"
     volumes:
-      - ./translator-backend/instance:/app/instance     # persist SQLite/TM data
+      - ./backend/instance:/app/instance     # persist SQLite/TM data
     ports:
       - "8080:8000"                                     # direct API access
     networks: [ragnet]
@@ -136,3 +143,6 @@ services:
 networks:
   ragnet:
     driver: bridge
+
+volumes:
+  rag-indexes:

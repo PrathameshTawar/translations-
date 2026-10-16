@@ -1,0 +1,105 @@
+{"id": "technology-s1", "type": "sentence", "text": "New technology is changing how farmers sell their crops.", "relevant": ["technology"]}
+{"id": "technology-s2", "type": "sentence", "text": "The school invested in better classroom technology this year.", "relevant": ["technology"]}
+{"id": "technology-s3", "type": "sentence", "text": "Mobile payment technology has spread quickly in small towns.", "relevant": ["technology"]}
+{"id": "technology-p1", "type": "paraphrase", "text": "Modern digital tools are changing how farmers sell their crops.", "relevant": ["technology"]}
+{"id": "technology-p2", "type": "paraphrase", "text": "Engineers keep inventing new gadgets that make daily work easier.", "relevant": ["technology"]}
+{"id": "information-s1", "type": "sentence", "text": "Please share the information with every member of the team.", "relevant": ["information"]}
+{"id": "information-s2", "type": "sentence", "text": "The website gives information about train timings.", "relevant": ["information"]}
+{"id": "information-s3", "type": "sentence", "text": "We need more information before we can approve the request.", "relevant": ["information"]}
+{"id": "information-p1", "type": "paraphrase", "text": "Please share the details with every member of the team.", "relevant": ["information"]}
+{"id": "information-p2", "type": "paraphrase", "text": "The website tells you when each train leaves and arrives.", "relevant": ["information"]}
+{"id": "computer-s1", "type": "sentence", "text": "My computer stopped working after the update.", "relevant": ["computer"]}
+{"id": "computer-s2", "type": "sentence", "text": "She learned to use a computer at the community centre.", "relevant": ["computer"]}
+{"id": "computer-s3", "type": "sentence", "text": "Every student in the lab has access to a computer.", "relevant": ["computer"]}
+{"id": "computer-p1", "type": "paraphrase", "text": "My laptop stopped working after the update.", "relevant": ["computer"]}
+{"id": "computer-p2", "type": "paraphrase", "text": "She learned to type and browse on a desktop machine at the community centre.", "relevant": ["computer"]}
+{"id": "internet-s1", "type": "sentence", "text": "The village finally has a reliable internet connection.", "relevant": ["internet"]}
+{"id": "internet-s2", "type": "sentence", "text": "Children use the internet to finish their homework.", "relevant": ["internet"]}
+{"id": "internet-s3", "type": "sentence", "text": "The internet was down for three hours yesterday.", "relevant": ["internet"]}
+{"id": "internet-p1", "type": "paraphrase", "text": "The village finally has reliable broadband and Wi-Fi.", "relevant": ["internet"]}
+{"id": "internet-p2", "type": "paraphrase", "text": "The network connection to the outside world was down for three hours.", "relevant": ["internet"]}
+{"id": "artificial_intelligence-s1", "type": "sentence", "text": "Artificial intelligence can help doctors read X-ray images.", "relevant": ["artificial intelligence"]}
+{"id": "artificial_intelligence-s2", "type": "sentence", "text": "The conference focused on artificial intelligence in agriculture.", "relevant": ["artificial intelligence"]}
+{"id": "artificial_intelligence-s3", "type": "sentence", "text": "Many companies now use artificial intelligence to answer customer questions.", "relevant": ["artificial intelligence"]}
+{"id": "artificial_intelligence-p1", "type": "paraphrase", "text": "Smart software can help doctors read X-ray images.", "relevant": ["artificial intelligence"]}
+{"id": "artificial_intelligence-p2", "type": "paraphrase", "text": "Computers that learn to think like people are answering customer questions.", "relevant": ["artificial intelligence"]}
+{"id": "machine_learning-s1", "type": "sentence", "text": "Machine learning models need large amounts of data.", "relevant": ["machine learning"]}
+{"id": "machine_learning-s2", "type": "sentence", "text": "He is taking an online course on machine learning.", "relevant": ["machine learning"]}
+{"id": "machine_learning-s3", "type": "sentence", "text": "The bank uses machine learning to detect fraud.", "relevant": ["machine learning"]}
+{"id": "machine_learning-p1", "type": "paraphrase", "text": "Algorithms that learn patterns from data need large datasets.", "relevant": ["machine learning"]}
+{"id": "machine_learning-p2", "type": "paraphrase", "text": "He is studying how to train predictive models from examples.", "relevant": ["machine learning"]}
+{"id": "government-s1", "type": "sentence", "text": "The government announced a new scheme for small farmers.", "relevant": ["government"]}
+{"id": "government-s2", "type": "sentence", "text": "Local government offices will be closed on Monday.", "relevant": ["government"]}
+{"id": "government-s3", "type": "sentence", "text": "The government has increased spending on rural roads.", "relevant": ["government"]}
+{"id": "government-p1", "type": "paraphrase", "text": "The state announced a new scheme for small farmers.", "relevant": ["government"]}
+{"id": "government-p2", "type": "paraphrase", "text": "Officials in the ministry approved more money for rural roads.", "relevant": ["government"]}
+{"id": "education-s1", "type": "sentence", "text": "Education is the key to a better future.", "relevant": ["education"]}
+{"id": "education-s2", "type": "sentence", "text": "The trust funds the education of girls in the district.", "relevant": ["education"]}
+{"id": "education-s3", "type": "sentence", "text": "Her parents spent their savings on her education.", "relevant": ["education"]}
+{"id": "education-p1", "type": "paraphrase", "text": "Schooling is the key to a better future.", "relevant": ["education"]}
+{"id": "education-p2", "type": "paraphrase", "text": "The trust pays school and college fees for girls in the district.", "relevant": ["education"]}
+{"id": "health-s1", "type": "sentence", "text": "Regular exercise is good for your health.", "relevant": ["health"]}
+{"id": "health-s2", "type": "sentence", "text": "The camp offered free health check-ups to the elderly.", "relevant": ["health"]}
+{"id": "health-s3", "type": "sentence", "text": "Air pollution is a serious threat to public health.", "relevant": ["health"]}
+{"id": "health-p1", "type": "paraphrase", "text": "Regular exercise keeps your body fit and well.", "relevant": ["health"]}
+{"id": "health-p2", "type": "paraphrase", "text": "Doctors at the camp examined elderly people for free.", "relevant": ["health"]}
+{"id": "hospital-s1", "type": "sentence", "text": "The injured man was taken to the hospital.", "relevant": ["hospital"]}
+{"id": "hospital-s2", "type": "sentence", "text": "A new hospital will open near the bus stand.", "relevant": ["hospital"]}
+{"id": "hospital-s3", "type": "sentence", "text": "She works as a nurse in a government hospital.", "relevant": ["hospital"]}
+{"id": "hospital-p1", "type": "paraphrase", "text": "The injured man was rushed to the emergency ward.", "relevant": ["hospital"]}
+{"id": "hospital-p2", "type": "paraphrase", "text": "A new medical centre with beds and surgeons will open near the bus stand.", "relevant": ["hospital"]}
+{"id": "bank-s1", "type": "sentence", "text": "I opened a savings account at the bank.", "relevant": ["bank"]}
+{"id": "bank-s2", "type": "sentence", "text": "The bank approved his loan within a week.", "relevant": ["bank"]}
+{"id": "bank-s3", "type": "sentence", "text": "Banks will remain closed on the public holiday.", "relevant": ["bank"]}
+{"id": "bank-p1", "type": "paraphrase", "text": "The lender approved his loan within a week.", "relevant": ["bank"]}
+{"id": "bank-p2", "type": "paraphrase", "text": "I deposited my salary into my savings account at the branch.", "relevant": ["bank"]}
+{"id": "economy-s1", "type": "sentence", "text": "The economy grew faster than expected last quarter.", "relevant": ["economy"]}
+{"id": "economy-s2", "type": "sentence", "text": "Tourism is important to the local economy.", "relevant": ["economy"]}
+{"id": "economy-s3", "type": "sentence", "text": "Rising prices are hurting the economy.", "relevant": ["economy"]}
+{"id": "economy-p1", "type": "paraphrase", "text": "Growth in national output was faster than expected last quarter.", "relevant": ["economy"]}
+{"id": "economy-p2", "type": "paraphrase", "text": "Tourists spending money keeps local businesses and jobs alive.", "relevant": ["economy"]}
+{"id": "research-s1", "type": "sentence", "text": "Her research focuses on drought-resistant rice.", "relevant": ["research"]}
+{"id": "research-s2", "type": "sentence", "text": "The university received a grant for cancer research.", "relevant": ["research"]}
+{"id": "research-s3", "type": "sentence", "text": "More research is needed before the drug is approved.", "relevant": ["research"]}
+{"id": "research-p1", "type": "paraphrase", "text": "Her studies in the lab focus on drought-resistant rice.", "relevant": ["research"]}
+{"id": "research-p2", "type": "paraphrase", "text": "Scientists must run more experiments before the drug is approved.", "relevant": ["research"]}
+{"id": "university-s1", "type": "sentence", "text": "He was the first in his family to attend university.", "relevant": ["university"]}
+{"id": "university-s2", "type": "sentence", "text": "The university will announce the results next week.", "relevant": ["university"]}
+{"id": "university-s3", "type": "sentence", "text": "She teaches physics at a university in Pune.", "relevant": ["university"]}
+{"id": "university-p1", "type": "paraphrase", "text": "He was the first in his family to go to college.", "relevant": ["university"]}
+{"id": "university-p2", "type": "paraphrase", "text": "She teaches physics to undergraduates at an institute in Pune.", "relevant": ["university"]}
+{"id": "environment-s1", "type": "sentence", "text": "Plastic waste is harming the environment.", "relevant": ["environment"]}
+{"id": "environment-s2", "type": "sentence", "text": "The project must not damage the environment.", "relevant": ["environment"]}
+{"id": "environment-s3", "type": "sentence", "text": "Students planted trees to protect the environment.", "relevant": ["environment"]}
+{"id": "environment-p1", "type": "paraphrase", "text": "Plastic waste is harming nature and wildlife.", "relevant": ["environment"]}
+{"id": "environment-p2", "type": "paraphrase", "text": "Students planted trees to keep the air and rivers clean.", "relevant": ["environment"]}
+{"id": "distractor-1", "type": "distractor", "text": "We sat on the riverbank and watched the boats.", "relevant": []}
+{"id": "distractor-2", "type": "distractor", "text": "The road runs along a high embankment.", "relevant": []}
+{"id": "distractor-3", "type": "distractor", "text": "The factory bought new machinery for the assembly line.", "relevant": []}
+{"id": "distractor-4", "type": "distractor", "text": "She looked healthy after the holiday.", "relevant": []}
+{"id": "distractor-5", "type": "distractor", "text": "The brochure was short but informational.", "relevant": []}
+{"id": "distractor-6", "type": "distractor", "text": "My grandmother tells the best stories.", "relevant": []}
+{"id": "distractor-7", "type": "distractor", "text": "The train was late because of heavy rain.", "relevant": []}
+{"id": "distractor-8", "type": "distractor", "text": "Please close the door when you leave.", "relevant": []}
+{"id": "distractor-9", "type": "distractor", "text": "The market sells fresh vegetables every morning.", "relevant": []}
+{"id": "distractor-10", "type": "distractor", "text": "He plays cricket with his friends on Sundays.", "relevant": []}
+{"id": "distractor-11", "type": "distractor", "text": "The festival lights made the street look beautiful.", "relevant": []}
+{"id": "distractor-12", "type": "distractor", "text": "We ordered tea and samosas at the corner shop.", "relevant": []}
+{"id": "distractor-13", "type": "distractor", "text": "The bus was crowded during the evening rush.", "relevant": []}
+{"id": "distractor-14", "type": "distractor", "text": "Our neighbours adopted a small brown dog.", "relevant": []}
+{"id": "distractor-15", "type": "distractor", "text": "The river floods every year during the monsoon.", "relevant": []}
+{"id": "distractor-16", "type": "distractor", "text": "She painted the walls a light shade of blue.", "relevant": []}
+{"id": "distractor-17", "type": "distractor", "text": "The temple is about two kilometres from here.", "relevant": []}
+{"id": "distractor-18", "type": "distractor", "text": "He forgot his umbrella at the office.", "relevant": []}
+{"id": "distractor-19", "type": "distractor", "text": "The wedding will take place in December.", "relevant": []}
+{"id": "distractor-20", "type": "distractor", "text": "The mangoes this season are very sweet.", "relevant": []}
+{"id": "distractor-21", "type": "distractor", "text": "They walked to the top of the hill before sunrise.", "relevant": []}
+{"id": "distractor-22", "type": "distractor", "text": "The cook added too much salt to the dal.", "relevant": []}
+{"id": "distractor-23", "type": "distractor", "text": "The children were playing in the courtyard.", "relevant": []}
+{"id": "distractor-24", "type": "distractor", "text": "Our flight was cancelled because of fog.", "relevant": []}
+{"id": "distractor-25", "type": "distractor", "text": "He fixed the leaking tap in the kitchen.", "relevant": []}
+{"id": "distractor-26", "type": "distractor", "text": "The shop closes early on Thursdays.", "relevant": []}
+{"id": "distractor-27", "type": "distractor", "text": "She received a letter from her cousin in Delhi.", "relevant": []}
+{"id": "distractor-28", "type": "distractor", "text": "The farmers are waiting for the rains.", "relevant": []}
+{"id": "distractor-29", "type": "distractor", "text": "The museum has a large collection of old coins.", "relevant": []}
+{"id": "distractor-30", "type": "distractor", "text": "We need to buy rice, lentils and oil.", "relevant": []}

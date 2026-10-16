@@ -1,0 +1,160 @@
+{
+  "generated_at": "2026-10-15T16:50:06.265458+00:00",
+  "terminology_strategy": "inline",
+  "entries": [
+    {
+      "key": "terminology_accuracy",
+      "label": "Term accuracy with enforcement (term-bearing FLORES subset)",
+      "measured": null,
+      "display": "n/a",
+      "target": {
+        "target": 90.0,
+        "op": ">=",
+        "unit": "%",
+        "label": "Term accuracy with enforcement (term-bearing FLORES subset)",
+        "rationale": "A glossary the system was told to use should appear in at least 9 of 10 outputs (exact-match usage rate, Dinu et al. 2019)."
+      },
+      "status": "NOT MEASURED"
+    },
+    {
+      "key": "terminology_chrf_delta",
+      "label": "chrF++ change from enforcement vs no enforcement",
+      "measured": null,
+      "display": "n/a",
+      "target": {
+        "target": -0.5,
+        "op": ">=",
+        "unit": " chrF++",
+        "label": "chrF++ change from enforcement vs no enforcement",
+        "rationale": "Enforcing terms must not cost more than 0.5 chrF++ on the same sentences."
+      },
+      "status": "NOT MEASURED"
+    },
+    {
+      "key": "terminology_sample_size",
+      "label": "Term-bearing test sentences (smallest language)",
+      "measured": null,
+      "display": "n/a",
+      "target": {
+        "target": 200,
+        "op": ">=",
+        "unit": " sents",
+        "label": "Term-bearing test sentences (smallest language)",
+        "rationale": "Below ~200 sentences the chrF++ CI is too wide to support a claim."
+      },
+      "status": "NOT MEASURED"
+    },
+    {
+      "key": "retrieval_paraphrase_recall_at_5",
+      "label": "Retrieval Recall@5, paraphrase queries",
+      "measured": 0.0,
+      "display": "0.0% (keyword-fallback)",
+      "target": {
+        "target": 80.0,
+        "op": ">=",
+        "unit": "%",
+        "label": "Retrieval Recall@5, paraphrase queries",
+        "rationale": "Exact matches are handled lexically; retrieval earns its place only on mentions that do not repeat the term."
+      },
+      "status": "FAIL"
+    },
+    {
+      "key": "retrieval_distractor_fp_rate",
+      "label": "Distractor sentences with a term enforced",
+      "measured": 0.0,
+      "display": "0.0%",
+      "target": {
+        "target": 5.0,
+        "op": "<=",
+        "unit": "%",
+        "label": "Distractor sentences with a term enforced",
+        "rationale": "Injecting a term into a sentence that does not need it corrupts the translation."
+      },
+      "status": "PASS"
+    },
+    {
+      "key": "retrieval_index_size",
+      "label": "Retrieval index size",
+      "measured": 15,
+      "display": "15",
+      "target": {
+        "target": 1000,
+        "op": ">=",
+        "unit": " entries",
+        "label": "Retrieval index size",
+        "rationale": "Recall on a tiny index is not evidence; the shipped glossaries have 15 entries."
+      },
+      "status": "FAIL"
+    },
+    {
+      "key": "translation_p95_ms",
+      "label": "P95 translation latency, CPU (worst pair)",
+      "measured": null,
+      "display": "n/a",
+      "target": {
+        "target": 3000.0,
+        "op": "<=",
+        "unit": "ms",
+        "label": "P95 translation latency, CPU (worst pair)",
+        "rationale": "Interactive use on a CPU-only host."
+      },
+      "status": "NOT MEASURED"
+    },
+    {
+      "key": "hallucination_rate_pct",
+      "label": "Degenerate/hallucinated outputs",
+      "measured": null,
+      "display": "n/a",
+      "target": {
+        "target": 5.0,
+        "op": "<=",
+        "unit": "%",
+        "label": "Degenerate/hallucinated outputs",
+        "rationale": "Repetition loops, empty or wrong-script outputs."
+      },
+      "status": "NOT MEASURED"
+    },
+    {
+      "key": "language_detection_f1",
+      "label": "Language detection macro-F1 (in-repo test split)",
+      "measured": 0.9837,
+      "display": "0.98",
+      "target": {
+        "target": 0.95,
+        "op": ">=",
+        "unit": "",
+        "label": "Language detection macro-F1 (in-repo test split)",
+        "rationale": "Wrong source-language detection breaks every later step."
+      },
+      "status": "PASS"
+    }
+  ],
+  "test_suites": {
+    "functional": {
+      "passed": 26,
+      "total": 26,
+      "pass_rate": 100.0
+    },
+    "unicode": {
+      "passed": 20,
+      "total": 20,
+      "pass_rate": 100.0
+    },
+    "security": {
+      "passed": 40,
+      "total": 40,
+      "pass_rate": 100.0
+    },
+    "e2e": {
+      "passed": 10,
+      "total": 10,
+      "pass_rate": 100.0
+    }
+  },
+  "summary": {
+    "pass": 2,
+    "fail": 2,
+    "not_measured": 5,
+    "total_targets": 9
+  }
+}
